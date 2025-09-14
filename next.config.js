@@ -5,10 +5,7 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   cacheOnFrontEndNav: true,
   reloadOnOnline: true,
-  workboxOptions: {
-    disableDevLogs: true,
-    maximumFileSizeToCacheInBytes: 5000000, // 5MB
-  },
+  disableDevLogs: true,
 });
 
 /** @type {import('next').NextConfig} */
