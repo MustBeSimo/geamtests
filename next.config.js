@@ -5,7 +5,6 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   cacheOnFrontEndNav: true,
   reloadOnOnline: true,
-  swcMinify: true,
   workboxOptions: {
     disableDevLogs: true,
     maximumFileSizeToCacheInBytes: 5000000, // 5MB
@@ -33,14 +32,6 @@ const nextConfig = {
   // Bundle optimization
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
 
   // Compression and caching
@@ -57,32 +48,6 @@ const nextConfig = {
 
   // Output optimization
   output: 'standalone',
-
-  // Bundle analyzer
-  webpack: (config, { dev, isServer }) => {
-    // Optimize bundle size
-    if (!dev && !isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: 10,
-            enforce: true,
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 5,
-            reuseExistingChunk: true,
-          },
-        },
-      };
-    }
-
-    return config;
-  },
   headers: async () => {
     return [
       {
