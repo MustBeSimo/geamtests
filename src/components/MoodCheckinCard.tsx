@@ -51,7 +51,8 @@ export default function MoodCheckinCard() {
   const [isClient, setIsClient] = useState(false);
   const [demoUsed, setDemoUsed] = useState(false);
   const [demoCount, setDemoCount] = useState(0);
-  const { user, loading } = useAuth();
+  const [showDemoReport, setShowDemoReport] = useState(false); // New state for demo report
+  const { user, loading, signInWithGoogle } = useAuth();
 
   // Ensure we're on the client side to prevent hydration mismatches
   useEffect(() => {
@@ -63,7 +64,7 @@ export default function MoodCheckinCard() {
       if (demoData) {
         const parsed = JSON.parse(demoData);
         setDemoCount(parsed.count || 0);
-        setDemoUsed(parsed.count >= 3);
+        setDemoUsed(parsed.count >= 1); // Only allow 1 demo use
       }
     }
   }, []);
@@ -675,23 +676,22 @@ export default function MoodCheckinCard() {
   }
 
   // Show loading state while balance is being fetched for authenticated users
-  if (user && moodCheckins === null) {
+  if (user && moodCheckins === null && !submitted) {
     return (
       <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 backdrop-blur-sm p-6 rounded-2xl border border-blue-200/60 dark:border-blue-800/60 shadow-lg">
         <div className="animate-pulse">
-          <div className="h-6 bg-blue-200 dark:bg-blue-700 rounded mb-4"></div>
-          <div className="text-center py-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent mx-auto"></div>
-            <div className="mt-2 text-sm text-blue-600 dark:text-blue-400">Loading your mood check-ins...</div>
-            <button
-              onClick={() => {
-                console.log('Manual refresh triggered - setting default balance');
-                setMoodCheckins(10); // Set default if stuck
-              }}
-              className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs"
-            >
-              Click here if stuck loading
-            </button>
+          <div className="h-6 bg-blue-200 dark:bg-blue-700 rounded w-3/4 mx-auto mb-4"></div>
+          <div className="grid grid-cols-5 gap-2 mb-6">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="h-12 bg-blue-200 dark:bg-blue-700 rounded-lg"></div>
+            ))}
+          </div>
+          <div className="h-8 bg-blue-200 dark:bg-blue-700 rounded mb-4"></div>
+          <div className="h-10 bg-blue-200 dark:bg-blue-700 rounded"></div>
+        </div>
+        <div className="text-center mt-4">
+          <div className="text-sm text-blue-600 dark:text-blue-400">
+            Loading your mood check-ins...
           </div>
         </div>
       </div>
@@ -701,18 +701,9 @@ export default function MoodCheckinCard() {
   // Demo mode for non-authenticated users
   if (!user) {
     const handleDemoSubmit = () => {
-      if (demoCount >= 3 || !isClient) return;
+      if (demoCount >= 1 || !isClient) return; // Only allow 1 demo use
       
-      // Save demo usage
-      const newCount = demoCount + 1;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('mindgleam_demo_mood', JSON.stringify({
-          count: newCount,
-          lastUsed: new Date().toISOString()
-        }));
-      }
-      setDemoCount(newCount);
-      setDemoUsed(newCount >= 3);
+      console.log('Demo submit clicked:', { selectedEmoji, moodRating, demoCount, isClient });
       
       // Generate personalized demo result based on mood
       const getDemoReport = (emoji: string, rating: number) => {
@@ -747,10 +738,78 @@ export default function MoodCheckinCard() {
         }
       };
 
-      // Show demo result
-      setSubmitted(true);
-      setMoodReport(getDemoReport(selectedEmoji, moodRating));
+      // Generate and set the report immediately
+      const report = getDemoReport(selectedEmoji, moodRating);
+      console.log('Setting demo report:', report);
+      setMoodReport(report);
+      setShowDemoReport(true); // Show the demo report
+      
+      // After showing the report, mark demo as used after a longer delay
+      setTimeout(() => {
+        console.log('Demo timeout reached, hiding report');
+        setShowDemoReport(false); // Hide the demo report
+        const newCount = demoCount + 1;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('mindgleam_demo_mood', JSON.stringify({
+            count: newCount,
+            lastUsed: new Date().toISOString()
+          }));
+        }
+        setDemoCount(newCount);
+        setDemoUsed(newCount >= 1);
+      }, 7000); // Show report for 7 seconds before showing sign-in prompt
     };
+
+    // Show the demo report if the demo report state is true
+    if (showDemoReport && moodReport) {
+      return (
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border-2 border-emerald-500 shadow-lg space-y-4">
+          <div className="text-center mb-4">
+            <div className="text-4xl mb-3">✨</div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              Your Personalized Mood Insight (Demo)
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              Based on your mood: {selectedEmoji} (Rating: {moodRating}/10)
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-700">
+              <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">💡 Insight</h4>
+              <p className="text-blue-800 dark:text-blue-200 text-sm">{moodReport.insight}</p>
+            </div>
+
+            <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-700">
+              <h4 className="font-semibold text-green-900 dark:text-green-100 mb-2">🧠 CBT Technique</h4>
+              <p className="text-green-800 dark:text-green-200 text-sm">{moodReport.cbtTechnique}</p>
+            </div>
+
+            <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-700">
+              <h4 className="font-semibold text-purple-900 dark:text-purple-100 mb-2">💜 Affirmation</h4>
+              <p className="text-purple-800 dark:text-purple-200 text-sm italic">"{moodReport.affirmation}"</p>
+            </div>
+
+            <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-700">
+              <h4 className="font-semibold text-orange-900 dark:text-orange-100 mb-2">🎯 Action Step</h4>
+              <p className="text-orange-800 dark:text-orange-200 text-sm">{moodReport.actionStep}</p>
+            </div>
+          </div>
+
+          <div className="mt-6 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg border border-emerald-200 dark:border-emerald-700">
+            <p className="text-emerald-800 dark:text-emerald-200 text-sm text-center mb-3">
+              🎉 Love your personalized insights? Get unlimited mood tracking with your free account!
+            </p>
+            <button
+              onClick={signInWithGoogle}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+            >
+              Sign In for 10 Free Mood Check-ins
+            </button>
+          </div>
+        </div>
+      );
+    }
 
     if (demoUsed) {
       return (
@@ -758,7 +817,7 @@ export default function MoodCheckinCard() {
           <div className="text-center">
             <div className="text-4xl mb-4">🎉</div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              You've tried 3 demo mood check-ins!
+              You've tried the demo mood check-in!
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
               Ready to unlock your full mental wellness journey with personalized insights and unlimited tracking?
@@ -767,18 +826,18 @@ export default function MoodCheckinCard() {
               <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-lg border border-emerald-200 dark:border-emerald-700">
                 <h4 className="font-medium text-emerald-900 dark:text-emerald-100 mb-2">With your free account:</h4>
                 <ul className="text-sm text-emerald-800 dark:text-emerald-200 space-y-1">
-                  <li>• 5 mood check-ins and reports</li>
+                  <li>• 10 mood check-ins and reports</li>
                   <li>• 20 chat messages</li>
-                  <li>• Basic CBT guidance</li>
-                  <li>• 3 AI companions</li>
+                  <li>• Holistic wellness guidance</li>
+                  <li>• 3 AI companions (Gigi, Vee, Lumo)</li>
                   <li>• Progress tracking</li>
                 </ul>
               </div>
               <button
-                onClick={() => window.location.href = '/'}
+                onClick={signInWithGoogle}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
               >
-                Get Started Free
+                Sign In to Continue
               </button>
             </div>
           </div>
@@ -794,7 +853,7 @@ export default function MoodCheckinCard() {
             Try Mood Check-in (Demo)
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Experience personalized mood insights • {3 - demoCount} demo{3 - demoCount !== 1 ? 's' : ''} remaining
+            Experience personalized mood insights • {demoCount === 0 ? '1 demo remaining' : 'Demo used'}
           </p>
         </div>
 
@@ -806,7 +865,7 @@ export default function MoodCheckinCard() {
                 <button
                   key={mood.emoji}
                   onClick={() => setSelectedEmoji(mood.emoji)}
-                  className={`p-3 rounded-xl border-2 transition-all duration-200 ${
+                  className={`aspect-square p-3 rounded-xl border-2 transition-all duration-200 flex items-center justify-center ${
                     selectedEmoji === mood.emoji
                       ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 scale-105'
                       : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/10'
@@ -994,6 +1053,27 @@ export default function MoodCheckinCard() {
               </p>
             </div>
 
+            {/* Demo Sign-in Prompt */}
+            {!user && (
+              <div className="mt-4 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg border-2 border-emerald-200 dark:border-emerald-600">
+                <div className="text-center">
+                  <div className="text-2xl mb-2">✨</div>
+                  <h4 className="font-semibold text-emerald-900 dark:text-emerald-100 mb-2">
+                    Want more personalized insights?
+                  </h4>
+                  <p className="text-emerald-800 dark:text-emerald-200 text-sm mb-3">
+                    Sign in to get unlimited mood check-ins, advanced reports, and track your progress over time.
+                  </p>
+                  <button
+                    onClick={signInWithGoogle}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Sign In for Full Access
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Mental Health Disclaimer */}
             <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
               <p className="text-xs text-gray-700 dark:text-gray-300 text-center leading-relaxed">
@@ -1163,21 +1243,21 @@ export default function MoodCheckinCard() {
               How are you feeling today?
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Your daily mood check-in helps track your emotional wellness
+              Your daily wellness check-in helps track your mental and physical wellbeing
             </p>
             
             {/* Tips for better AI interaction */}
             <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
               <div className="text-xs text-blue-800 dark:text-blue-200">
-                <div className="font-medium mb-1">💡 Tips for better AI insights:</div>
+                <div className="font-medium mb-1">💡 Tips for better wellness insights:</div>
                 <div className="text-left space-y-1">
-                  • Share what influenced your mood (work, relationships, events)
+                  • Share what influenced your mood (work, relationships, events, physical activities)
                   <br />
-                  • Mention specific emotions (anxious, excited, frustrated, grateful)
+                  • Mention specific emotions AND physical sensations (anxious, excited, tired, energized)
                   <br />
-                  • Include context about your day or recent experiences
+                  • Include context about sleep, exercise, nutrition, or health
                   <br />
-                  • Be honest about challenges or wins you're experiencing
+                  • Be honest about both mental and physical challenges or wins
                 </div>
               </div>
             </div>
@@ -1207,7 +1287,7 @@ export default function MoodCheckinCard() {
                 <button
                   key={mood.emoji}
                   onClick={() => setSelectedEmoji(mood.emoji)}
-                  className={`p-3 rounded-lg text-2xl transition-all duration-200 ${
+                  className={`p-3 rounded-lg text-2xl transition-all duration-200 flex items-center justify-center ${
                     selectedEmoji === mood.emoji
                       ? 'bg-blue-500 text-white scale-105 border-2 border-blue-600'
                       : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border-2 border-transparent hover:border-blue-300'

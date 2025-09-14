@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedText from '@/components/AnimatedText';
 import Script from 'next/script';
@@ -30,15 +30,18 @@ interface ChatCardProps {
 }
 
 import { useAuth } from '@/contexts/AuthContext';
+import CrisisResourceModal, { detectCrisisKeywords } from './CrisisResourceModal';
 
 const AGENT_ID = 'DeJ9S1LXgsrUIPkSKRyy';
 
 export default function ChatCard({ className = '', user: propUser, balance, selectedAvatar }: ChatCardProps) {
   const { user: contextUser } = useAuth();
   const user = propUser ?? contextUser;
-  const [isOpen, setIsOpen] = useState(user ? true : false);
+  const [isOpen, setIsOpen] = useState(true); // Always open by default to encourage usage
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showCrisisModal, setShowCrisisModal] = useState(false);
+  const [crisisTriggerWord, setCrisisTriggerWord] = useState<string | null>(null);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -58,22 +61,22 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
       case 'gigi':
         return {
           name: 'Gigi',
-          initialMessage: "Hi there! I'm Gigi, your empathetic companion 💚 I'm here to provide warm, understanding support as we explore wellness techniques together. Remember, I offer educational content only - not therapy. How are you feeling today?",
-          approach: 'empathetic and nurturing',
+          initialMessage: "Hi there! I'm Gigi, your empathetic wellness companion 💚 I'm here to support both your mental and physical wellbeing through gentle, holistic approaches. I combine emotional support with practical wellness tips for your mind and body. How are you feeling today - mentally and physically?",
+          approach: 'empathetic and holistic',
           gradient: avatar.gradient
         };
       case 'vee':
         return {
           name: 'Vee',
-          initialMessage: "Hello! I'm Vee, your logical thought coach 🧠 I take a structured, analytical approach to wellness education. I provide evidence-based techniques and clear frameworks - not therapy or medical advice. What would you like to explore today?",
-          approach: 'logical and structured',
+          initialMessage: "Hello! I'm Vee, your logical wellness coach 🧠 I take a structured, evidence-based approach to mental and physical health. I love helping you understand the science behind mind-body wellness and create systematic plans for better health. What aspect of your wellbeing would you like to work on?",
+          approach: 'logical and systematic',
           gradient: avatar.gradient
         };
       case 'lumo':
         return {
           name: 'Lumo',
-          initialMessage: "Hey! I'm Lumo, your creative wellness guide ✨ I love using imaginative approaches, metaphors, and creative exercises to make wellness learning fun and engaging. I offer educational content only - not therapy. Ready for a creative wellness adventure?",
-          approach: 'creative and playful',
+          initialMessage: "Hey! I'm Lumo, your creative wellness guide ✨ I make mental and physical wellness fun through movement, creativity, and joyful practices! Think dance therapy, mindful cooking, creative exercise, and playful stress relief. Ready to explore wellness in a whole new way?",
+          approach: 'creative and energetic',
           gradient: avatar.gradient
         };
       default:
@@ -91,22 +94,40 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
   const [chatMessages, setChatMessages] = useState<{ text: string; isUser: boolean }[]>([
     { text: personality.initialMessage, isUser: false },
   ]);
-  // Track if test message was sent in preview mode
-  const [testUsed, setTestUsed] = useState(false);
+  // Track demo message count for non-authenticated users (3 free messages)
+  const [demoMessageCount, setDemoMessageCount] = useState(0);
+
+  // Update chat messages when avatar changes
+  useEffect(() => {
+    const newPersonality = getAvatarPersonality(selectedAvatar);
+    setChatMessages([{ text: newPersonality.initialMessage, isUser: false }]);
+    setDemoMessageCount(0); // Reset demo count when avatar changes
+  }, [selectedAvatar]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || isTyping) return;
-    // If not signed in and already used preview, block further input
-    if (!user && testUsed) return;
+    // If not signed in and used all 3 demo messages, block further input
+    if (!user && demoMessageCount >= 3) return;
+
+    // Check for crisis keywords before sending
+    const crisisKeyword = detectCrisisKeywords(message);
+    if (crisisKeyword) {
+      setCrisisTriggerWord(crisisKeyword);
+      setShowCrisisModal(true);
+      return; // Don't send the message, show crisis resources instead
+    }
+
     const newUserMsg = { text: message, isUser: true };
     const updatedMsgs = [...chatMessages, newUserMsg];
     setChatMessages(updatedMsgs);
     setMessage('');
     setIsTyping(true);
 
-    // If not signed in, set testUsed after first message
-    if (!user && !testUsed) setTestUsed(true);
+    // If not signed in, increment demo message count
+    if (!user) {
+      setDemoMessageCount(prev => prev + 1);
+    }
 
     try {
       // Include all messages in the history, including the initial welcome message
@@ -114,10 +135,17 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: chatMessages.concat(newUserMsg).map(msg => ({
-            role: msg.isUser ? 'user' : 'assistant',
-            content: msg.text
-          }))
+          messages: [
+            {
+              role: 'system',
+              content: `You are ${personality.name}, a ${personality.approach} AI mental wellness companion. You use CBT-inspired techniques to help users reframe thoughts and manage emotions. Keep responses helpful, empathetic, and under 150 words. ${!user ? 'This is a demo conversation, so be engaging and showcase your capabilities.' : ''}`
+            },
+            ...chatMessages.concat(newUserMsg).map(msg => ({
+              role: msg.isUser ? 'user' : 'assistant',
+              content: msg.text
+            }))
+          ],
+          isDemo: !user // Send isDemo: true when user is not authenticated
         })
       });
       if (!res.ok) {
@@ -152,11 +180,12 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
         <div className="flex justify-between items-center p-4">
           <div className="flex items-center gap-3">
             {selectedAvatar ? (
-              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-lg">
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 dark:border-gray-600/20 shadow-lg">
                 <img 
                   src={selectedAvatar.src} 
                   alt={selectedAvatar.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain avatar-image"
+                  style={{ background: 'transparent' }}
                 />
               </div>
             ) : (
@@ -251,16 +280,16 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
                 )}
               </div>
 
-              {user || !testUsed ? (
+              {user || demoMessageCount < 3 ? (
                 <form onSubmit={handleSendMessage} className="p-4 border-t bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="Type your message..."
+                      placeholder={!user && demoMessageCount >= 3 ? "Sign in for more messages..." : "Type your message..."}
                       className="flex-1 bg-white dark:bg-gray-600 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 rounded-lg px-4 py-3 text-base outline-none focus:ring-2 focus:ring-blue-400 border border-gray-200 dark:border-gray-600"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      disabled={!user && testUsed || isTyping}
+                      disabled={(!user && demoMessageCount >= 3) || isTyping}
                     />
                     <motion.button
                       type="submit"
@@ -270,7 +299,7 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
                       `}
                       whileHover={{ scale: isTyping ? 1 : 1.05 }}
                       whileTap={{ scale: isTyping ? 1 : 0.95 }}
-                      disabled={!message.trim() || (!user && testUsed) || isTyping}
+                      disabled={!message.trim() || (!user && demoMessageCount >= 3) || isTyping}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -278,11 +307,26 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
                       </svg>
                     </motion.button>
                   </div>
+                  {/* Message Counter for Non-Authenticated Users */}
+                  {!user && (
+                    <div className="mt-2 text-xs text-center">
+                      <span className="text-blue-600 dark:text-blue-400 font-medium">
+                        {3 - demoMessageCount} free messages remaining
+                      </span>
+                    </div>
+                  )}
+                  {/* Medical Disclaimer */}
+                  <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
+                    Mind Gleam offers educational tools, not professional medical care. 
+                    <button className="underline hover:text-gray-700 dark:hover:text-gray-200 ml-1">
+                      Learn more
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <div className="p-4 border-t text-center bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                   <span className="text-base font-semibold text-blue-600 dark:text-blue-400">
-                    Sign in to continue chatting and get <span className="font-bold">20 free messages!</span>
+                    You've used your 3 free messages! Sign in to get <span className="font-bold">20 more free messages!</span>
                   </span>
                 </div>
               )}
@@ -290,6 +334,13 @@ export default function ChatCard({ className = '', user: propUser, balance, sele
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Crisis Resource Modal */}
+      <CrisisResourceModal
+        isOpen={showCrisisModal}
+        onClose={() => setShowCrisisModal(false)}
+        triggerWord={crisisTriggerWord || undefined}
+      />
     </div>
   );
 } 

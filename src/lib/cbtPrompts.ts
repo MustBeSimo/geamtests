@@ -145,7 +145,7 @@ export function getMoodSupportResponse(mood: string): string {
   return responses[Math.floor(Math.random() * responses.length)];
 }
 
-// CBT (Cognitive Behavioral Therapy) inspired prompts and techniques for thought coaching
+// CBT (Cognitive Behavioral Therapy) inspired prompts and techniques for holistic wellness coaching
 
 export const CBT_TECHNIQUES = {
   // Cognitive Restructuring
@@ -161,16 +161,33 @@ export const CBT_TECHNIQUES = {
     ]
   },
 
-  // Behavioral Activation
+  // Behavioral Activation (Mind-Body Integration)
   behavioralActivation: {
-    name: "Behavioral Activation",
-    description: "Engage in meaningful activities to improve mood",
+    name: "Mind-Body Activation",
+    description: "Engage in meaningful activities that boost both mental and physical wellbeing",
     activities: [
-      "Take a 10-minute walk outside",
-      "Call or text someone you care about",
-      "Complete one small task you've been putting off",
-      "Do something creative (draw, write, sing)",
-      "Practice a hobby you enjoy"
+      "Take a 10-minute mindful walk in nature",
+      "Do 5 minutes of gentle stretching or yoga",
+      "Call or text someone you care about while moving around",
+      "Complete one small physical task (organize a space, prepare healthy food)",
+      "Dance to your favorite song for 3 minutes",
+      "Practice deep breathing with gentle movement",
+      "Do something creative with your hands (draw, cook, garden)"
+    ]
+  },
+
+  // Physical Wellness Integration
+  physicalWellness: {
+    name: "Body-Mind Connection",
+    description: "Use physical practices to support mental health",
+    activities: [
+      "Progressive muscle relaxation (tense and release each muscle group)",
+      "Take 10 deep breaths focusing on how your body feels",
+      "Do wall push-ups or gentle strength exercises",
+      "Drink a glass of water mindfully",
+      "Step outside for fresh air and sunlight",
+      "Gentle neck and shoulder rolls to release tension",
+      "Quick energy boost: jumping jacks or marching in place"
     ]
   },
 

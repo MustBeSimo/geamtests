@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { AvatarId, getAvatarClasses } from '@/utils/avatarThemes';
+import { mindgleamGradients, getAvatarColors } from '@/utils/colors';
 
 interface SimpleCardProps {
   title: string;
@@ -35,58 +36,58 @@ export default function SimpleCard({
       switch (avatarId) {
         case 'gigi':
           return {
-            gradient: 'from-pink-200 via-purple-200 to-rose-200',
-            hoverGradient: 'from-pink-200/30 via-purple-200/30 to-rose-200/30'
+            gradient: 'from-mindgleam-peach-200 via-mindgleam-peach-300 to-mindgleam-gold-200',
+            hoverGradient: 'from-mindgleam-peach-200/30 via-mindgleam-peach-300/30 to-mindgleam-gold-200/30'
           };
         case 'vee':
           return {
-            gradient: 'from-blue-200 via-cyan-200 to-indigo-200',
-            hoverGradient: 'from-blue-200/30 via-cyan-200/30 to-indigo-200/30'
+            gradient: 'from-mindgleam-lavender-200 via-mindgleam-lavender-300 to-mindgleam-peach-200',
+            hoverGradient: 'from-mindgleam-lavender-200/30 via-mindgleam-lavender-300/30 to-mindgleam-peach-200/30'
           };
         case 'lumo':
           return {
-            gradient: 'from-teal-200 via-emerald-200 to-cyan-200',
-            hoverGradient: 'from-teal-200/30 via-emerald-200/30 to-cyan-200/30'
+            gradient: 'from-mindgleam-mint-200 via-mindgleam-mint-300 to-mindgleam-lavender-200',
+            hoverGradient: 'from-mindgleam-mint-200/30 via-mindgleam-mint-300/30 to-mindgleam-lavender-200/30'
           };
         default:
           return {
-            gradient: 'from-blue-200 via-purple-200 to-pink-200',
-            hoverGradient: 'from-blue-200/30 via-purple-200/30 to-pink-200/30'
+            gradient: mindgleamGradients.secondary,
+            hoverGradient: `${mindgleamGradients.secondary}/30`
           };
       }
     }
 
-    // Default border color animations
+    // Default border color animations using unified palette
     switch (borderColor) {
       case 'border-emerald-500':
         return {
-          gradient: 'from-emerald-200 via-teal-200 to-cyan-200',
-          hoverGradient: 'from-emerald-200/30 via-teal-200/30 to-cyan-200/30'
+          gradient: mindgleamGradients.primary,
+          hoverGradient: `${mindgleamGradients.primary}/30`
         };
       case 'border-purple-500':
         return {
-          gradient: 'from-purple-200 via-pink-200 to-rose-200',
-          hoverGradient: 'from-purple-200/30 via-pink-200/30 to-rose-200/30'
+          gradient: mindgleamGradients.accent,
+          hoverGradient: `${mindgleamGradients.accent}/30`
         };
       case 'border-blue-500':
         return {
-          gradient: 'from-blue-200 via-indigo-200 to-purple-200',
-          hoverGradient: 'from-blue-200/30 via-indigo-200/30 to-purple-200/30'
+          gradient: mindgleamGradients.secondary,
+          hoverGradient: `${mindgleamGradients.secondary}/30`
         };
       case 'border-green-500':
         return {
-          gradient: 'from-green-200 via-emerald-200 to-teal-200',
-          hoverGradient: 'from-green-200/30 via-emerald-200/30 to-teal-200/30'
+          gradient: mindgleamGradients.primary,
+          hoverGradient: `${mindgleamGradients.primary}/30`
         };
       case 'border-orange-500':
         return {
-          gradient: 'from-orange-200 via-red-200 to-pink-200',
-          hoverGradient: 'from-orange-200/30 via-red-200/30 to-pink-200/30'
+          gradient: mindgleamGradients.accent,
+          hoverGradient: `${mindgleamGradients.accent}/30`
         };
       default:
         return {
-          gradient: 'from-blue-200 via-purple-200 to-pink-200',
-          hoverGradient: 'from-blue-200/30 via-purple-200/30 to-pink-200/30'
+          gradient: mindgleamGradients.subtle,
+          hoverGradient: `${mindgleamGradients.subtle}/30`
         };
     }
   };

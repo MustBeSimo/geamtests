@@ -3,6 +3,7 @@ import './globals.css';
 import Script from 'next/script';
 import dynamic from 'next/dynamic';
 import { metadata } from './metadata';
+import StructuredData from '@/components/StructuredData';
 
 // Dynamically load client-only components
 const ClientLayout = dynamic(() => import('@/components/ClientLayout'), { ssr: false });
@@ -31,10 +32,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google Fonts Preconnect */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet" />
+        {/* Fonts are loaded via next/font for optimal performance */}
+        
+        {/* Favicon Links */}
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
@@ -43,11 +46,12 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="GigiW" />
         <link rel="apple-touch-icon" href="/icons/ios/192.png" />
         <link rel="apple-touch-startup-image" href="/splash.png" />
+        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-31WZL1Q5HX"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -55,6 +59,21 @@ export default function RootLayout({
             gtag('config', 'G-31WZL1Q5HX');
           `}
         </Script>
+        
+        {/* Google Ads Conversion Tracking */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-947077315"
+          strategy="lazyOnload"
+        />
+        <Script id="google-ads" strategy="lazyOnload">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-947077315');
+          `}
+        </Script>
+        <StructuredData />
       </head>
       <body className={`${inter.variable} ${manrope.variable} font-inter min-h-screen antialiased overflow-x-hidden bg-white dark:bg-gray-900 text-neutral-800 dark:text-neutral-200 transition-colors duration-300`}>
         <SimpleBackground />
@@ -67,6 +86,16 @@ export default function RootLayout({
             {children}
           </ClientLayout>
         </ErrorBoundary>
+        {/* Register service worker (next-pwa outputs sw.js in /public) */}
+        <Script id="register-sw" strategy="afterInteractive">
+          {`
+            if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+              });
+            }
+          `}
+        </Script>
       </body>
     </html>
   );

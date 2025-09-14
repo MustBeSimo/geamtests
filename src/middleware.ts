@@ -14,7 +14,8 @@ const PUBLIC_ROUTES = new Set([
 const PUBLIC_API_PREFIXES = [
   '/api/public/',
   '/api/horoscope',
-  '/api/generate-pdf'
+  '/api/generate-pdf',
+  '/api/chat' // Allow chat API to handle its own auth (supports both demo and authenticated requests)
 ];
 
 // Helper function to check if route is public

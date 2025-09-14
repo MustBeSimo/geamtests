@@ -4,36 +4,41 @@ import { authenticateApiRoute, ErrorResponses } from '@/utils/supabase-server';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30; // Set max duration to 30 seconds
 
-const SYSTEM_PROMPT = `You are Gigi, a warm and empathetic AI Thought-Coach companion. Your role is to provide supportive, evidence-based guidance for mental wellness through guided journaling and thoughtful conversations.
+const SYSTEM_PROMPT = `You are Gigi, a warm and empathetic AI Wellness Coach companion. Your role is to provide supportive, evidence-based guidance for both mental and physical wellness through guided conversations and holistic health practices.
 
 Your personality:
 - Warm, caring, and genuinely supportive
 - Professional yet approachable 
 - Patient and non-judgmental
 - Encouraging and hopeful
+- Holistic in approach, understanding mind-body connection
 
 Your expertise:
+- Mental wellness: CBT-inspired techniques, mood support, stress management, mindfulness
+- Physical wellness: Movement and exercise, nutrition basics, sleep hygiene, energy management
+- Mind-body connection: How physical and mental health influence each other
 - Guided journaling and self-reflection
-- CBT-inspired thought exercises (cognitive behavioral techniques)
-- Mood support and emotional wellness
-- Mindfulness and stress management
-- Helping users identify and reframe unhelpful thought patterns
+- Helping users identify patterns in both mental and physical wellbeing
+- Evidence-based wellness strategies that address the whole person
 
 Guidelines:
-- Always maintain appropriate boundaries - you're a supportive companion, not a therapist
-- Encourage professional help for serious mental health concerns
-- Use gentle, encouraging language
-- Ask thoughtful follow-up questions to help users explore their thoughts
-- Offer practical, evidence-based coping strategies
-- Keep responses warm but concise
+- Always maintain appropriate boundaries - you're a supportive companion, not a therapist or medical doctor
+- Encourage professional help for serious mental health or medical concerns
+- Take a holistic approach - consider both mental and physical aspects of wellness
+- Ask thoughtful questions about mood, energy, sleep, movement, and overall wellbeing
+- Offer practical, evidence-based strategies for mind-body wellness
+- Keep responses warm, encouraging, and concise
 - Use emojis sparingly and appropriately
+- Remember that physical movement can improve mental health, and mental practices can improve physical wellbeing
 
 If someone is in crisis or mentions self-harm, immediately provide crisis resources:
 - National Suicide Prevention Lifeline: 988
 - Crisis Text Line: Text HOME to 741741
 - Encourage them to seek immediate professional help
 
-Remember: You're here to support their mental wellness journey, not to diagnose or provide therapy.`;
+For serious physical symptoms, always encourage consulting healthcare professionals.
+
+Remember: You're here to support their complete wellness journey - mind, body, and spirit - not to diagnose or provide medical/therapeutic treatment.`;
 
 // Helper function to create fetch with timeout
 async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number = 25000) {
@@ -54,10 +59,88 @@ async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: nu
 }
 
 export async function POST(request: Request) {
-  const { response, session, supabase } = await authenticateApiRoute();
-  if (response) return response;
-
   try {
+    // Parse the request body first to check if it's a demo request
+    const body = await request.json();
+    const isDemo = body.isDemo === true;
+    
+    // Handle demo requests without authentication
+    if (isDemo) {
+      const userMessages = body.messages || [];
+      
+      if (!Array.isArray(userMessages) || userMessages.length === 0) {
+        return NextResponse.json({ error: 'Invalid message format' }, { status: 400 });
+      }
+
+      console.log('Making Together AI request for demo...');
+
+      // Call the Together API with timeout for demo
+      try {
+        const llmResponse = await fetchWithTimeout('https://api.together.xyz/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.TOGETHER_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+            messages: userMessages,
+            temperature: 0.7,
+            top_p: 0.7,
+            top_k: 50,
+            repetition_penalty: 1,
+            max_tokens: 200 // Shorter responses for demo
+          }),
+        }, 15000); // 15 second timeout for demo
+
+      if (!llmResponse.ok) {
+        const errorData = await llmResponse.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Demo LLM API error:', {
+          status: llmResponse.status,
+          statusText: llmResponse.statusText,
+          errorData,
+          apiKeyExists: !!process.env.TOGETHER_API_KEY,
+          apiKeyLength: process.env.TOGETHER_API_KEY?.length || 0
+        });
+        
+        // Return fallback response for demo with error info for debugging
+        return NextResponse.json({
+          message: "I'm here to support you! As your AI companion, I use CBT-inspired techniques to help you explore your thoughts and feelings. What would you like to talk about today?",
+          isDemo: true,
+          fallback: true,
+          debugInfo: `API Error: ${llmResponse.status} - ${llmResponse.statusText}`
+        });
+      }
+
+      const llmData = await llmResponse.json();
+      console.log('Demo Together AI request successful');
+
+      return NextResponse.json({
+        message: llmData.choices[0].message.content,
+        isDemo: true
+      });
+      
+      } catch (demoError) {
+        console.error('Demo API request failed:', {
+          error: demoError,
+          message: demoError instanceof Error ? demoError.message : 'Unknown error',
+          apiKeyExists: !!process.env.TOGETHER_API_KEY
+        });
+        
+        // Return fallback response for demo with error info
+        return NextResponse.json({
+          message: "I'm here to support you! As your AI companion, I use CBT-inspired techniques to help you explore your thoughts and feelings. What would you like to talk about today?",
+          isDemo: true,
+          fallback: true,
+          debugInfo: demoError instanceof Error ? demoError.message : 'Network error'
+        });
+      }
+    }
+
+    // Handle authenticated requests (existing logic)
+    const { response, session, supabase } = await authenticateApiRoute();
+    if (response) return response;
+
     // Get user's balance
     const { data: balanceData, error: balanceError } = await supabase
       .from('user_balances')
@@ -74,8 +157,6 @@ export async function POST(request: Request) {
       return ErrorResponses.paymentRequired('Insufficient balance. Please purchase more messages.');
     }
 
-    // Parse the request body
-    const body = await request.json();
     const userMessages = body.messages || [];
 
     if (!Array.isArray(userMessages) || userMessages.length === 0) {
@@ -101,7 +182,7 @@ export async function POST(request: Request) {
         'Authorization': `Bearer ${process.env.TOGETHER_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'meta-llama/Llama-3.2-11B-Vision-Instruct-Turbo', // Faster model
+        model: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo', // Together AI serverless model
         messages,
         temperature: 0.7,
         top_p: 0.7,
@@ -152,11 +233,10 @@ export async function POST(request: Request) {
     if (error instanceof Error && (error.name === 'AbortError' || error.message.includes('timeout'))) {
       return NextResponse.json({
         message: "I'm experiencing some technical difficulties right now, but I'm here to support you. Let me know what's on your mind, and I'll do my best to help you explore your thoughts and feelings.",
-        remaining_balance: (await supabase.from('user_balances').select('balance').eq('user_id', session.user.id).single()).data?.balance || 0,
         fallback: true
       });
     }
     
-    return ErrorResponses.serverError(error instanceof Error ? error.message : 'Chat service unavailable');
+    return NextResponse.json({ error: 'Chat service unavailable' }, { status: 500 });
   }
 }

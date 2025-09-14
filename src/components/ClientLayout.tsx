@@ -1,6 +1,8 @@
 'use client';
 
-import { AuthProvider } from '@/contexts/AuthContext';
+import { EnhancedAuthProvider } from '@/contexts/EnhancedAuthProvider';
+import { ChatProvider } from '@/contexts/ChatProvider';
+import AppLayout from '@/components/layout/AppLayout';
 import Providers from '@/components/Providers';
 
 interface ClientLayoutProps {
@@ -9,10 +11,12 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   return (
-    <AuthProvider>
-      <Providers>
-        {children}
-      </Providers>
-    </AuthProvider>
+    <EnhancedAuthProvider>
+      <ChatProvider>
+        <Providers>
+          <AppLayout>{children}</AppLayout>
+        </Providers>
+      </ChatProvider>
+    </EnhancedAuthProvider>
   );
 } 

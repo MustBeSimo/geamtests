@@ -1,105 +1,21 @@
 {
-  "name": "GigiW",
-  "short_name": "GigiW",
-  "description": "GigiW Social Platform",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#1A1625",
-  "theme_color": "#000000",
-  "orientation": "portrait-primary",
+  "name": "Mind Gleam ✨",
+  "short_name": "MG✨",
   "icons": [
     {
-      "src": "/icons/web/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/web/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/web/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/web/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/web/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/web/icon-192x192.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
-      "src": "/icons/web/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/web/icon-512x512.png",
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ],
-  "splash_pages": null,
-  "screenshots": [
-    {
-      "src": "/splash.png",
-      "sizes": "2048x2048",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "GigiW Splash Screen"
-    },
-    {
-      "src": "/splash-ipad-pro.png",
-      "sizes": "1668x2388",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "GigiW Splash Screen (iPad Pro)"
-    },
-    {
-      "src": "/splash-ipad.png",
-      "sizes": "1536x2048",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "GigiW Splash Screen (iPad)"
-    },
-    {
-      "src": "/splash-iphone-x.png",
-      "sizes": "1125x2436",
-      "type": "image/png",
-      "platform": "narrow",
-      "label": "GigiW Splash Screen (iPhone X)"
-    },
-    {
-      "src": "/splash-iphone-plus.png",
-      "sizes": "1242x2208",
-      "type": "image/png",
-      "platform": "narrow",
-      "label": "GigiW Splash Screen (iPhone Plus)"
-    },
-    {
-      "src": "/splash-iphone.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "platform": "narrow",
-      "label": "GigiW Splash Screen (iPhone)"
-    }
-  ]
-} 
+  "theme_color": "#f7941d",
+  "background_color": "#f7941d",
+  "display": "standalone"
+}

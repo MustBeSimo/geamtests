@@ -185,15 +185,32 @@ export default function Media() {
                     <video
                       className="absolute inset-0 w-full h-full object-cover"
                       src={item.src}
-                      autoPlay
                       loop
                       muted
                       playsInline
-                      preload="auto"
+                      preload="none"
+                      poster={item.src.replace(/\.(mp4|mov)$/i, '.jpg')}
                       style={{
                         objectFit: 'cover',
                         width: '100%',
                         height: '100%'
+                      }}
+                      onCanPlay={(e) => {
+                        const video = e.currentTarget;
+                        if ('IntersectionObserver' in window) {
+                          const observer = new IntersectionObserver((entries) => {
+                            entries.forEach((entry) => {
+                              if (entry.isIntersecting) {
+                                if (video.paused) video.play().catch(() => {});
+                              } else {
+                                if (!video.paused) video.pause();
+                              }
+                            });
+                          }, { threshold: 0.25 });
+                          observer.observe(video);
+                        } else {
+                          // Fallback: play on user interaction only
+                        }
                       }}
                     />
                     {/* Metallic Overlay */}

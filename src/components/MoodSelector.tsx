@@ -26,7 +26,9 @@ const moodEmojis: MoodEmoji[] = [
   { emoji: '😍', label: 'Excited' },
   { emoji: '🤗', label: 'Grateful' },
   { emoji: '😌', label: 'Peaceful' },
-  { emoji: '💪', label: 'Motivated' },
+  { emoji: '💪', label: 'Energized' },
+  { emoji: '😴', label: 'Tired' },
+  { emoji: '🏃‍♀️', label: 'Active' },
   { emoji: '🎉', label: 'Celebrating' }
 ];
 
@@ -113,16 +115,17 @@ const MoodSelector = memo(function MoodSelector({
           value={moodNote}
           onChange={(e) => onNoteChange(e.target.value)}
           disabled={disabled}
-          placeholder="Share what influenced your mood today... Examples:
-• 'Had a great meeting at work and feeling accomplished'
-• 'Feeling anxious about upcoming presentation tomorrow'
-• 'Grateful for time spent with family this weekend'
-• 'Stressed about finances but trying to stay positive'"
+          placeholder="Share what influenced your wellness today... Examples:
+• 'Had a great workout this morning and feeling energized mentally'
+• 'Feeling anxious about presentation, also didn't sleep well'
+• 'Grateful for family time + took a nice walk together'
+• 'Stressed about work but yoga helped me feel more centered'
+• 'Ate healthy meals today and noticed better mood'"
           rows={4}
           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm disabled:opacity-50"
         />
         <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          💭 The more context you share, the more personalized your AI insights will be
+          💭 The more context you share about your mind and body, the more personalized your wellness insights will be
         </div>
       </div>
     </div>

@@ -18,12 +18,13 @@ export default function ThemeToggle() {
     <button
       aria-label="Toggle Theme"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition"
+      className="p-2.5 bg-white/70 dark:bg-gray-800/70 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white/90 dark:hover:bg-gray-800/90 transition-all duration-200"
+      title="Toggle Theme"
     >
       {theme === 'dark' ? (
-        <SunIcon className="h-6 w-6" />
+        <SunIcon className="w-5 h-5" />
       ) : (
-        <MoonIcon className="h-6 w-6" />
+        <MoonIcon className="w-5 h-5" />
       )}
     </button>
   );

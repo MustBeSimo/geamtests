@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
+import CrisisResourceModal, { detectCrisisKeywords } from './CrisisResourceModal';
 
 interface DemoChatProps {
   isOpen: boolean;
@@ -55,57 +56,174 @@ const demoResponses = [
   }
 ];
 
-const defaultResponse = "Thank you for sharing that with me. In CBT, we believe that our thoughts, feelings, and behaviors are all connected. I'd love to help you explore this further. To continue our conversation and access personalized guidance, would you like to sign up for your 50 free sessions?";
+const defaultResponse = "Thank you for sharing that with me. In CBT principles, we explore how thoughts, feelings, and behaviors are connected. I'd love to help you explore this further. To continue our conversation and access personalized guidance, would you like to sign up for your 20 free messages?";
+
+// Goal-specific sample conversations
+const goalSamples = {
+  'sleep': {
+    userMessage: "I can't sleep because I keep thinking about tomorrow's presentation. What if I mess up?",
+    aiResponse: "I understand that worry about tomorrow is keeping you awake. Let's work with that 'what if' thought. You're catastrophizing - imagining the worst possible outcome. Instead, let's reframe: What if you do well? What if you're prepared? Even if there are small hiccups, would that truly be a disaster? Try this: Take 3 deep breaths and list 3 things you've done to prepare. Your mind needs facts, not fears, to rest peacefully."
+  },
+  'stress': {
+    userMessage: "I'm so overwhelmed with work. I feel like I'm drowning and can't handle everything on my plate.",
+    aiResponse: "That feeling of drowning is your mind's way of saying you're in overwhelm mode. Let's step back and challenge that 'I can't handle this' thought. You're dealing with a lot, but you're not actually drowning - you're here, you're talking about it, which shows you're coping. Let's break this down: What's one small task you could complete today? Sometimes our minds make mountains out of molehills. You've handled difficult situations before - what skills did you use then?"
+  },
+  'confidence': {
+    userMessage: "I want to apply for a promotion but I don't think I'm good enough. Everyone else seems more qualified.",
+    aiResponse: "I hear that inner critic telling you 'you're not good enough.' This is a classic example of self-doubt and comparison thinking. Let's challenge this: What evidence do you have that you're not qualified? Are you comparing your behind-the-scenes to others' highlight reels? Think about it - your company wouldn't have the position available if they didn't think someone like you could do it. What are 3 specific achievements you're proud of? Let's reframe: Instead of 'I'm not good enough,' try 'I'm learning and growing, and I have valuable skills to offer.'"
+  },
+  'anxiety': {
+    userMessage: "I have a social event tonight and I'm already anxious about it. I keep imagining all the ways it could go wrong.",
+    aiResponse: "Your mind is stuck in 'what if' mode - anticipating problems that haven't happened yet. This is anxiety's favorite trick. Let's reframe those anxious thoughts: Instead of 'What if I say something awkward?' try 'What if I have an interesting conversation?' Instead of 'What if no one likes me?' try 'What if I meet someone new?' Anxiety makes us fortune-tellers of doom, but you can choose to predict positive outcomes too. What's one thing you're actually looking forward to about tonight?"
+  }
+};
 
 export default function DemoChat({ isOpen, onClose, selectedAvatar }: DemoChatProps) {
   const [messages, setMessages] = useState<Array<{text: string, isUser: boolean, timestamp: Date}>>([]);
   const [inputValue, setInputValue] = useState('');
-  const [messageCount, setMessageCount] = useState(0);
+  const [userMessageCount, setUserMessageCount] = useState(0); // Only real user messages after onboarding
   const [isTyping, setIsTyping] = useState(false);
+  const [sampleLoaded, setSampleLoaded] = useState(false);
+  const [showCrisisModal, setShowCrisisModal] = useState(false);
+  const [crisisTriggerWord, setCrisisTriggerWord] = useState<string | null>(null);
   const { signInWithGoogle } = useAuth();
 
   const avatar = avatars[selectedAvatar as keyof typeof avatars] || avatars.gigi;
 
-  const getResponse = (userMessage: string) => {
+  // Templated onboarding messages
+  const onboardingUser = {
+    text: "Hi, I'm feeling a bit anxious today. Can you help?",
+    isUser: true,
+    timestamp: new Date(Date.now() - 60000)
+  };
+  const onboardingLLM = {
+    text: `Of course! It's normal to feel anxious sometimes. Can you tell me a bit more about what's on your mind, or would you like to try a calming exercise together?`,
+    isUser: false,
+    timestamp: new Date(Date.now() - 30000)
+  };
+
+  // On open, inject onboarding if not already present
+  useEffect(() => {
+    if (isOpen && !sampleLoaded) {
+      setMessages([onboardingUser, onboardingLLM]);
+      setSampleLoaded(true);
+      setUserMessageCount(0); // Only count real user messages after onboarding
+    }
+  }, [isOpen, sampleLoaded]);
+
+  // Reset when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setMessages([]);
+      setUserMessageCount(0);
+      setSampleLoaded(false);
+      setInputValue('');
+      setIsTyping(false);
+    } else {
+      // Initialize user message count from localStorage when opening
+      if (typeof window !== 'undefined') {
+        const demoData = localStorage.getItem('mindgleam_demo_chat');
+        if (demoData) {
+          const parsedData = JSON.parse(demoData);
+          setUserMessageCount(parsedData.count || 0);
+        }
+      }
+    }
+  }, [isOpen]);
+
+  const getFallbackResponse = (userMessage: string) => {
     const lowerMessage = userMessage.toLowerCase();
-    
-    // Find matching response
     const matchedResponse = demoResponses.find(response => 
       response.trigger.some(trigger => lowerMessage.includes(trigger))
     );
-    
     const responseText = matchedResponse ? matchedResponse.response : defaultResponse;
     return responseText.replace('{name}', avatar.name);
   };
 
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || messageCount >= 3) return;
+  const getResponse = async (userMessage: string) => {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: 'system',
+              content: `You are ${avatar.name}, a ${avatar.personality} AI mental wellness companion. You use CBT-inspired techniques to help users reframe thoughts and manage emotions. Keep responses helpful, empathetic, and under 150 words. This is a demo conversation, so be engaging and showcase your capabilities.`
+            },
+            {
+              role: 'user',
+              content: userMessage
+            }
+          ],
+          isDemo: true
+        })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.fallback && process.env.NODE_ENV === 'development') {
+          console.warn('Demo using fallback response:', data.debugInfo);
+        }
+        return data.message;
+      } else {
+        console.error('Demo API response not ok:', response.status, response.statusText);
+        return getFallbackResponse(userMessage);
+      }
+    } catch (error) {
+      console.error('Demo chat API error:', error);
+      return getFallbackResponse(userMessage);
+    }
+  };
 
+  // Only allow 3 real user messages after onboarding
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || userMessageCount >= 3) return;
     const userMessage = inputValue.trim();
+    // Check for crisis keywords before sending
+    const crisisKeyword = detectCrisisKeywords(userMessage);
+    if (crisisKeyword) {
+      setCrisisTriggerWord(crisisKeyword);
+      setShowCrisisModal(true);
+      return;
+    }
     setInputValue('');
-    
     // Add user message
     const newUserMessage = {
       text: userMessage,
       isUser: true,
       timestamp: new Date()
     };
-    
     setMessages(prev => [...prev, newUserMessage]);
-    setMessageCount(prev => prev + 1);
+    const newUserMessageCount = userMessageCount + 1;
+    setUserMessageCount(newUserMessageCount);
+    // Update localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mindgleam_demo_chat', JSON.stringify({
+        count: newUserMessageCount,
+        lastUsed: new Date().toISOString()
+      }));
+    }
     setIsTyping(true);
-
-    // Simulate AI response delay
-    setTimeout(() => {
+    try {
+      const aiResponseText = await getResponse(userMessage);
       const aiResponse = {
-        text: getResponse(userMessage),
+        text: aiResponseText,
         isUser: false,
         timestamp: new Date()
       };
-      
       setMessages(prev => [...prev, aiResponse]);
+    } catch (error) {
+      const fallbackResponse = {
+        text: getFallbackResponse(userMessage),
+        isUser: false,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, fallbackResponse]);
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -142,19 +260,20 @@ export default function DemoChat({ isOpen, onClose, selectedAvatar }: DemoChatPr
           <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
               <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${avatar.gradient} p-1`}>
-                <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                  <Image
+                <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
+                  <img
                     src={avatar.src}
                     alt={avatar.name}
-                    width={40}
-                    height={40}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain avatar-image"
+                    style={{ background: 'transparent' }}
                   />
                 </div>
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{avatar.name}</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Demo Chat • {3 - messageCount} messages remaining</p>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Flow in</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {sampleLoaded && messages.length > 0 ? `Sample Chat • ${3 - userMessageCount} messages remaining` : 'Loading sample...'}
+                </p>
               </div>
             </div>
             <button
@@ -169,14 +288,30 @@ export default function DemoChat({ isOpen, onClose, selectedAvatar }: DemoChatPr
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4 min-h-0">
-            {messages.length === 0 && (
+            {!sampleLoaded && (
               <div className="text-center py-8">
-                <div className="text-4xl mb-4">💭</div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Try a conversation with {avatar.name}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Your {avatar.personality} AI companion is ready to help. Try saying hello or share what's on your mind.
+                <div className="animate-pulse">
+                  <div className="text-4xl mb-4">💭</div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Loading sample conversation...
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {avatar.name} is preparing a personalized example for you
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {sampleLoaded && messages.length > 0 && (
+              <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-blue-500 text-sm">✨</span>
+                  <p className="text-blue-700 dark:text-blue-300 text-sm font-medium">
+                    Sample Conversation
+                  </p>
+                </div>
+                <p className="text-blue-600 dark:text-blue-400 text-xs">
+                  This shows how {avatar.name} helps reframe anxious thoughts. Try your own message below!
                 </p>
               </div>
             )}
@@ -186,7 +321,7 @@ export default function DemoChat({ isOpen, onClose, selectedAvatar }: DemoChatPr
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, delay: index * 0.2 }}
                 className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
               >
                 <div
@@ -223,14 +358,14 @@ export default function DemoChat({ isOpen, onClose, selectedAvatar }: DemoChatPr
 
           {/* Input Area */}
           <div className="p-6 border-t border-gray-200 dark:border-gray-700">
-            {messageCount >= 3 ? (
+            {userMessageCount >= 3 ? (
               <div className="text-center space-y-4">
                 <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                     🎉 Enjoyed your chat with {avatar.name}?
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    Get 50 free sessions with personalized guidance, mood tracking, and 24/7 support.
+                    Get 20 free messages with personalized guidance, mood tracking, and 24/7 support.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <button
@@ -255,29 +390,42 @@ export default function DemoChat({ isOpen, onClose, selectedAvatar }: DemoChatPr
                 </div>
               </div>
             ) : (
-              <div className="relative">
-                <textarea
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder={`Type your message to ${avatar.name}...`}
-                  className="w-full p-4 pr-16 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
-                  rows={2}
-                  disabled={isTyping}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!inputValue.trim() || isTyping}
-                  className="absolute right-4 bottom-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-lg transition-all duration-300"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                </button>
+              <div>
+                <div className="relative">
+                  <textarea
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyPress}
+                    placeholder={`Try your own message with ${avatar.name}...`}
+                    className="w-full p-4 pr-16 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                    rows={2}
+                    disabled={isTyping}
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!inputValue.trim() || isTyping}
+                    className="absolute right-4 bottom-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-lg transition-all duration-300"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </button>
+                </div>
+                {/* Medical Disclaimer */}
+                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 text-center">
+                  Educational content only • Not medical advice • Ages 18+ • Crisis? Call 988 (US) or emergency services
+                </div>
               </div>
             )}
           </div>
         </motion.div>
+
+        {/* Crisis Resource Modal */}
+        <CrisisResourceModal
+          isOpen={showCrisisModal}
+          onClose={() => setShowCrisisModal(false)}
+          triggerWord={crisisTriggerWord || undefined}
+        />
       </motion.div>
     </AnimatePresence>
   );

@@ -10,7 +10,7 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     question: "What is Mind Gleam and how does it work?",
-    answer: "Mind Gleam is an AI-powered wellness app that provides educational support and CBT-inspired techniques. Our AI companions (Gigi, Vee, and Lumo) help you explore thought patterns, practice journaling, and learn evidence-based wellness strategies. This is NOT therapy, medical advice, or professional mental health treatment."
+    answer: "Mind Gleam is an AI-powered holistic wellness app that supports both your mental and physical wellbeing. Our AI companions (Gigi, Vee, and Lumo) help you explore thought patterns, develop healthy movement habits, practice mindfulness, and learn evidence-based mind-body wellness strategies. This is NOT therapy, medical advice, or professional health treatment."
   },
   {
     question: "Is Mind Gleam a replacement for therapy or medical care?",
@@ -29,8 +29,16 @@ const faqData: FAQItem[] = [
     answer: "🚨 CRISIS RESOURCES: If you're having suicidal thoughts or in crisis, contact emergency services immediately: • US: 988 (Suicide & Crisis Lifeline) • Australia: 13 11 14 (Lifeline) • UK: 116 123 (Samaritans) • Emergency: 911/000. Do NOT use this app for crisis situations."
   },
   {
-    question: "How do the AI coaching sessions work?",
-    answer: "You get 50 free educational conversations when you sign up, then 200 more for $4.99. These are AI-generated responses for educational purposes only - NOT professional therapy or medical advice. The AI provides CBT-inspired techniques and wellness education, but cannot replace professional mental health care."
+    question: "How do the AI wellness conversations work?",
+    answer: "You get 3 free demo messages to try the AI, then 20 free messages when you sign up with Google. After that, you can purchase 200 more messages + 60 mood check-ins for $4.99 (Plus plan). These are AI-generated responses for educational purposes only - NOT professional therapy or medical advice. The AI provides holistic wellness guidance combining mental health techniques with physical wellness practices, but cannot replace professional healthcare."
+  },
+  {
+    question: "What's included in my free account?",
+    answer: "When you sign up with Google, you get: • 20 free chat messages • 5 mood check-ins with personalized reports • Access to all 3 AI companions (Gigi, Vee, Lumo) • Free CBT guides and resources • Basic progress tracking. No credit card required!"
+  },
+  {
+    question: "How do mood check-ins work?",
+    answer: "Mood check-ins let you track your emotional state and receive personalized insights. Select your mood emoji, rate your feelings 1-10, add optional notes, and get a personalized report with CBT techniques, affirmations, and action steps. You can also download daily reports or generate weekly/monthly summaries."
   },
   {
     question: "Is my data private and secure?",
@@ -42,7 +50,11 @@ const faqData: FAQItem[] = [
   },
   {
     question: "How do I get started safely?",
-    answer: "Sign in with Google to access 50 free educational conversations. Remember: This is supplemental wellness education, not therapy. Continue seeing your healthcare providers and mental health professionals. Never stop prescribed treatments without consulting your doctor."
+    answer: "Sign in with Google to access 20 free educational conversations. Remember: This is supplemental wellness education, not therapy. Continue seeing your healthcare providers and mental health professionals. Never stop prescribed treatments without consulting your doctor."
+  },
+  {
+    question: "How can I get support or report issues?",
+    answer: "📧 SUPPORT: For technical support, feature requests, or to report any issues, please email us at simone@w230.net. We aim to respond within 24-48 hours. For urgent mental health support, please contact crisis services immediately - do not email for emergency situations."
   }
 ];
 

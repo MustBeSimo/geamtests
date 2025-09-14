@@ -1,0 +1,41 @@
+[
+  {
+    "url": "https://www.mindgleam.app/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/simoneleonelli/Documents/Agent_X_Prj/MindGleamApp/.reports/lh-desktop/www_mindgleam_app-_-2025_08_08_12_17_13.report.html",
+    "jsonPath": "/Users/simoneleonelli/Documents/Agent_X_Prj/MindGleamApp/.reports/lh-desktop/www_mindgleam_app-_-2025_08_08_12_17_13.report.json",
+    "summary": {
+      "performance": 0.69,
+      "accessibility": 0.9,
+      "best-practices": 0.74,
+      "seo": 1,
+      "pwa": 0.71
+    }
+  },
+  {
+    "url": "https://www.mindgleam.app/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/simoneleonelli/Documents/Agent_X_Prj/MindGleamApp/.reports/lh-desktop/www_mindgleam_app-_-2025_08_08_12_17_30.report.html",
+    "jsonPath": "/Users/simoneleonelli/Documents/Agent_X_Prj/MindGleamApp/.reports/lh-desktop/www_mindgleam_app-_-2025_08_08_12_17_30.report.json",
+    "summary": {
+      "performance": 0.74,
+      "accessibility": 0.9,
+      "best-practices": 0.74,
+      "seo": 1,
+      "pwa": 0.71
+    }
+  },
+  {
+    "url": "https://www.mindgleam.app/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/Users/simoneleonelli/Documents/Agent_X_Prj/MindGleamApp/.reports/lh-desktop/www_mindgleam_app-_-2025_08_08_12_17_45.report.html",
+    "jsonPath": "/Users/simoneleonelli/Documents/Agent_X_Prj/MindGleamApp/.reports/lh-desktop/www_mindgleam_app-_-2025_08_08_12_17_45.report.json",
+    "summary": {
+      "performance": 0.73,
+      "accessibility": 0.9,
+      "best-practices": 0.74,
+      "seo": 1,
+      "pwa": 0.71
+    }
+  }
+]
