@@ -5,7 +5,16 @@ import { motion, MotionProps } from 'framer-motion';
 import { cn } from '@/utils/cn';
 
 interface AccessibleButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'>,
+  extends Omit<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      | 'className'
+      | 'onAnimationStart'
+      | 'onAnimationEnd'
+      | 'onDrag'
+      | 'onDragEnd'
+      | 'onDragStart'
+      | 'style'
+    >,
     Omit<MotionProps, 'className'> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -18,10 +27,14 @@ interface AccessibleButtonProps
 }
 
 const variants = {
-  primary: 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl focus:ring-blue-500',
-  secondary: 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-gray-500',
-  ghost: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-400',
-  danger: 'bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl focus:ring-red-500',
+  primary:
+    'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl focus:ring-blue-500',
+  secondary:
+    'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-gray-500',
+  ghost:
+    'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-400',
+  danger:
+    'bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl focus:ring-red-500',
 };
 
 const sizes = {
@@ -69,8 +82,10 @@ const AccessibleButton = forwardRef<HTMLButtonElement, AccessibleButtonProps>(
         ref={ref}
         className={buttonClasses}
         disabled={isDisabled}
-        whileHover={!isDisabled ? { scale: 1.02 } : undefined}
-        whileTap={!isDisabled ? { scale: 0.98 } : undefined}
+        {...(!isDisabled && {
+          whileHover: { scale: 1.02 },
+          whileTap: { scale: 0.98 },
+        })}
         aria-disabled={isDisabled}
         aria-describedby={loading ? 'loading-indicator' : undefined}
         {...props}

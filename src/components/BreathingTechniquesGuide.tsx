@@ -14,15 +14,15 @@ interface BreathingTechniqueProps {
   onToggle: () => void;
 }
 
-function BreathingTechnique({ 
-  title, 
-  description, 
-  steps, 
-  benefits, 
-  icon, 
-  color, 
-  isExpanded, 
-  onToggle 
+function BreathingTechnique({
+  title,
+  description,
+  steps,
+  benefits,
+  icon,
+  color,
+  isExpanded,
+  onToggle,
 }: BreathingTechniqueProps) {
   return (
     <motion.div
@@ -36,7 +36,9 @@ function BreathingTechnique({
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-full bg-gradient-to-r from-${color}-400 to-${color}-600 flex items-center justify-center text-white text-xl`}>
+            <div
+              className={`w-12 h-12 rounded-full bg-gradient-to-r from-${color}-400 to-${color}-600 flex items-center justify-center text-white text-xl`}
+            >
               {icon}
             </div>
             <div>
@@ -52,8 +54,18 @@ function BreathingTechnique({
             animate={{ rotate: isExpanded ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <svg
+              className="w-6 h-6 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </motion.div>
         </div>
@@ -63,7 +75,7 @@ function BreathingTechnique({
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
+            animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
@@ -78,7 +90,9 @@ function BreathingTechnique({
                   <ol className="space-y-3">
                     {steps.map((step, index) => (
                       <li key={index} className="flex gap-3">
-                        <span className={`flex-shrink-0 w-6 h-6 rounded-full bg-${color}-100 dark:bg-${color}-900 text-${color}-600 dark:text-${color}-400 text-sm font-medium flex items-center justify-center`}>
+                        <span
+                          className={`flex-shrink-0 w-6 h-6 rounded-full bg-${color}-100 dark:bg-${color}-900 text-${color}-600 dark:text-${color}-400 text-sm font-medium flex items-center justify-center`}
+                        >
                           {index + 1}
                         </span>
                         <span className="text-gray-700 dark:text-gray-300 text-sm">
@@ -97,8 +111,16 @@ function BreathingTechnique({
                   <ul className="space-y-2">
                     {benefits.map((benefit, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <svg className={`w-5 h-5 text-${color}-500 mt-0.5 flex-shrink-0`} fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        <svg
+                          className={`w-5 h-5 text-${color}-500 mt-0.5 flex-shrink-0`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                         <span className="text-gray-700 dark:text-gray-300 text-sm">
                           {benefit}
@@ -117,7 +139,9 @@ function BreathingTechnique({
 }
 
 export default function BreathingTechniquesGuide() {
-  const [expandedTechnique, setExpandedTechnique] = useState<string | null>('diaphragmatic');
+  const [expandedTechnique, setExpandedTechnique] = useState<string | null>(
+    'diaphragmatic'
+  );
 
   const techniques = [
     {
@@ -130,20 +154,21 @@ export default function BreathingTechniquesGuide() {
         'Find a comfortable position. Sit upright or lie down. Place one hand on your upper chest and the other on your abdomen.',
         'Inhale through your nose. Draw the breath down so that your abdomen rises while your chest remains relatively still. Use a slow, steady count of 4–5 seconds.',
         'Exhale slowly through pursed lips. Feel your belly fall as you breathe out for 5–6 seconds. Aim for a longer exhale than inhale to stimulate your relaxation response.',
-        'Repeat for 3–5 minutes. Maintain a gentle, smooth rhythm.'
+        'Repeat for 3–5 minutes. Maintain a gentle, smooth rhythm.',
       ],
       benefits: [
         'Lowers resting blood pressure',
         'Calms the mind and nervous system',
         'Can be practiced anywhere, no equipment needed',
         'Improves oxygen efficiency',
-        'Reduces stress hormones'
-      ]
+        'Reduces stress hormones',
+      ],
     },
     {
       id: 'four-seven-eight',
       title: '4-7-8 Breathing',
-      description: 'Paced breathing technique that lengthens exhalation for relaxation',
+      description:
+        'Paced breathing technique that lengthens exhalation for relaxation',
       icon: '⏱️',
       color: 'green',
       steps: [
@@ -151,15 +176,15 @@ export default function BreathingTechniquesGuide() {
         'Inhale through your nose for a count of 4. Feel your belly expand.',
         'Hold your breath for a count of 7.',
         'Exhale fully through your mouth for a count of 8. Make a whooshing sound by gently contracting your diaphragm.',
-        'Repeat for four breath cycles.'
+        'Repeat for four breath cycles.',
       ],
       benefits: [
         'Slows breathing to 5-6 breaths per minute',
         'Improves heart-rate variability',
         'Decreases stress and anxiety',
         'Promotes better sleep',
-        'Activates parasympathetic nervous system'
-      ]
+        'Activates parasympathetic nervous system',
+      ],
     },
     {
       id: 'box',
@@ -172,15 +197,15 @@ export default function BreathingTechniquesGuide() {
         'Hold the breath for a count of 4.',
         'Exhale slowly through your mouth for a count of 4.',
         'Hold again for a count of 4. This completes one "box."',
-        'Repeat for 1–2 minutes. Focus on the rhythm of the counts.'
+        'Repeat for 1–2 minutes. Focus on the rhythm of the counts.',
       ],
       benefits: [
         'Encourages parasympathetic activity',
         'Reduces anxiety and stress',
         'Improves focus and concentration',
         'Helps maintain calm under pressure',
-        'Easy to remember and practice'
-      ]
+        'Easy to remember and practice',
+      ],
     },
     {
       id: 'alternate-nostril',
@@ -194,39 +219,43 @@ export default function BreathingTechniquesGuide() {
         'Close your right nostril with your thumb and inhale slowly through your left nostril.',
         'Close your left nostril with your ring finger, open your right nostril and exhale.',
         'Inhale through the right nostril, then switch and exhale through the left. This completes one cycle.',
-        'Continue for 5–10 cycles. Maintain gentle, slow breathing.'
+        'Continue for 5–10 cycles. Maintain gentle, slow breathing.',
       ],
       benefits: [
         'Improves focus and concentration',
         'Creates sense of balance and calm',
         'Reduces stress and anxiety',
         'Enhances mental clarity',
-        'Balances nervous system activity'
-      ]
-    }
+        'Balances nervous system activity',
+      ],
+    },
   ];
 
   const practicetips = [
     {
       title: 'Start slowly',
-      description: 'Deep breathing is a skill that improves with practice. If you feel light-headed, reduce the depth or duration of your breaths.',
-      icon: '🐌'
+      description:
+        'Deep breathing is a skill that improves with practice. If you feel light-headed, reduce the depth or duration of your breaths.',
+      icon: '🐌',
     },
     {
       title: 'Combine with mindfulness',
-      description: 'Paying attention to the sensations of breathing can amplify relaxation and help interrupt anxious thought patterns.',
-      icon: '🧠'
+      description:
+        'Paying attention to the sensations of breathing can amplify relaxation and help interrupt anxious thought patterns.',
+      icon: '🧠',
     },
     {
       title: 'Practice regularly',
-      description: 'Research suggests daily deep breathing exercises can lower resting blood pressure and reduce stress over time.',
-      icon: '📅'
+      description:
+        'Research suggests daily deep breathing exercises can lower resting blood pressure and reduce stress over time.',
+      icon: '📅',
     },
     {
       title: 'Be patient',
-      description: 'Like any skill, breathwork becomes more effective with consistent practice. Aim for a few minutes each day and gradually increase as comfortable.',
-      icon: '⏳'
-    }
+      description:
+        'Like any skill, breathwork becomes more effective with consistent practice. Aim for a few minutes each day and gradually increase as comfortable.',
+      icon: '⏳',
+    },
   ];
 
   return (
@@ -245,9 +274,10 @@ export default function BreathingTechniquesGuide() {
             Breathing Techniques Collection
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Breath-control exercises are a simple but powerful way to calm the nervous system and lower stress and anxiety. 
-            These evidence-based techniques increase parasympathetic tone, counteracting the body's fight-or-flight response 
-            and helping to stabilize mood.
+            Breath-control exercises are a simple but powerful way to calm the
+            nervous system and lower stress and anxiety. These evidence-based
+            techniques increase parasympathetic tone, counteracting the body's
+            fight-or-flight response and helping to stabilize mood.
           </p>
         </motion.div>
 
@@ -259,9 +289,11 @@ export default function BreathingTechniquesGuide() {
           className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-8"
         >
           <p className="text-sm text-blue-800 dark:text-blue-300">
-            <strong>Evidence-based:</strong> Modern research shows that voluntary regulated breathing practices 
-            are accessible, scalable, and cost-free tools for managing stress. Studies demonstrate that slow 
-            and deep breathing improves stress and anxiety outcomes and can lower blood pressure when practiced daily.
+            <strong>Evidence-based:</strong> Modern research shows that
+            voluntary regulated breathing practices are accessible, scalable,
+            and cost-free tools for managing stress. Studies demonstrate that
+            slow and deep breathing improves stress and anxiety outcomes and can
+            lower blood pressure when practiced daily.
           </p>
         </motion.div>
       </div>
@@ -281,9 +313,11 @@ export default function BreathingTechniquesGuide() {
             icon={technique.icon}
             color={technique.color}
             isExpanded={expandedTechnique === technique.id}
-            onToggle={() => setExpandedTechnique(
-              expandedTechnique === technique.id ? null : technique.id
-            )}
+            onToggle={() =>
+              setExpandedTechnique(
+                expandedTechnique === technique.id ? null : technique.id
+              )
+            }
           />
         ))}
       </div>
@@ -332,9 +366,10 @@ export default function BreathingTechniquesGuide() {
           Take Control of Your Stress
         </h3>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-          Breath-control techniques put a powerful stress-management tool in your own hands. 
-          Because they are inexpensive, portable, and safe, these exercises can be integrated 
-          into daily routines for immediate calming effects and long-term health benefits.
+          Breath-control techniques put a powerful stress-management tool in
+          your own hands. Because they are inexpensive, portable, and safe,
+          these exercises can be integrated into daily routines for immediate
+          calming effects and long-term health benefits.
         </p>
       </motion.div>
     </div>

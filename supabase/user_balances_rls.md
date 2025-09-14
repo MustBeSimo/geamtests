@@ -29,4 +29,4 @@ USING (auth.role() = 'service_role');
 CREATE POLICY "Allow insert with matching user_id"
 ON user_balances
 FOR INSERT
-WITH CHECK (auth.uid() = user_id OR auth.role() = 'service_role'); 
+WITH CHECK (auth.uid() = user_id OR auth.role() = 'service_role');

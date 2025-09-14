@@ -14,31 +14,40 @@ export default function GradientButton({
   onClick,
   children,
   variant = 'primary',
-  className = ''
+  className = '',
 }: GradientButtonProps) {
-  const baseClasses = "px-8 py-3 rounded-xl overflow-hidden group shadow-xl hover:shadow-2xl transition-shadow";
-  const gradientClasses = variant === 'primary'
-    ? "bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)]"
-    : "border-2 border-gray-300";
-  
+  const baseClasses =
+    'px-8 py-3 rounded-xl overflow-hidden group shadow-xl hover:shadow-2xl transition-shadow';
+  const gradientClasses =
+    variant === 'primary'
+      ? 'bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)]'
+      : 'border-2 border-gray-300';
+
   const ButtonContent = () => (
     <>
       <motion.div
         className={`absolute inset-0 ${
           variant === 'primary'
-            ? "bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)]"
-            : "bg-gradient-to-r from-[var(--neon-pink)] to-[var(--neon-yellow)] opacity-0 group-hover:opacity-20"
+            ? 'bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)]'
+            : 'bg-gradient-to-r from-[var(--neon-pink)] to-[var(--neon-yellow)] opacity-0 group-hover:opacity-20'
         }`}
-        animate={variant === 'primary' ? {
-          x: ['-100%', '100%'],
-        } : undefined}
-        transition={variant === 'primary' ? {
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "linear",
-        } : { duration: 0.3 }}
+        {...(variant === 'primary' && {
+          animate: {
+            x: ['-100%', '100%'],
+          },
+          transition: {
+            duration: 1.5,
+            repeat: Infinity,
+            ease: 'linear',
+          },
+        })}
+        {...(variant !== 'primary' && {
+          transition: { duration: 0.3 },
+        })}
       />
-      <span className={`relative z-10 ${variant === 'primary' ? 'text-white' : 'text-gray-700'} font-semibold`}>
+      <span
+        className={`relative z-10 ${variant === 'primary' ? 'text-white' : 'text-gray-700'} font-semibold`}
+      >
         {children}
       </span>
     </>
@@ -47,8 +56,8 @@ export default function GradientButton({
   const buttonProps = {
     className: `${baseClasses} ${gradientClasses} ${className}`,
     variants: hoverScaleVariants,
-    whileHover: "hover",
-    whileTap: "tap"
+    whileHover: 'hover',
+    whileTap: 'tap',
   };
 
   if (href) {
@@ -64,4 +73,4 @@ export default function GradientButton({
       <ButtonContent />
     </motion.button>
   );
-} 
+}

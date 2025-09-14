@@ -95,12 +95,11 @@ export function EnhancedAuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const initializeUserData = useCallback(async (user: User) => {
-    try {
-      // Initialize user profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .upsert(
+  const initializeUserData = useCallback(
+    async (user: User) => {
+      try {
+        // Initialize user profile
+        const { error: profileError } = await supabase.from('profiles').upsert(
           {
             id: user.id,
             email: user.email,
@@ -111,41 +110,43 @@ export function EnhancedAuthProvider({ children }: { children: ReactNode }) {
           { onConflict: 'id' }
         );
 
-      if (profileError) {
-        console.error('Error creating/updating profile:', profileError);
-      }
-
-      // Initialize balance if needed (only for new users)
-      const { data: existingBalance } = await supabase
-        .from('user_balances')
-        .select('user_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!existingBalance) {
-        const { error: balanceError } = await supabase
-          .from('user_balances')
-          .insert({
-            user_id: user.id,
-            balance: 20,
-            mood_checkins_remaining: 10,
-            updated_at: new Date().toISOString(),
-          });
-
-        if (balanceError) {
-          console.error('Error initializing balance:', balanceError);
+        if (profileError) {
+          console.error('Error creating/updating profile:', profileError);
         }
-      }
 
-      // Fetch the user data
-      await Promise.all([
-        fetchUserProfile(user.id),
-        fetchUserBalance(user.id),
-      ]);
-    } catch (error) {
-      console.error('Error initializing user data:', error);
-    }
-  }, [fetchUserProfile, fetchUserBalance]);
+        // Initialize balance if needed (only for new users)
+        const { data: existingBalance } = await supabase
+          .from('user_balances')
+          .select('user_id')
+          .eq('user_id', user.id)
+          .single();
+
+        if (!existingBalance) {
+          const { error: balanceError } = await supabase
+            .from('user_balances')
+            .insert({
+              user_id: user.id,
+              balance: 20,
+              mood_checkins_remaining: 10,
+              updated_at: new Date().toISOString(),
+            });
+
+          if (balanceError) {
+            console.error('Error initializing balance:', balanceError);
+          }
+        }
+
+        // Fetch the user data
+        await Promise.all([
+          fetchUserProfile(user.id),
+          fetchUserBalance(user.id),
+        ]);
+      } catch (error) {
+        console.error('Error initializing user data:', error);
+      }
+    },
+    [fetchUserProfile, fetchUserBalance]
+  );
 
   useEffect(() => {
     const getInitialSession = async () => {
@@ -221,8 +222,7 @@ export function EnhancedAuthProvider({ children }: { children: ReactNode }) {
             const newBalance = payload.new as any;
             setBalance({
               balance: newBalance.balance || 0,
-              mood_checkins_remaining:
-                newBalance.mood_checkins_remaining || 0,
+              mood_checkins_remaining: newBalance.mood_checkins_remaining || 0,
               updated_at: newBalance.updated_at,
             });
           }

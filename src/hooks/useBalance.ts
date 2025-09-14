@@ -15,7 +15,10 @@ interface UseBalanceReturn {
 }
 
 // Cache to prevent unnecessary API calls
-const balanceCache = new Map<string, { data: BalanceData; timestamp: number }>();
+const balanceCache = new Map<
+  string,
+  { data: BalanceData; timestamp: number }
+>();
 const CACHE_TTL = 60000; // 1 minute cache
 
 export function useBalance(): UseBalanceReturn {
@@ -30,10 +33,10 @@ export function useBalance(): UseBalanceReturn {
 
     const userId = user.id;
     const now = Date.now();
-    
+
     // Check cache first
     const cached = balanceCache.get(userId);
-    if (cached && (now - cached.timestamp) < CACHE_TTL) {
+    if (cached && now - cached.timestamp < CACHE_TTL) {
       setBalance(cached.data.balance);
       setMoodCheckins(cached.data.moodCheckins);
       return;
@@ -64,9 +67,10 @@ export function useBalance(): UseBalanceReturn {
       setBalance(balanceData.balance);
       setMoodCheckins(balanceData.moodCheckins);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch balance';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to fetch balance';
       setError(errorMessage);
-      
+
       // Set default values on error
       setBalance(20);
       setMoodCheckins(10);
@@ -115,4 +119,4 @@ export function invalidateBalanceCache(userId?: string) {
   } else {
     balanceCache.clear();
   }
-} 
+}

@@ -33,18 +33,18 @@ export default function ThoughtRecordGuide() {
     evidenceFor: '',
     evidenceAgainst: '',
     balancedThought: '',
-    action: ''
+    action: '',
   });
   const [isCompleted, setIsCompleted] = useState(false);
 
   const updateData = (field: keyof ThoughtRecordData, value: string) => {
-    setData(prev => ({ ...prev, [field]: value }));
+    setData((prev) => ({ ...prev, [field]: value }));
   };
 
   const updateEmotion = (emotion: string, intensity: number) => {
-    setData(prev => ({
+    setData((prev) => ({
       ...prev,
-      emotions: { ...prev.emotions, [emotion]: intensity }
+      emotions: { ...prev.emotions, [emotion]: intensity },
     }));
   };
 
@@ -71,7 +71,7 @@ export default function ThoughtRecordGuide() {
       evidenceFor: '',
       evidenceAgainst: '',
       balancedThought: '',
-      action: ''
+      action: '',
     });
     setIsCompleted(false);
   };
@@ -84,7 +84,9 @@ export default function ThoughtRecordGuide() {
 ${data.situation}
 
 ## 2. Emotions
-${Object.entries(data.emotions).map(([emotion, intensity]) => `${emotion}: ${intensity}/10`).join('\n')}
+${Object.entries(data.emotions)
+  .map(([emotion, intensity]) => `${emotion}: ${intensity}/10`)
+  .join('\n')}
 
 ## 3. Automatic Thought
 ${data.automaticThought}
@@ -122,10 +124,11 @@ ${data.automaticThought}
                 1. Capture the Moment
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                What happened? Describe the triggering situation in one crisp sentence.
+                What happened? Describe the triggering situation in one crisp
+                sentence.
               </p>
             </div>
-            
+
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
               <p className="text-blue-800 dark:text-blue-200 text-sm">
                 <strong>Example:</strong> "Missed a project deadline."
@@ -167,11 +170,16 @@ ${data.automaticThought}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {emotionsList.map((emotion) => (
-                <div key={emotion.name} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                <div
+                  key={emotion.name}
+                  className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4"
+                >
                   <div className="flex items-center justify-between mb-3">
                     <span className="flex items-center gap-2">
                       <span className="text-xl">{emotion.emoji}</span>
-                      <span className={`font-medium ${emotion.color}`}>{emotion.name}</span>
+                      <span className={`font-medium ${emotion.color}`}>
+                        {emotion.name}
+                      </span>
                     </span>
                     <span className="text-lg font-bold text-gray-800 dark:text-white">
                       {data.emotions[emotion.name] || 0}/10
@@ -182,7 +190,9 @@ ${data.automaticThought}
                     min="0"
                     max="10"
                     value={data.emotions[emotion.name] || 0}
-                    onChange={(e) => updateEmotion(emotion.name, parseInt(e.target.value))}
+                    onChange={(e) =>
+                      updateEmotion(emotion.name, parseInt(e.target.value))
+                    }
                     className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
                   />
                 </div>
@@ -237,13 +247,15 @@ ${data.automaticThought}
                 4. Test the Evidence
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                List facts for & against that thought. Keep it objective—dates, outcomes, witness feedback.
+                List facts for & against that thought. Keep it objective—dates,
+                outcomes, witness feedback.
               </p>
             </div>
 
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
               <p className="text-blue-800 dark:text-blue-200 text-sm">
-                <strong>For:</strong> I missed this deadline.<br />
+                <strong>For:</strong> I missed this deadline.
+                <br />
                 <strong>Against:</strong> 9 of 10 past projects were on time.
               </p>
             </div>
@@ -267,7 +279,9 @@ ${data.automaticThought}
                 </label>
                 <textarea
                   value={data.evidenceAgainst}
-                  onChange={(e) => updateData('evidenceAgainst', e.target.value)}
+                  onChange={(e) =>
+                    updateData('evidenceAgainst', e.target.value)
+                  }
                   placeholder="What contradicts this thought?"
                   className="w-full p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white resize-none"
                   rows={4}
@@ -296,7 +310,9 @@ ${data.automaticThought}
 
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
               <p className="text-blue-800 dark:text-blue-200 text-sm">
-                <strong>Balanced thought:</strong> "One slip doesn't define my track record."<br />
+                <strong>Balanced thought:</strong> "One slip doesn't define my
+                track record."
+                <br />
                 <strong>Action:</strong> Email the team with a recovery plan.
               </p>
             </div>
@@ -308,7 +324,9 @@ ${data.automaticThought}
                 </label>
                 <textarea
                   value={data.balancedThought}
-                  onChange={(e) => updateData('balancedThought', e.target.value)}
+                  onChange={(e) =>
+                    updateData('balancedThought', e.target.value)
+                  }
                   placeholder="What's a more balanced way to think about this?"
                   className="w-full p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white resize-none"
                   rows={3}
@@ -348,7 +366,8 @@ ${data.automaticThought}
             Thought Record Complete!
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            You've successfully completed the 5-step thought transformation process.
+            You've successfully completed the 5-step thought transformation
+            process.
           </p>
         </div>
 
@@ -361,7 +380,8 @@ ${data.automaticThought}
               <strong>Situation:</strong> {data.situation}
             </div>
             <div>
-              <strong>Emotions:</strong> {Object.entries(data.emotions)
+              <strong>Emotions:</strong>{' '}
+              {Object.entries(data.emotions)
                 .filter(([_, intensity]) => intensity > 0)
                 .map(([emotion, intensity]) => `${emotion} ${intensity}/10`)
                 .join(', ')}
@@ -383,12 +403,20 @@ ${data.automaticThought}
             Why This Works
           </h4>
           <ul className="text-blue-700 dark:text-blue-300 text-sm space-y-1">
-            <li>• <strong>Interrupts</strong> the negative thought loop</li>
-            <li>• <strong>Builds</strong> self-awareness & emotional regulation</li>
-            <li>• <strong>Translates</strong> insight into action—habit loops, not just hindsight</li>
+            <li>
+              • <strong>Interrupts</strong> the negative thought loop
+            </li>
+            <li>
+              • <strong>Builds</strong> self-awareness & emotional regulation
+            </li>
+            <li>
+              • <strong>Translates</strong> insight into action—habit loops, not
+              just hindsight
+            </li>
           </ul>
           <p className="text-blue-700 dark:text-blue-300 text-sm mt-4 font-medium">
-            Try it daily for one week and track the shift in your mood data inside Mind Gleam.
+            Try it daily for one week and track the shift in your mood data
+            inside Mind Gleam.
           </p>
         </div>
 
@@ -397,8 +425,18 @@ ${data.automaticThought}
             onClick={exportData}
             className="px-6 py-3 bg-gradient-to-r from-green-300 to-emerald-300 hover:from-green-400 hover:to-emerald-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center gap-2"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
             </svg>
             Export Record
           </button>
@@ -406,8 +444,18 @@ ${data.automaticThought}
             onClick={resetGuide}
             className="px-6 py-3 bg-gradient-to-r from-blue-300 to-cyan-300 hover:from-blue-400 hover:to-cyan-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center gap-2"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
             </svg>
             Start New Record
           </button>
@@ -423,7 +471,8 @@ ${data.automaticThought}
           Thought Record Guide
         </h2>
         <p className="text-gray-600 dark:text-gray-300">
-          Master a 5-step thought-shift exercise to transform difficult thoughts with evidence-based techniques (CBT-inspired).
+          Master a 5-step thought-shift exercise to transform difficult thoughts
+          with evidence-based techniques (CBT-inspired).
         </p>
       </div>
 
@@ -438,7 +487,7 @@ ${data.automaticThought}
           </span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-          <div 
+          <div
             className="bg-gradient-to-r from-pink-300 to-purple-300 h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / 5) * 100}%` }}
           ></div>
@@ -447,9 +496,7 @@ ${data.automaticThought}
 
       {/* Step Content */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
-        <AnimatePresence mode="wait">
-          {renderStep()}
-        </AnimatePresence>
+        <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
       </div>
 
       {/* Navigation */}
@@ -463,8 +510,18 @@ ${data.automaticThought}
               : 'bg-gradient-to-r from-gray-300 to-gray-400 hover:from-gray-400 hover:to-gray-500 text-white'
           }`}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
           Previous
         </button>
@@ -474,11 +531,21 @@ ${data.automaticThought}
           className="px-6 py-3 bg-gradient-to-r from-pink-300 to-purple-300 hover:from-pink-400 hover:to-purple-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center gap-2"
         >
           {currentStep === 5 ? 'Complete' : 'Next'}
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         </button>
       </div>
     </div>
   );
-} 
+}

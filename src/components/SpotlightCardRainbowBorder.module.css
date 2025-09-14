@@ -5,12 +5,12 @@
   padding: 2px;
   background: linear-gradient(
     45deg,
-    #FF7EB3, /* Pink */
-    #D8B4FE, /* Purple */
-    #74C0FC, /* Blue */
-    #A0F0BC, /* Mint */
-    #FFE066, /* Yellow */
-    #FF7EB3  /* Back to Pink */
+    #ff7eb3,
+    /* Pink */ #d8b4fe,
+    /* Purple */ #74c0fc,
+    /* Blue */ #a0f0bc,
+    /* Mint */ #ffe066,
+    /* Yellow */ #ff7eb3 /* Back to Pink */
   );
   background-size: 200% 200%;
   animation: gradient 8s ease infinite;

@@ -6,33 +6,33 @@ const trustBadges = [
   {
     icon: '🔒',
     title: 'Privacy Focused',
-    description: 'Your data stays secure'
+    description: 'Your data stays secure',
   },
   {
     icon: '🧠',
     title: 'Evidence-Based',
-    description: 'Built on CBT principles'
+    description: 'Built on CBT principles',
   },
   {
     icon: '🚀',
     title: '24/7 Available',
-    description: 'AI support anytime'
+    description: 'AI support anytime',
   },
   {
     icon: '💡',
     title: 'Free to Try',
-    description: '20 messages included'
+    description: '20 messages included',
   },
   {
     icon: '🌍',
     title: 'Compliant',
-    description: 'Follows privacy standards'
+    description: 'Follows privacy standards',
   },
   {
     icon: '⚡',
     title: 'Instant Access',
-    description: 'No waiting lists'
-  }
+    description: 'No waiting lists',
+  },
 ];
 
 export default function TrustBadges() {
@@ -47,7 +47,7 @@ export default function TrustBadges() {
             Built with privacy, security, and evidence-based practices
           </p>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {trustBadges.map((badge, index) => (
             <motion.div

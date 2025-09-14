@@ -113,7 +113,9 @@ export function createRouteComponent<T extends ComponentType<any>>(
 export function createIntersectionLoadable<T extends ComponentType<any>>(
   importFunc: () => Promise<{ default: T }>,
   options: LoadableOptions & { rootMargin?: string } = {}
-): React.FC<React.ComponentProps<T> & { triggerRef?: React.RefObject<HTMLElement> }> {
+): React.FC<
+  React.ComponentProps<T> & { triggerRef?: React.RefObject<HTMLElement> }
+> {
   const { rootMargin = '50px', ...loadableOptions } = options;
 
   return function IntersectionLoadableComponent({
@@ -143,7 +145,9 @@ export function createIntersectionLoadable<T extends ComponentType<any>>(
     }, [observerRef, rootMargin]);
 
     if (!shouldLoad) {
-      return <div ref={!triggerRef ? defaultRef : undefined} className="h-64" />;
+      return (
+        <div ref={!triggerRef ? defaultRef : undefined} className="h-64" />
+      );
     }
 
     const LoadableComponent = loadable(importFunc, loadableOptions);

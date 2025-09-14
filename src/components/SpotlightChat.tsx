@@ -4,6 +4,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import LoadingSpinner from './LoadingSpinner';
 import { useAuth } from '@/contexts/AuthContext';
 import { Resizable, ResizeCallback } from 're-resizable';
@@ -39,7 +40,7 @@ export default function SpotlightChat() {
     if (!input.trim()) return;
 
     const newMessage: Message = { role: 'user', content: input.trim() };
-    setMessages(prev => [...prev, newMessage]);
+    setMessages((prev) => [...prev, newMessage]);
     setInput('');
     setError(null);
     setIsLoading(true);
@@ -48,7 +49,7 @@ export default function SpotlightChat() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, newMessage] })
+        body: JSON.stringify({ messages: [...messages, newMessage] }),
       });
 
       if (!response.ok) {
@@ -57,7 +58,10 @@ export default function SpotlightChat() {
       }
 
       const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: data.message },
+      ]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to send message');
     } finally {
@@ -88,8 +92,18 @@ export default function SpotlightChat() {
         right: { width: '8px', right: '-4px' },
         left: { width: '8px', left: '-4px' },
         bottom: { height: '8px', bottom: '-4px' },
-        bottomRight: { width: '16px', height: '16px', right: '-8px', bottom: '-8px' },
-        bottomLeft: { width: '16px', height: '16px', left: '-8px', bottom: '-8px' },
+        bottomRight: {
+          width: '16px',
+          height: '16px',
+          right: '-8px',
+          bottom: '-8px',
+        },
+        bottomLeft: {
+          width: '16px',
+          height: '16px',
+          left: '-8px',
+          bottom: '-8px',
+        },
       }}
       handleClasses={{
         right: 'hover:bg-pink-400/50 transition-colors',
@@ -99,7 +113,7 @@ export default function SpotlightChat() {
         bottomLeft: 'hover:bg-pink-400/50 transition-colors cursor-sw-resize',
       }}
     >
-      <div 
+      <div
         ref={ref}
         className="flex-1 overflow-y-auto p-4 space-y-4"
         style={{ height: `calc(${size.height} - 80px)` }}
@@ -109,10 +123,13 @@ export default function SpotlightChat() {
             <div className="w-16 h-16 rounded-full bg-pink-100 dark:bg-pink-400/20 flex items-center justify-center">
               <span className="text-2xl">💬</span>
             </div>
-            <p className="text-sm max-w-xs">Send a message to start guided journaling with Gigi, your AI Thought-Coach!</p>
+            <p className="text-sm max-w-xs">
+              Send a message to start guided journaling with Gigi, your AI
+              Thought-Coach!
+            </p>
           </div>
         )}
-        
+
         {messages.map((message, index) => (
           <motion.div
             key={index}
@@ -123,14 +140,16 @@ export default function SpotlightChat() {
           >
             {message.role === 'assistant' && (
               <div className="w-8 h-8 rounded-full overflow-hidden mr-2 flex-shrink-0">
-                <img 
-                  src="/images/avatars/gigi-avatar-logo.png" 
-                  alt="Gigi" 
+                <Image
+                  src="/images/avatars/gigi-avatar-logo.png"
+                  alt="Gigi"
+                  width={32}
+                  height={32}
                   className="w-full h-full object-cover"
                 />
               </div>
             )}
-            
+
             <div
               className={`max-w-[80%] p-3 rounded-2xl ${
                 message.role === 'user'
@@ -140,15 +159,15 @@ export default function SpotlightChat() {
             >
               {message.content}
             </div>
-            
+
             {message.role === 'user' && (
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-sky-400 ml-2 flex items-center justify-center text-white font-bold flex-shrink-0">
-                {user?.email?.[0].toUpperCase() || 'U'}
+                {user?.email?.[0]?.toUpperCase() || 'U'}
               </div>
             )}
           </motion.div>
         ))}
-        
+
         {isLoading && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -156,9 +175,11 @@ export default function SpotlightChat() {
             className="flex justify-start"
           >
             <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-              <img 
-                src="/images/avatars/gigi-avatar-logo.png" 
-                alt="Gigi" 
+              <Image
+                src="/images/avatars/gigi-avatar-logo.png"
+                alt="Gigi"
+                width={32}
+                height={32}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -186,12 +207,17 @@ export default function SpotlightChat() {
             disabled={!input.trim() || isLoading}
             className="bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white px-5 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-1"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
             </svg>
           </button>
         </div>
-        
+
         {error && (
           <p className="text-red-400 text-xs mt-2 text-center">
             {error} - Please try again!

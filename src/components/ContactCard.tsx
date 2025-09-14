@@ -8,20 +8,23 @@ interface ContactCardProps {
   className?: string;
 }
 
-export default function ContactCard({ email, className = '' }: ContactCardProps) {
+export default function ContactCard({
+  email,
+  className = '',
+}: ContactCardProps) {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // In a real app, you would send the message to your backend
     // For this demo, we'll just simulate a success
-    
+
     // Show success message
     setSubmitted(true);
-    
+
     // Reset form after 3 seconds
     setTimeout(() => {
       setName('');
@@ -39,20 +42,27 @@ export default function ContactCard({ email, className = '' }: ContactCardProps)
     >
       <div className="p-6">
         <h3 className="text-xl font-bold text-white mb-4">Let's Collaborate</h3>
-        
+
         {submitted ? (
-          <motion.div 
+          <motion.div
             className="bg-green-500/20 border border-green-500/50 rounded-lg p-4 text-white"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <p className="font-medium">Message sent successfully!</p>
-            <p className="text-sm mt-1">Thanks for reaching out. I'll get back to you soon. 💖</p>
+            <p className="text-sm mt-1">
+              Thanks for reaching out. I'll get back to you soon. 💖
+            </p>
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-white mb-1">Your Name</label>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-white mb-1"
+              >
+                Your Name
+              </label>
               <input
                 type="text"
                 id="name"
@@ -63,9 +73,14 @@ export default function ContactCard({ email, className = '' }: ContactCardProps)
                 required
               />
             </div>
-            
+
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-white mb-1">Message</label>
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-white mb-1"
+              >
+                Message
+              </label>
               <textarea
                 id="message"
                 value={message}
@@ -76,7 +91,7 @@ export default function ContactCard({ email, className = '' }: ContactCardProps)
                 required
               />
             </div>
-            
+
             <div className="pt-2">
               <motion.button
                 type="submit"
@@ -89,7 +104,7 @@ export default function ContactCard({ email, className = '' }: ContactCardProps)
             </div>
           </form>
         )}
-        
+
         <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
           <p className="text-sm text-white/70">Or email directly:</p>
           <motion.a
@@ -104,4 +119,4 @@ export default function ContactCard({ email, className = '' }: ContactCardProps)
       </div>
     </motion.div>
   );
-} 
+}

@@ -10,7 +10,9 @@ interface HeroSectionProps {
   onStartDemo: (goal?: string) => void;
 }
 
-const HeroSection = memo(function HeroSection({ onStartDemo }: HeroSectionProps) {
+const HeroSection = memo(function HeroSection({
+  onStartDemo,
+}: HeroSectionProps) {
   const { selectedAvatarId, selectAvatar } = useAvatarSelection();
 
   return (

@@ -50,11 +50,7 @@ export const PAYMENT_PLANS: PaymentPlan[] = [
     description: '500 messages + 150 mood check-ins and reports',
     messages: 500,
     moodCheckins: 150,
-    features: [
-      'Everything in Plus',
-      'Advanced analytics',
-      'Unlimited access',
-    ],
+    features: ['Everything in Plus', 'Advanced analytics', 'Unlimited access'],
   },
 ];
 

@@ -8,7 +8,10 @@ interface TypewriterTextProps {
   className?: string;
 }
 
-export default function TypewriterText({ texts, className = '' }: TypewriterTextProps) {
+export default function TypewriterText({
+  texts,
+  className = '',
+}: TypewriterTextProps) {
   // Just use the first text without animation
   const text = texts[0];
 
@@ -22,4 +25,4 @@ export default function TypewriterText({ texts, className = '' }: TypewriterText
       {text}
     </motion.span>
   );
-} 
+}

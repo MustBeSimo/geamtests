@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export default function SimpleBackground() {
   const [colorIndex, setColorIndex] = useState(0);
-  
+
   const colors = [
     'from-blue-500/10 to-purple-500/10',
     'from-purple-500/10 to-pink-500/10',
@@ -26,9 +26,9 @@ export default function SimpleBackground() {
 
   return (
     <div className="fixed inset-0 -z-10">
-      <div 
+      <div
         className={`w-full h-full bg-gradient-to-br ${colors[colorIndex]} transition-all duration-5000 ease-in-out`}
       />
     </div>
   );
-} 
+}

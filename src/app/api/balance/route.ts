@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
     if (action !== 'deduct_mood_checkin') {
       return ErrorResponses.badRequest(
-        'Invalid action. Expected "deduct_mood_checkin"',
+        'Invalid action. Expected "deduct_mood_checkin"'
       );
     }
 

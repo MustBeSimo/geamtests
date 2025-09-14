@@ -51,15 +51,15 @@ export function useSubscription(userId: string | undefined) {
   }, [userId]);
 
   const isSubscriptionActive = Boolean(
-    subscription?.status === 'active' && 
-    subscription?.current_period_end && 
-    new Date(subscription.current_period_end) > new Date()
+    subscription?.status === 'active' &&
+      subscription?.current_period_end &&
+      new Date(subscription.current_period_end) > new Date()
   );
 
   return {
     loading,
     profile,
     subscription,
-    isSubscriptionActive
+    isSubscriptionActive,
   };
-} 
+}

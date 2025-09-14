@@ -15,4 +15,4 @@ export interface ElevenLabsWindow {
 
 declare global {
   interface Window extends ElevenLabsWindow {}
-} 
+}

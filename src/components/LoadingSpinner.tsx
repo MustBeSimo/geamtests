@@ -14,24 +14,30 @@ export default function LoadingSpinner({
   size = 'md',
   variant = 'default',
   className,
-  text
+  text,
 }: LoadingSpinnerProps) {
   const sizeClasses = {
     sm: 'h-4 w-4',
     md: 'h-8 w-8',
     lg: 'h-12 w-12',
-    xl: 'h-16 w-16'
+    xl: 'h-16 w-16',
   };
 
   if (variant === 'dots') {
     return (
-      <div className={cn('flex items-center justify-center space-x-2', className)}>
+      <div
+        className={cn('flex items-center justify-center space-x-2', className)}
+      >
         <div className="flex space-x-1">
           <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
           <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
           <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
         </div>
-        {text && <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">{text}</span>}
+        {text && (
+          <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">
+            {text}
+          </span>
+        )}
       </div>
     );
   }
@@ -39,11 +45,17 @@ export default function LoadingSpinner({
   if (variant === 'pulse') {
     return (
       <div className={cn('flex items-center justify-center', className)}>
-        <div className={cn(
-          'bg-blue-500 rounded-full animate-pulse',
-          sizeClasses[size]
-        )}></div>
-        {text && <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">{text}</span>}
+        <div
+          className={cn(
+            'bg-blue-500 rounded-full animate-pulse',
+            sizeClasses[size]
+          )}
+        ></div>
+        {text && (
+          <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">
+            {text}
+          </span>
+        )}
       </div>
     );
   }
@@ -60,11 +72,17 @@ export default function LoadingSpinner({
   // Default spinner
   return (
     <div className={cn('flex items-center justify-center', className)}>
-      <div className={cn(
-        'animate-spin rounded-full border-2 border-gray-300 border-t-blue-500',
-        sizeClasses[size]
-      )}></div>
-      {text && <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">{text}</span>}
+      <div
+        className={cn(
+          'animate-spin rounded-full border-2 border-gray-300 border-t-blue-500',
+          sizeClasses[size]
+        )}
+      ></div>
+      {text && (
+        <span className="text-sm text-gray-600 dark:text-gray-300 ml-2">
+          {text}
+        </span>
+      )}
     </div>
   );
 }
@@ -80,7 +98,13 @@ export function SkeletonCard({ className }: { className?: string }) {
   );
 }
 
-export function SkeletonText({ lines = 3, className }: { lines?: number; className?: string }) {
+export function SkeletonText({
+  lines = 3,
+  className,
+}: {
+  lines?: number;
+  className?: string;
+}) {
   return (
     <div className={cn('animate-pulse space-y-2', className)}>
       {Array.from({ length: lines }).map((_, i) => (
@@ -96,27 +120,37 @@ export function SkeletonText({ lines = 3, className }: { lines?: number; classNa
   );
 }
 
-export function SkeletonAvatar({ size = 'md', className }: { size?: 'sm' | 'md' | 'lg'; className?: string }) {
+export function SkeletonAvatar({
+  size = 'md',
+  className,
+}: {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}) {
   const sizeClasses = {
     sm: 'h-8 w-8',
     md: 'h-12 w-12',
-    lg: 'h-16 w-16'
+    lg: 'h-16 w-16',
   };
 
   return (
-    <div className={cn(
-      'animate-pulse bg-gray-200 dark:bg-gray-700 rounded-full',
-      sizeClasses[size],
-      className
-    )}></div>
+    <div
+      className={cn(
+        'animate-pulse bg-gray-200 dark:bg-gray-700 rounded-full',
+        sizeClasses[size],
+        className
+      )}
+    ></div>
   );
 }
 
 export function SkeletonButton({ className }: { className?: string }) {
   return (
-    <div className={cn(
-      'animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-10 w-24',
-      className
-    )}></div>
+    <div
+      className={cn(
+        'animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-10 w-24',
+        className
+      )}
+    ></div>
   );
-} 
+}

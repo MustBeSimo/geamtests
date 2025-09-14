@@ -9,7 +9,10 @@ interface ExitIntentPopupProps {
   onSignUp?: () => void;
 }
 
-export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupProps) {
+export default function ExitIntentPopup({
+  onClose,
+  onSignUp,
+}: ExitIntentPopupProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [hasShown, setHasShown] = useState(false);
   const { user, signInWithGoogle } = useAuth();
@@ -83,7 +86,7 @@ export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupPr
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
-          transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
           className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
@@ -94,7 +97,8 @@ export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupPr
               Wait! Don't leave yet
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              Get 20 free AI wellness messages to start your mental health journey today
+              Get 20 free AI wellness messages to start your mental health
+              journey today
             </p>
           </div>
 
@@ -102,7 +106,9 @@ export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupPr
           <div className="space-y-3 mb-6">
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                <span className="text-green-600 dark:text-green-400 text-sm">✓</span>
+                <span className="text-green-600 dark:text-green-400 text-sm">
+                  ✓
+                </span>
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300">
                 20 free messages with AI companions
@@ -110,7 +116,9 @@ export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupPr
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                <span className="text-green-600 dark:text-green-400 text-sm">✓</span>
+                <span className="text-green-600 dark:text-green-400 text-sm">
+                  ✓
+                </span>
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300">
                 5 mood check-ins with personalized reports
@@ -118,7 +126,9 @@ export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupPr
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                <span className="text-green-600 dark:text-green-400 text-sm">✓</span>
+                <span className="text-green-600 dark:text-green-400 text-sm">
+                  ✓
+                </span>
               </div>
               <span className="text-sm text-gray-700 dark:text-gray-300">
                 No credit card required
@@ -134,7 +144,7 @@ export default function ExitIntentPopup({ onClose, onSignUp }: ExitIntentPopupPr
             >
               Get Free Access Now
             </button>
-            
+
             <button
               onClick={handleClose}
               className="w-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-sm py-2 transition-colors"

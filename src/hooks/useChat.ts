@@ -61,6 +61,6 @@ export function useChat() {
     setInputValue,
     handleSendMessage,
     handleKeyPress,
-    chatRef
+    chatRef,
   };
-} 
+}

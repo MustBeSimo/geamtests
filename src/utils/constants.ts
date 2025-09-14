@@ -6,10 +6,10 @@ export const COLORS = {
 } as const;
 
 export const ANIMATION_SETTINGS = {
-  scrollMargin: "-100px",
+  scrollMargin: '-100px',
   defaultDuration: 0.6,
   defaultStagger: 0.2,
-  defaultEase: "easeInOut",
+  defaultEase: 'easeInOut',
 } as const;
 
 export const BREAKPOINTS = {
@@ -20,8 +20,20 @@ export const BREAKPOINTS = {
 } as const;
 
 export const SOCIAL_LINKS = [
-  { icon: 'instagram', color: 'pink', url: 'https://www.instagram.com/mind_gleam_app/' },
+  {
+    icon: 'instagram',
+    color: 'pink',
+    url: 'https://www.instagram.com/mind_gleam_app/',
+  },
   { icon: 'twitter', color: 'blue', url: 'https://x.com/mindgleamai' },
-  { icon: 'tiktok', color: 'purple', url: 'https://www.tiktok.com/@heyitsgigiai' },
-  { icon: 'pinterest', color: 'red', url: 'https://au.pinterest.com/HeyItsGigiAi/' }
-] as const; 
+  {
+    icon: 'tiktok',
+    color: 'purple',
+    url: 'https://www.tiktok.com/@heyitsgigiai',
+  },
+  {
+    icon: 'pinterest',
+    color: 'red',
+    url: 'https://au.pinterest.com/HeyItsGigiAi/',
+  },
+] as const;

@@ -12,7 +12,12 @@ interface AnimatedTextProps {
   duration?: number;
 }
 
-const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className = '', delay = 0, duration = 0.6 }) => {
+const AnimatedText: React.FC<AnimatedTextProps> = ({
+  text,
+  className = '',
+  delay = 0,
+  duration = 0.6,
+}) => {
   return (
     <motion.span
       className={`inline-block ${className}`}

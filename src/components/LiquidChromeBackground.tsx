@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 export default function LiquidChromeBackground() {
   return (
@@ -68,7 +68,7 @@ export default function LiquidChromeBackground() {
           }
         `}</style>
       </div>
-      
+
       {/* Add floating elements for anime-inspired decoration */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <style jsx>{`
@@ -80,7 +80,7 @@ export default function LiquidChromeBackground() {
             opacity: 0.6;
             filter: blur(15px);
           }
-          
+
           .floating-star {
             position: absolute;
             width: 15px;
@@ -88,8 +88,16 @@ export default function LiquidChromeBackground() {
             opacity: 0.9;
             background-color: white;
             clip-path: polygon(
-              50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%,
-              50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+              50% 0%,
+              61% 35%,
+              98% 35%,
+              68% 57%,
+              79% 91%,
+              50% 70%,
+              21% 91%,
+              32% 57%,
+              2% 35%,
+              39% 35%
             );
           }
 
@@ -99,14 +107,14 @@ export default function LiquidChromeBackground() {
             background-color: var(--neon-pink);
             animation: float 8s ease-in-out infinite;
           }
-          
+
           .element-2 {
             top: 70%;
             left: 85%;
             background-color: var(--neon-blue);
             animation: float 10s ease-in-out infinite 1s;
           }
-          
+
           .element-3 {
             top: 80%;
             left: 25%;
@@ -127,19 +135,19 @@ export default function LiquidChromeBackground() {
             background-color: var(--neon-yellow);
             animation: float 11s ease-in-out infinite 2s;
           }
-          
+
           .star-1 {
             top: 25%;
             right: 15%;
             animation: twinkle 2s ease-in-out infinite;
           }
-          
+
           .star-2 {
             top: 40%;
             left: 20%;
             animation: twinkle 2.5s ease-in-out infinite 0.5s;
           }
-          
+
           .star-3 {
             bottom: 30%;
             right: 30%;
@@ -227,21 +235,38 @@ export default function LiquidChromeBackground() {
             right: 75%;
             animation: twinkle 2.4s ease-in-out infinite 1.6s;
           }
-          
+
           @keyframes float {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); }
-            33% { transform: translateY(-40px) translateX(20px) rotate(120deg); }
-            66% { transform: translateY(20px) translateX(-30px) rotate(240deg); }
-            100% { transform: translateY(0) translateX(0) rotate(360deg); }
+            0% {
+              transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            33% {
+              transform: translateY(-40px) translateX(20px) rotate(120deg);
+            }
+            66% {
+              transform: translateY(20px) translateX(-30px) rotate(240deg);
+            }
+            100% {
+              transform: translateY(0) translateX(0) rotate(360deg);
+            }
           }
-          
+
           @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1.3) rotate(180deg); }
-            100% { opacity: 0.3; transform: scale(0.8) rotate(360deg); }
+            0% {
+              opacity: 0.3;
+              transform: scale(0.8) rotate(0deg);
+            }
+            50% {
+              opacity: 1;
+              transform: scale(1.3) rotate(180deg);
+            }
+            100% {
+              opacity: 0.3;
+              transform: scale(0.8) rotate(360deg);
+            }
           }
         `}</style>
-        
+
         <div className="floating-element element-1"></div>
         <div className="floating-element element-2"></div>
         <div className="floating-element element-3"></div>

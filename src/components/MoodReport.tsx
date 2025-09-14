@@ -12,12 +12,12 @@ interface MoodReportProps {
   isDemo?: boolean;
 }
 
-const MoodReport = memo(function MoodReport({ 
-  report, 
-  generatingReport, 
-  onDownloadPDF, 
+const MoodReport = memo(function MoodReport({
+  report,
+  generatingReport,
+  onDownloadPDF,
   onResetGenerating,
-  isDemo = false 
+  isDemo = false,
 }: MoodReportProps) {
   const [showReportOptions, setShowReportOptions] = useState(false);
 
@@ -88,7 +88,11 @@ const MoodReport = memo(function MoodReport({
           <span className="text-red-500 text-sm">⚠️</span>
           <div className="text-red-700 dark:text-red-300 text-xs">
             <p className="font-semibold">IMPORTANT DISCLAIMER</p>
-            <p>This AI provides educational wellness content only - not therapy or medical advice. For crisis support, call 988 (US) or contact emergency services.</p>
+            <p>
+              This AI provides educational wellness content only - not therapy
+              or medical advice. For crisis support, call 988 (US) or contact
+              emergency services.
+            </p>
           </div>
         </div>
       </div>
@@ -102,7 +106,11 @@ const MoodReport = memo(function MoodReport({
           >
             <div className="font-medium text-gray-900 dark:text-white flex items-center justify-center gap-2">
               📊 View Report Options
-              <span className={`transform transition-transform ${showReportOptions ? 'rotate-180' : ''}`}>▼</span>
+              <span
+                className={`transform transition-transform ${showReportOptions ? 'rotate-180' : ''}`}
+              >
+                ▼
+              </span>
             </div>
           </button>
 
@@ -114,21 +122,33 @@ const MoodReport = memo(function MoodReport({
                   onClick={() => onDownloadPDF(report)}
                   className="w-full p-3 bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 rounded-lg text-left transition-colors border border-emerald-200 dark:border-emerald-700"
                 >
-                  <div className="font-medium text-gray-900 dark:text-white">📄 Download as PDF</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Save your personalized mood report</div>
+                  <div className="font-medium text-gray-900 dark:text-white">
+                    📄 Download as PDF
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    Save your personalized mood report
+                  </div>
                 </button>
               )}
 
               {/* Save to Journal */}
               <button className="w-full p-3 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/40 rounded-lg text-left transition-colors border border-purple-200 dark:border-purple-700">
-                <div className="font-medium text-gray-900 dark:text-white">📖 Save to Journal</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Add to your personal wellness journal</div>
+                <div className="font-medium text-gray-900 dark:text-white">
+                  📖 Save to Journal
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Add to your personal wellness journal
+                </div>
               </button>
 
               {/* Share */}
               <button className="w-full p-3 bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 rounded-lg text-left transition-colors border border-yellow-200 dark:border-yellow-700">
-                <div className="font-medium text-gray-900 dark:text-white">🔗 Share Insight</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Share your affirmation with a friend</div>
+                <div className="font-medium text-gray-900 dark:text-white">
+                  🔗 Share Insight
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Share your affirmation with a friend
+                </div>
               </button>
             </div>
           )}
@@ -139,11 +159,14 @@ const MoodReport = memo(function MoodReport({
       {isDemo && (
         <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
           <div className="text-center">
-            <div className="text-lg mb-2">✨ Want more personalized insights?</div>
+            <div className="text-lg mb-2">
+              ✨ Want more personalized insights?
+            </div>
             <p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
-              Sign in to get unlimited mood check-ins, advanced reports, and track your progress over time.
+              Sign in to get unlimited mood check-ins, advanced reports, and
+              track your progress over time.
             </p>
-            <Link 
+            <Link
               href="/"
               className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium"
             >
@@ -156,4 +179,4 @@ const MoodReport = memo(function MoodReport({
   );
 });
 
-export default MoodReport; 
+export default MoodReport;

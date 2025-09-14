@@ -24,7 +24,7 @@
 
 /* Enhanced spotlight effect with better blur */
 .card-spotlight::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
@@ -47,18 +47,50 @@
 
 /* Improved decorative background elements */
 .card-spotlight::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(2px 2px at 40px 40px, rgba(255, 255, 255, 0.8) 100%, transparent),
-    radial-gradient(2px 2px at 80px 120px, rgba(255, 255, 255, 0.6) 100%, transparent),
-    radial-gradient(3px 3px at 160px 40px, rgba(255, 255, 255, 0.7) 100%, transparent),
-    radial-gradient(1px 1px at 20px 160px, rgba(255, 255, 255, 0.5) 100%, transparent),
-    radial-gradient(2px 2px at 200px 160px, rgba(255, 255, 255, 0.6) 100%, transparent),
-    radial-gradient(4px 4px at 120px 80px, rgba(255, 255, 255, 0.4) 100%, transparent),
-    radial-gradient(6px 6px at 180px 100px, var(--spotlight-color) 100%, transparent),
-    radial-gradient(8px 8px at 60px 200px, var(--spotlight-color) 100%, transparent);
+  background-image:
+    radial-gradient(
+      2px 2px at 40px 40px,
+      rgba(255, 255, 255, 0.8) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 80px 120px,
+      rgba(255, 255, 255, 0.6) 100%,
+      transparent
+    ),
+    radial-gradient(
+      3px 3px at 160px 40px,
+      rgba(255, 255, 255, 0.7) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1px 1px at 20px 160px,
+      rgba(255, 255, 255, 0.5) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 200px 160px,
+      rgba(255, 255, 255, 0.6) 100%,
+      transparent
+    ),
+    radial-gradient(
+      4px 4px at 120px 80px,
+      rgba(255, 255, 255, 0.4) 100%,
+      transparent
+    ),
+    radial-gradient(
+      6px 6px at 180px 100px,
+      var(--spotlight-color) 100%,
+      transparent
+    ),
+    radial-gradient(
+      8px 8px at 60px 200px,
+      var(--spotlight-color) 100%,
+      transparent
+    );
   background-size: 240px 240px;
   background-repeat: repeat;
   opacity: 0.15;
@@ -71,15 +103,47 @@
 @media (prefers-color-scheme: dark) {
   .card-spotlight::after {
     opacity: 0.25;
-    background-image: 
-      radial-gradient(2px 2px at 40px 40px, rgba(255, 255, 255, 0.4) 100%, transparent),
-      radial-gradient(2px 2px at 80px 120px, rgba(255, 255, 255, 0.3) 100%, transparent),
-      radial-gradient(3px 3px at 160px 40px, rgba(255, 255, 255, 0.35) 100%, transparent),
-      radial-gradient(1px 1px at 20px 160px, rgba(255, 255, 255, 0.25) 100%, transparent),
-      radial-gradient(2px 2px at 200px 160px, rgba(255, 255, 255, 0.3) 100%, transparent),
-      radial-gradient(4px 4px at 120px 80px, rgba(255, 255, 255, 0.2) 100%, transparent),
-      radial-gradient(6px 6px at 180px 100px, var(--spotlight-color) 100%, transparent),
-      radial-gradient(8px 8px at 60px 200px, var(--spotlight-color) 100%, transparent);
+    background-image:
+      radial-gradient(
+        2px 2px at 40px 40px,
+        rgba(255, 255, 255, 0.4) 100%,
+        transparent
+      ),
+      radial-gradient(
+        2px 2px at 80px 120px,
+        rgba(255, 255, 255, 0.3) 100%,
+        transparent
+      ),
+      radial-gradient(
+        3px 3px at 160px 40px,
+        rgba(255, 255, 255, 0.35) 100%,
+        transparent
+      ),
+      radial-gradient(
+        1px 1px at 20px 160px,
+        rgba(255, 255, 255, 0.25) 100%,
+        transparent
+      ),
+      radial-gradient(
+        2px 2px at 200px 160px,
+        rgba(255, 255, 255, 0.3) 100%,
+        transparent
+      ),
+      radial-gradient(
+        4px 4px at 120px 80px,
+        rgba(255, 255, 255, 0.2) 100%,
+        transparent
+      ),
+      radial-gradient(
+        6px 6px at 180px 100px,
+        var(--spotlight-color) 100%,
+        transparent
+      ),
+      radial-gradient(
+        8px 8px at 60px 200px,
+        var(--spotlight-color) 100%,
+        transparent
+      );
   }
 }
 
@@ -133,4 +197,3 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 }
-

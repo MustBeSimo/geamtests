@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.mindgleam.app'),
-  title: 'MindGleam - AI Mental Wellness App | Affordable CBT Therapy Alternative | Free Trial',
-  description: 'AI-powered mental wellness companion offering personalized CBT guidance at $4.99/month. Get 20 free messages, mood tracking, and 24/7 support. Affordable alternative to traditional therapy.',
+  title:
+    'MindGleam - AI Mental Wellness App | Affordable CBT Therapy Alternative | Free Trial',
+  description:
+    'AI-powered mental wellness companion offering personalized CBT guidance at $4.99/month. Get 20 free messages, mood tracking, and 24/7 support. Affordable alternative to traditional therapy.',
   keywords: [
     'AI mental health app',
     'affordable therapy alternative',
@@ -28,12 +30,14 @@ export const metadata: Metadata = {
     'affordable mental health care',
     'headspace alternative',
     'calm app alternative',
-    'betterhelp alternative'
+    'betterhelp alternative',
   ],
   viewport: 'width=device-width, initial-scale=1',
   openGraph: {
-    title: 'MindGleam - Affordable AI Mental Wellness | $4.99/month vs $240+ for therapy',
-    description: 'Get personalized CBT guidance, mood tracking, and 24/7 AI support for just $4.99/month. Start with 20 free messages. Affordable alternative to expensive therapy apps.',
+    title:
+      'MindGleam - Affordable AI Mental Wellness | $4.99/month vs $240+ for therapy',
+    description:
+      'Get personalized CBT guidance, mood tracking, and 24/7 AI support for just $4.99/month. Start with 20 free messages. Affordable alternative to expensive therapy apps.',
     images: ['/android-chrome-512x512.png'],
     type: 'website',
     url: 'https://www.mindgleam.app',
@@ -41,7 +45,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'MindGleam - AI Mental Wellness for $4.99/month',
-    description: 'Affordable AI-powered mental wellness with CBT guidance. 20 free messages to start. Better value than Headspace, Calm, or BetterHelp.',
+    description:
+      'Affordable AI-powered mental wellness with CBT guidance. 20 free messages to start. Better value than Headspace, Calm, or BetterHelp.',
     images: ['/android-chrome-512x512.png'],
   },
   icons: {
@@ -57,4 +62,4 @@ export const metadata: Metadata = {
     follow: true,
   },
   category: 'Health & Wellness',
-}; 
+};

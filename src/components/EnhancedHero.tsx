@@ -40,8 +40,13 @@ const QUICK_START_PROMPTS = [
 
 export default function EnhancedHero({ onStartDemo }: EnhancedHeroProps) {
   const { user, signInWithGoogle } = useAuth();
-  const { startDemoMode, setVisible: setChatVisible, selectedAvatar } = useChat();
-  const { avatars, currentAvatar, selectAvatar } = useAvatarSelection(selectedAvatar);
+  const {
+    startDemoMode,
+    setVisible: setChatVisible,
+    selectedAvatar,
+  } = useChat();
+  const { avatars, currentAvatar, selectAvatar } =
+    useAvatarSelection(selectedAvatar);
 
   const [selectedPrompt, setSelectedPrompt] = useState<string | null>(null);
   const [showAvatarSelection, setShowAvatarSelection] = useState(false);
@@ -111,8 +116,9 @@ export default function EnhancedHero({ onStartDemo }: EnhancedHeroProps) {
               variants={itemVariants}
               className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
             >
-              Experience personalized mental health support with our three specialized AI companions.
-              Get instant help with stress, anxiety, meditation, and wellness guidance.
+              Experience personalized mental health support with our three
+              specialized AI companions. Get instant help with stress, anxiety,
+              meditation, and wellness guidance.
             </motion.p>
 
             {/* Avatar Selection */}
@@ -135,7 +141,7 @@ export default function EnhancedHero({ onStartDemo }: EnhancedHeroProps) {
                     key={avatar.id}
                     onClick={() => handleAvatarSelect(avatar.id)}
                     className={`relative group ${
-                      currentAvatar.id === avatar.id
+                      currentAvatar?.id === avatar.id
                         ? 'ring-4 ring-blue-400 ring-offset-2 ring-offset-white dark:ring-offset-gray-900'
                         : 'hover:ring-2 hover:ring-blue-300'
                     } rounded-full transition-all duration-200`}
@@ -168,7 +174,7 @@ export default function EnhancedHero({ onStartDemo }: EnhancedHeroProps) {
                       <div
                         key={avatar.id}
                         className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                          currentAvatar.id === avatar.id
+                          currentAvatar?.id === avatar.id
                             ? 'bg-blue-100 dark:bg-blue-900/30'
                             : 'hover:bg-gray-100 dark:hover:bg-gray-700/30'
                         }`}
@@ -219,7 +225,7 @@ export default function EnhancedHero({ onStartDemo }: EnhancedHeroProps) {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Start Chatting with {currentAvatar.name}
+                  Start Chatting with {currentAvatar?.name || 'AI'}
                 </motion.button>
               ) : (
                 <div className="flex flex-col lg:flex-row gap-4">
@@ -260,8 +266,10 @@ export default function EnhancedHero({ onStartDemo }: EnhancedHeroProps) {
               />
               <div className="absolute inset-4 bg-white dark:bg-gray-800 rounded-full shadow-2xl flex items-center justify-center overflow-hidden">
                 <Image
-                  src={currentAvatar.src}
-                  alt={currentAvatar.name}
+                  src={
+                    currentAvatar?.src || '/images/avatars/gigi-avatar-logo.png'
+                  }
+                  alt={currentAvatar?.name || 'AI Avatar'}
                   width={280}
                   height={280}
                   className="object-contain"

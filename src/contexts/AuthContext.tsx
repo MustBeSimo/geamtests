@@ -1,6 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from 'react';
 import { supabase } from '@/utils/supabase';
 import { User, Session } from '@supabase/supabase-js';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -26,13 +32,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const getInitialSession = async () => {
       try {
         setLoading(true);
-        
-        const { data: { session }, error } = await supabase.auth.getSession();
+
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
         if (error) {
           console.error('AuthContext: Session error:', error);
           throw error;
         }
-        
+
         if (session) {
           setSession(session);
           setUser(session.user);
@@ -46,23 +55,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     getInitialSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        // Only initialize profile and balance for new users on fresh sign in
-        if (event === 'SIGNED_IN' && session?.user) {
-          // Keep loading true while initializing user data
-          setLoading(true);
-          await initializeUserData(session.user);
-          setLoading(false);
-        } else {
-          // For other events (like existing sessions), set loading to false
-          setLoading(false);
-        }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+
+      // Only initialize profile and balance for new users on fresh sign in
+      if (event === 'SIGNED_IN' && session?.user) {
+        // Keep loading true while initializing user data
+        setLoading(true);
+        await initializeUserData(session.user);
+        setLoading(false);
+      } else {
+        // For other events (like existing sessions), set loading to false
+        setLoading(false);
       }
-    );
+    });
 
     return () => {
       subscription.unsubscribe();
@@ -72,18 +81,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const initializeUserData = async (user: User) => {
     try {
       // Initialize user profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .upsert(
-          {
-            id: user.id,
-            email: user.email,
-            full_name: user.user_metadata?.full_name,
-            avatar_url: user.user_metadata?.avatar_url,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: 'id' }
-        );
+      const { error: profileError } = await supabase.from('profiles').upsert(
+        {
+          id: user.id,
+          email: user.email,
+          full_name: user.user_metadata?.full_name,
+          avatar_url: user.user_metadata?.avatar_url,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'id' }
+      );
 
       if (profileError) {
         console.error('Error creating/updating profile:', profileError);
@@ -125,9 +132,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           queryParams: {
             access_type: 'offline',
           },
-        }
+        },
       });
-      
+
       if (error) throw error;
     } catch (error) {
       console.error('Error signing in with Google:', error);
@@ -138,25 +145,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     try {
       setLoading(true);
-      
+
       // Reset user state immediately for better UX
       setUser(null);
       setSession(null);
-      
+
       // Call the server-side API to clear cookies properly
       try {
         await fetch('/api/auth/signout', { method: 'POST' });
       } catch (serverError) {
-        console.warn('Server-side sign out failed, continuing with client-side:', serverError);
+        console.warn(
+          'Server-side sign out failed, continuing with client-side:',
+          serverError
+        );
       }
-      
+
       // Then sign out on the client side
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error('Client-side sign out error:', error);
         // Don't throw here - continue with logout process
       }
-      
+
       // Force reload to ensure all state is cleared
       window.location.href = '/';
     } catch (error) {
@@ -187,4 +197,4 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-} 
+}

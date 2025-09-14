@@ -49,12 +49,12 @@ class ElevenLabsService {
   }
 
   async textToSpeech(
-    text: string, 
+    text: string,
     voiceId: string,
     settings: Partial<VoiceSettings> = {}
   ): Promise<ArrayBuffer> {
     const voiceSettings = { ...DEFAULT_VOICE_SETTINGS, ...settings };
-    
+
     const response = await fetch(`${this.baseUrl}/text-to-speech/${voiceId}`, {
       method: 'POST',
       headers: {
@@ -90,4 +90,4 @@ class ElevenLabsService {
   }
 }
 
-export const elevenLabsService = new ElevenLabsService(); 
+export const elevenLabsService = new ElevenLabsService();

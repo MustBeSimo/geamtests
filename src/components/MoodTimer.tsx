@@ -7,7 +7,10 @@ interface MoodTimerProps {
   onTimerComplete?: () => void;
 }
 
-const MoodTimer = memo(function MoodTimer({ countdown, onTimerComplete }: MoodTimerProps) {
+const MoodTimer = memo(function MoodTimer({
+  countdown,
+  onTimerComplete,
+}: MoodTimerProps) {
   // Memoize the time formatting calculation
   const formattedTime = useMemo(() => {
     const hours = Math.floor(countdown / 3600);
@@ -32,11 +35,15 @@ const MoodTimer = memo(function MoodTimer({ countdown, onTimerComplete }: MoodTi
         </p>
       </div>
       <div className="text-right">
-        <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">Auto-close in</div>
-        <div className="text-2xl font-bold text-emerald-600">{formattedTime}</div>
+        <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+          Auto-close in
+        </div>
+        <div className="text-2xl font-bold text-emerald-600">
+          {formattedTime}
+        </div>
       </div>
     </div>
   );
 });
 
-export default MoodTimer; 
+export default MoodTimer;

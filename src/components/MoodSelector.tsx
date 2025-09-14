@@ -29,7 +29,7 @@ const moodEmojis: MoodEmoji[] = [
   { emoji: '💪', label: 'Energized' },
   { emoji: '😴', label: 'Tired' },
   { emoji: '🏃‍♀️', label: 'Active' },
-  { emoji: '🎉', label: 'Celebrating' }
+  { emoji: '🎉', label: 'Celebrating' },
 ];
 
 const MoodSelector = memo(function MoodSelector({
@@ -39,22 +39,23 @@ const MoodSelector = memo(function MoodSelector({
   onEmojiSelect,
   onRatingChange,
   onNoteChange,
-  disabled = false
+  disabled = false,
 }: MoodSelectorProps) {
   return (
     <div className="space-y-6">
       {/* Tips for better AI interaction */}
       <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
         <div className="text-xs text-blue-800 dark:text-blue-200">
-          <div className="font-medium mb-1">💡 Tips for better AI insights:</div>
+          <div className="font-medium mb-1">
+            💡 Tips for better AI insights:
+          </div>
           <div className="text-left space-y-1">
             • Share what influenced your mood (work, relationships, events)
             <br />
             • Mention specific emotions (anxious, excited, frustrated, grateful)
             <br />
             • Include context about your day or recent experiences
-            <br />
-            • Be honest about challenges or wins you're experiencing
+            <br />• Be honest about challenges or wins you're experiencing
           </div>
         </div>
       </div>
@@ -125,7 +126,8 @@ const MoodSelector = memo(function MoodSelector({
           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm disabled:opacity-50"
         />
         <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          💭 The more context you share about your mind and body, the more personalized your wellness insights will be
+          💭 The more context you share about your mind and body, the more
+          personalized your wellness insights will be
         </div>
       </div>
     </div>
@@ -134,4 +136,4 @@ const MoodSelector = memo(function MoodSelector({
 
 export default MoodSelector;
 export { moodEmojis };
-export type { MoodEmoji }; 
+export type { MoodEmoji };

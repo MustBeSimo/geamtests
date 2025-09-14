@@ -18,13 +18,13 @@ module.exports = {
           600: '#ff7eb3',
         },
         'thought-coach': {
-          'teal': '#C5E4E7',
+          teal: '#C5E4E7',
           'off-white': '#F5F8F9',
-          'slate': '#42515C',
+          slate: '#42515C',
         },
         // Unified Mind Gleam palette
-        'mindgleam': {
-          'mint': {
+        mindgleam: {
+          mint: {
             50: '#f0fdf4',
             100: '#dcfce7',
             200: '#bbf7d0',
@@ -33,7 +33,7 @@ module.exports = {
             500: '#22c55e',
             600: '#16a34a',
           },
-          'peach': {
+          peach: {
             50: '#fef7ed',
             100: '#fdedd3',
             200: '#fbd5a5',
@@ -42,7 +42,7 @@ module.exports = {
             500: '#f3770a',
             600: '#ea580c',
           },
-          'lavender': {
+          lavender: {
             50: '#faf5ff',
             100: '#f3e8ff',
             200: '#e9d5ff',
@@ -51,7 +51,7 @@ module.exports = {
             500: '#a855f7',
             600: '#9333ea',
           },
-          'gold': {
+          gold: {
             50: '#fefce8',
             100: '#fef9c3',
             200: '#fef08a',
@@ -59,8 +59,8 @@ module.exports = {
             400: '#facc15',
             500: '#eab308',
             600: '#ca8a04',
-          }
-        }
+          },
+        },
       },
       animation: {
         'fade-in': 'fadeIn 1s ease-in',
@@ -74,4 +74,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};

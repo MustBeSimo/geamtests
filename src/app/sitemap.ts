@@ -1,8 +1,8 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.mindgleam.app'
-  
+  const baseUrl = 'https://www.mindgleam.app';
+
   return [
     {
       url: baseUrl,
@@ -46,5 +46,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-  ]
-} 
+  ];
+}

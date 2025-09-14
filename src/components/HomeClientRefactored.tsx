@@ -29,7 +29,7 @@ export default function HomeClientRefactored() {
     isVisible: isChatVisible,
     setVisible: setChatVisible,
     startDemoMode,
-    selectedAvatar
+    selectedAvatar,
   } = useChat();
   const { successMessage, clearSuccessMessage } = useUrlParams();
   const { selectedAvatarId } = useAvatarSelection();
@@ -43,29 +43,33 @@ export default function HomeClientRefactored() {
     }
   }, [user, setChatVisible]);
 
-  const handleStartDemo = useCallback((goal?: string) => {
-    if (!user) {
-      startDemoMode();
-      if (goal) {
-        localStorage.setItem('selectedGoal', goal);
+  const handleStartDemo = useCallback(
+    (goal?: string) => {
+      if (!user) {
+        startDemoMode();
+        if (goal) {
+          localStorage.setItem('selectedGoal', goal);
+        }
+      } else {
+        setChatVisible(true);
+        if (goal) {
+          localStorage.setItem('selectedGoal', goal);
+        }
       }
-    } else {
-      setChatVisible(true);
-      if (goal) {
-        localStorage.setItem('selectedGoal', goal);
-      }
-    }
-  }, [user, startDemoMode, setChatVisible]);
+    },
+    [user, startDemoMode, setChatVisible]
+  );
 
   return (
     <main className="relative min-h-screen w-full">
       <div className="container mx-auto px-4 pb-8 max-w-7xl">
-
         {/* Success Message */}
         {successMessage && (
           <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/20 border border-green-300 dark:border-green-600 rounded-lg">
             <div className="flex justify-between items-center">
-              <p className="text-green-800 dark:text-green-200">{successMessage}</p>
+              <p className="text-green-800 dark:text-green-200">
+                {successMessage}
+              </p>
               <button
                 onClick={clearSuccessMessage}
                 className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200"

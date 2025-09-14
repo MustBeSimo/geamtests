@@ -5,7 +5,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { loadStripe } from '@stripe/stripe-js';
 import Link from 'next/link';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 export default function SubscribePage() {
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,8 @@ export default function SubscribePage() {
             Upgrade Your Wellness Journey
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Get more mood check-ins and chat messages to continue tracking your emotional wellness with Gigi
+            Get more mood check-ins and chat messages to continue tracking your
+            emotional wellness with Gigi
           </p>
         </div>
 
@@ -76,15 +79,25 @@ export default function SubscribePage() {
             <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
               $9.99
             </div>
-            <p className="text-gray-600 dark:text-gray-400">One-time purchase</p>
+            <p className="text-gray-600 dark:text-gray-400">
+              One-time purchase
+            </p>
           </div>
 
           {/* Features */}
           <div className="space-y-4 mb-8">
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-green-600 dark:text-green-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
@@ -93,18 +106,35 @@ export default function SubscribePage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-green-600 dark:text-green-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
-                <strong>60 additional mood check-ins</strong> with personalized insights
+                <strong>60 additional mood check-ins</strong> with personalized
+                insights
               </span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-green-600 dark:text-green-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
@@ -113,8 +143,16 @@ export default function SubscribePage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-green-600 dark:text-green-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
@@ -123,8 +161,16 @@ export default function SubscribePage() {
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-4 h-4 text-green-600 dark:text-green-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <span className="text-gray-700 dark:text-gray-300">
@@ -176,15 +222,21 @@ export default function SubscribePage() {
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <span className="text-blue-600 dark:text-blue-400">✓</span>
-              <span className="text-gray-700 dark:text-gray-300">10 mood check-ins</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                10 mood check-ins
+              </span>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-blue-600 dark:text-blue-400">✓</span>
-                                      <span className="text-gray-700 dark:text-gray-300">20 chat messages</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                20 chat messages
+              </span>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-blue-600 dark:text-blue-400">✓</span>
-              <span className="text-gray-700 dark:text-gray-300">Basic mood insights</span>
+              <span className="text-gray-700 dark:text-gray-300">
+                Basic mood insights
+              </span>
             </div>
           </div>
         </div>
@@ -194,13 +246,21 @@ export default function SubscribePage() {
           <div className="flex items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex items-center gap-1">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clipRule="evenodd"
+                />
               </svg>
               Secure Payment
             </div>
             <div className="flex items-center gap-1">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
               </svg>
               24/7 Support
             </div>
@@ -225,4 +285,4 @@ export default function SubscribePage() {
       </div>
     </div>
   );
-} 
+}

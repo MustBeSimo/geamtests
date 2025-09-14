@@ -19,69 +19,81 @@ const mediaContent: MediaItem[] = [
     src: '/images/media/sunny-day.mp4',
     title: 'Sunny Day Vibes',
     description: 'Embracing the energy of a beautiful day',
-    category: 'Lifestyle'
+    category: 'Lifestyle',
   },
   {
     type: 'image',
     src: '/images/media/blue-hair-portrait.png',
     title: 'Blue Hair Magic',
     description: 'Expressing creativity through unique style',
-    category: 'Fashion'
+    category: 'Fashion',
   },
   {
     type: 'video',
     src: '/images/media/digital-life.mp4',
     title: 'Digital Life',
     description: 'A day in my digital world',
-    category: 'Lifestyle'
+    category: 'Lifestyle',
   },
   {
     type: 'image',
     src: '/images/media/fitness-group.png',
     title: 'Fitness Fun',
     description: 'Staying active and having fun',
-    category: 'Fitness'
+    category: 'Fitness',
   },
   {
     type: 'video',
     src: '/images/media/fitness-outdoor.mp4',
     title: 'Outdoor Adventures',
     description: 'Exploring and staying fit in nature',
-    category: 'Fitness'
+    category: 'Fitness',
   },
   {
     type: 'video',
     src: '/images/media/lifestyle-video.mp4',
     title: 'Life in Motion',
     description: 'Capturing the essence of daily moments',
-    category: 'Lifestyle'
+    category: 'Lifestyle',
   },
   {
     type: 'image',
     src: '/images/media/empowered-woman.png',
     title: 'Empowerment',
     description: 'Strength and confidence in every pose',
-    category: 'Fitness'
+    category: 'Fitness',
   },
   {
     type: 'image',
     src: '/images/media/blue-hair-composition.png',
     title: 'Creative Expression',
     description: 'Art meets digital identity',
-    category: 'Fashion'
-  }
+    category: 'Fashion',
+  },
 ];
 
 const socialLinks = [
-  { icon: 'instagram', color: 'pink', url: 'https://www.instagram.com/heyitsgigiai/' },
+  {
+    icon: 'instagram',
+    color: 'pink',
+    url: 'https://www.instagram.com/heyitsgigiai/',
+  },
   { icon: 'twitter', color: 'blue', url: 'https://x.com/HeyItsGigiAI' },
-  { icon: 'tiktok', color: 'purple', url: 'https://www.tiktok.com/@heyitsgigiai' },
-  { icon: 'pinterest', color: 'red', url: 'https://au.pinterest.com/HeyItsGigiAi/' }
+  {
+    icon: 'tiktok',
+    color: 'purple',
+    url: 'https://www.tiktok.com/@heyitsgigiai',
+  },
+  {
+    icon: 'pinterest',
+    color: 'red',
+    url: 'https://au.pinterest.com/HeyItsGigiAi/',
+  },
 ];
 
 export default function Media() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const { scrollY } = useScroll();
 
@@ -89,14 +101,18 @@ export default function Media() {
   const y = useTransform(scrollY, [0, 1000], [0, -150]);
   const opacity = useTransform(scrollY, [0, 200], [1, 0.8]);
 
-  const categories = ['all', ...Array.from(new Set(mediaContent.map(item => item.category)))];
-  const filteredMedia = selectedCategory === 'all' 
-    ? mediaContent 
-    : mediaContent.filter(item => item.category === selectedCategory);
+  const categories = [
+    'all',
+    ...Array.from(new Set(mediaContent.map((item) => item.category))),
+  ];
+  const filteredMedia =
+    selectedCategory === 'all'
+      ? mediaContent
+      : mediaContent.filter((item) => item.category === selectedCategory);
 
   return (
-    <section 
-      id="media" 
+    <section
+      id="media"
       className="relative py-20 min-h-screen overflow-hidden"
       ref={ref}
     >
@@ -111,7 +127,7 @@ export default function Media() {
               'radial-gradient(circle at 0% 0%, purple 0%, transparent 50%)',
             ],
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
         />
       </div>
 
@@ -122,7 +138,7 @@ export default function Media() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <motion.h2 
+          <motion.h2
             className="text-4xl md:text-5xl font-bold mb-6"
             style={{ y, opacity }}
           >
@@ -134,12 +150,12 @@ export default function Media() {
               animate={{
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
             >
               Explore My Digital Universe
             </motion.span>
           </motion.h2>
-          
+
           {/* Category Filter with Metallic Paint Effect */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             {categories.map((category) => (
@@ -147,13 +163,15 @@ export default function Media() {
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2 rounded-full text-sm font-medium transition-all backdrop-blur-sm
-                  ${selectedCategory === category
-                    ? 'bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-lg'
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  ${
+                    selectedCategory === category
+                      ? 'bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-lg'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
                   }`}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.05,
-                  background: 'linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
+                  background:
+                    'linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1))',
                 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -164,7 +182,7 @@ export default function Media() {
         </motion.div>
 
         {/* Media Grid with 1:1 Aspect Ratio */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           style={{ y }}
         >
@@ -193,20 +211,24 @@ export default function Media() {
                       style={{
                         objectFit: 'cover',
                         width: '100%',
-                        height: '100%'
+                        height: '100%',
                       }}
                       onCanPlay={(e) => {
                         const video = e.currentTarget;
                         if ('IntersectionObserver' in window) {
-                          const observer = new IntersectionObserver((entries) => {
-                            entries.forEach((entry) => {
-                              if (entry.isIntersecting) {
-                                if (video.paused) video.play().catch(() => {});
-                              } else {
-                                if (!video.paused) video.pause();
-                              }
-                            });
-                          }, { threshold: 0.25 });
+                          const observer = new IntersectionObserver(
+                            (entries) => {
+                              entries.forEach((entry) => {
+                                if (entry.isIntersecting) {
+                                  if (video.paused)
+                                    video.play().catch(() => {});
+                                } else {
+                                  if (!video.paused) video.pause();
+                                }
+                              });
+                            },
+                            { threshold: 0.25 }
+                          );
                           observer.observe(video);
                         } else {
                           // Fallback: play on user interaction only
@@ -304,4 +326,4 @@ export default function Media() {
       </div>
     </section>
   );
-} 
+}

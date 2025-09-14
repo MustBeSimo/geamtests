@@ -31,15 +31,19 @@ export const mindgleamColors = {
     bg: 'bg-mindgleam-gold-50',
     text: 'text-mindgleam-gold-600',
     border: 'border-mindgleam-gold-200',
-  }
+  },
 };
 
 // Unified gradient combinations for consistent branding
 export const mindgleamGradients = {
-  primary: 'from-mindgleam-mint-300 via-mindgleam-peach-200 to-mindgleam-lavender-300',
-  secondary: 'from-mindgleam-lavender-200 via-mindgleam-gold-200 to-mindgleam-mint-200',
-  accent: 'from-mindgleam-peach-300 via-mindgleam-gold-300 to-mindgleam-mint-300',
-  subtle: 'from-mindgleam-mint-50 via-mindgleam-peach-50 to-mindgleam-lavender-50',
+  primary:
+    'from-mindgleam-mint-300 via-mindgleam-peach-200 to-mindgleam-lavender-300',
+  secondary:
+    'from-mindgleam-lavender-200 via-mindgleam-gold-200 to-mindgleam-mint-200',
+  accent:
+    'from-mindgleam-peach-300 via-mindgleam-gold-300 to-mindgleam-mint-300',
+  subtle:
+    'from-mindgleam-mint-50 via-mindgleam-peach-50 to-mindgleam-lavender-50',
   hero: 'from-mindgleam-mint-100 via-mindgleam-peach-100 to-mindgleam-lavender-100',
   card: 'from-mindgleam-mint-50/80 via-mindgleam-peach-50/80 to-mindgleam-lavender-50/80',
 };
@@ -90,10 +94,16 @@ export const componentColors = {
 
 // Utility function to get avatar colors
 export const getAvatarColors = (avatarId: string) => {
-  return avatarColorSchemes[avatarId as keyof typeof avatarColorSchemes] || avatarColorSchemes.gigi;
+  return (
+    avatarColorSchemes[avatarId as keyof typeof avatarColorSchemes] ||
+    avatarColorSchemes.gigi
+  );
 };
 
 // Utility function to get component colors
 export const getComponentColors = (component: string) => {
-  return componentColors[component as keyof typeof componentColors] || componentColors.card;
-}; 
+  return (
+    componentColors[component as keyof typeof componentColors] ||
+    componentColors.card
+  );
+};

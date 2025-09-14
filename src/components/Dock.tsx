@@ -27,11 +27,11 @@ const itemVariants: Variants = {
     scale: 1.2,
     opacity: 1,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 400,
-      damping: 20
-    }
-  }
+      damping: 20,
+    },
+  },
 };
 
 const Dock = () => {
@@ -42,8 +42,8 @@ const Dock = () => {
   useEffect(() => {
     // Initialize dock position at the bottom center
     setPosition({
-      x: typeof window !== 'undefined' ? (window.innerWidth / 2) - 150 : 0,
-      y: typeof window !== 'undefined' ? window.innerHeight - 100 : 0
+      x: typeof window !== 'undefined' ? window.innerWidth / 2 - 150 : 0,
+      y: typeof window !== 'undefined' ? window.innerHeight - 100 : 0,
     });
   }, []);
 
@@ -51,11 +51,14 @@ const Dock = () => {
     setIsDragging(true);
   };
 
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
     setIsDragging(false);
-    setPosition(prev => ({
+    setPosition((prev) => ({
       x: prev.x + info.offset.x,
-      y: prev.y + info.offset.y
+      y: prev.y + info.offset.y,
     }));
   };
 
@@ -81,7 +84,7 @@ const Dock = () => {
         `}
         whileHover={{
           scale: 1.02,
-          transition: { duration: 0.2 }
+          transition: { duration: 0.2 },
         }}
       >
         {dockItems.map((item, index) => (
@@ -110,7 +113,7 @@ const Dock = () => {
             </motion.div>
           </Link>
         ))}
-        
+
         {/* Drag handle */}
         <motion.div
           className="absolute -top-3 left-1/2 transform -translate-x-1/2
@@ -122,4 +125,4 @@ const Dock = () => {
   );
 };
 
-export default Dock; 
+export default Dock;

@@ -15,7 +15,7 @@ export default function Error({
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
           className="mb-8"
         >
           <i className="fas fa-exclamation-circle text-6xl text-red-500"></i>
@@ -34,7 +34,7 @@ export default function Error({
           transition={{ delay: 0.4 }}
           className="text-gray-600 mb-8"
         >
-          {error.message || "An unexpected error occurred"}
+          {error.message || 'An unexpected error occurred'}
         </motion.p>
         <motion.button
           onClick={reset}
@@ -50,4 +50,4 @@ export default function Error({
       </div>
     </div>
   );
-} 
+}

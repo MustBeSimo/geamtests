@@ -6,7 +6,9 @@ import BreathingMiniApp from '@/components/BreathingMiniApp';
 import { useAvatarSelection } from '@/hooks/useAvatarSelection';
 
 const GuideCard = React.lazy(() => import('@/components/GuideCard'));
-const MoodCheckinCard = React.lazy(() => import('@/components/MoodCheckinCard'));
+const MoodCheckinCard = React.lazy(
+  () => import('@/components/MoodCheckinCard')
+);
 
 const FeaturesSection = memo(function FeaturesSection() {
   const { selectedAvatarId } = useAvatarSelection();
@@ -27,7 +29,11 @@ const FeaturesSection = memo(function FeaturesSection() {
               stroke="currentColor"
               strokeWidth="1.5"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h10M4 8h13M6 16h11" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 12h10M4 8h13M6 16h11"
+              />
             </svg>
           }
         >

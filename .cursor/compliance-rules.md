@@ -5,23 +5,27 @@
 
 ---
 
-## 1. Allowed Claims & Phrasing  
-- ✅ "Based on cognitive-behavioural principles"  
-- ✅ "Guided self-reflection to spot unhelpful thoughts"  
-- ✅ "Track your mood trends over time"  
+## 1. Allowed Claims & Phrasing
+
+- ✅ "Based on cognitive-behavioural principles"
+- ✅ "Guided self-reflection to spot unhelpful thoughts"
+- ✅ "Track your mood trends over time"
 - ❌ Any form of "diagnose", "treat", "cure", "prevent", "clinically proven"
 
 ---
 
-## 2. UI Requirements  
-1. **Import disclaimer** on every new screen/component:  
+## 2. UI Requirements
+
+1. **Import disclaimer** on every new screen/component:
    ```tsx
-   import { DisclaimerBanner } from '@/components/DisclaimerBanner'
+   import { DisclaimerBanner } from '@/components/DisclaimerBanner';
    // …in your JSX: <DisclaimerBanner/>
    ```
 
 ## 3. Component Header Directive
+
 Component header directive (top of file):
+
 ```tsx
 // @cursor-directive: MindGleamCompliance
 // 1. No new therapeutic claims without compliance-review.
@@ -32,9 +36,11 @@ Component header directive (top of file):
 ## 4. Data-Handling Guardrails
 
 All health/mood inputs must use:
+
 ```tsx
-collectSensitiveData<MyType>(/* … */)
+collectSensitiveData<MyType>(/* … */);
 ```
+
 - Mood-log consent checkbox REQUIRED before recording.
 - Persist data in encrypted form (AES-256 at rest, TLS 1.3 in transit).
 

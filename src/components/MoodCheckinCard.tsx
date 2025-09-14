@@ -19,7 +19,7 @@ const moodEmojis = [
   { emoji: '🤗', label: 'Grateful' },
   { emoji: '😌', label: 'Peaceful' },
   { emoji: '💪', label: 'Motivated' },
-  { emoji: '🎉', label: 'Celebrating' }
+  { emoji: '🎉', label: 'Celebrating' },
 ];
 
 interface MoodReport {
@@ -46,7 +46,9 @@ export default function MoodCheckinCard() {
   const [countdown, setCountdown] = useState(0);
   const [generatingPeriodReport, setGeneratingPeriodReport] = useState(false);
   const [periodReportType, setPeriodReportType] = useState<string | null>(null);
-  const [lastSubmissionTime, setLastSubmissionTime] = useState<Date | null>(null);
+  const [lastSubmissionTime, setLastSubmissionTime] = useState<Date | null>(
+    null
+  );
   const [moodCheckins, setMoodCheckins] = useState<number | null>(null);
   const [isClient, setIsClient] = useState(false);
   const [demoUsed, setDemoUsed] = useState(false);
@@ -57,7 +59,7 @@ export default function MoodCheckinCard() {
   // Ensure we're on the client side to prevent hydration mismatches
   useEffect(() => {
     setIsClient(true);
-    
+
     // Check demo usage from localStorage (only on client)
     if (typeof window !== 'undefined') {
       const demoData = localStorage.getItem('mindgleam_demo_mood');
@@ -79,7 +81,7 @@ export default function MoodCheckinCard() {
           method: 'GET',
           headers: { 'Cache-Control': 'no-cache' },
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setMoodCheckins(data.moodCheckins || 0);
@@ -137,7 +139,10 @@ export default function MoodCheckinCard() {
 
         if (latestReport) {
           const submissionTime = new Date(latestReport.created_at);
-          const timeLeft = Math.max(0, 18000 - (Date.now() - submissionTime.getTime()) / 1000);
+          const timeLeft = Math.max(
+            0,
+            18000 - (Date.now() - submissionTime.getTime()) / 1000
+          );
 
           if (timeLeft > 0) {
             setMoodReport({
@@ -148,7 +153,7 @@ export default function MoodCheckinCard() {
               date: new Date(latestReport.created_at).toLocaleDateString(),
               mood_emoji: latestReport.mood_emoji,
               mood_rating: latestReport.mood_rating,
-              mood_note: latestReport.mood_note
+              mood_note: latestReport.mood_note,
             });
             setSubmitted(true);
             setCountdown(Math.floor(timeLeft));
@@ -188,40 +193,57 @@ export default function MoodCheckinCard() {
     }
   }, [submitted, countdown]);
 
-  const generateMoodReport = async (mood: string, rating: number, note: string) => {
+  const generateMoodReport = async (
+    mood: string,
+    rating: number,
+    note: string
+  ) => {
     console.log('[Vercel Frontend] Setting generatingReport to TRUE');
     setGeneratingReport(true);
-    console.log('[Vercel Frontend] Starting mood report generation...', { mood, rating, note });
-    
+    console.log('[Vercel Frontend] Starting mood report generation...', {
+      mood,
+      rating,
+      note,
+    });
+
     try {
-      console.log('[Vercel Frontend] Making API request to /api/mood-report...');
-      
+      console.log(
+        '[Vercel Frontend] Making API request to /api/mood-report...'
+      );
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
         console.log('[Vercel Frontend] Request timeout - aborting');
         controller.abort();
       }, 20000); // 20 second timeout
-      
+
       const fetchPromise = fetch('/api/mood-report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           mood_emoji: mood,
           mood_rating: rating,
-          mood_note: note
+          mood_note: note,
         }),
-        signal: controller.signal
+        signal: controller.signal,
       });
 
       console.log('[Vercel Frontend] Waiting for response...');
       const response = await fetchPromise;
-      
+
       clearTimeout(timeoutId);
-      console.log('[Vercel Frontend] API response received:', response.status, response.statusText);
-      console.log('[Vercel Frontend] Response headers:', Object.fromEntries(response.headers.entries()));
+      console.log(
+        '[Vercel Frontend] API response received:',
+        response.status,
+        response.statusText
+      );
+      console.log(
+        '[Vercel Frontend] Response headers:',
+        Object.fromEntries(response.headers.entries())
+      );
       console.log('[Vercel Frontend] Response OK:', response.ok);
 
       if (!response.ok) {
@@ -242,14 +264,17 @@ export default function MoodCheckinCard() {
 
       console.log('[Vercel Frontend] About to read response text...');
       const responseText = await response.text();
-      console.log('[Vercel Frontend] Raw response text received, length:', responseText.length);
+      console.log(
+        '[Vercel Frontend] Raw response text received, length:',
+        responseText.length
+      );
       console.log('[Vercel Frontend] Raw response text:', responseText);
-      
+
       if (!responseText || responseText.trim() === '') {
         console.error('[Vercel Frontend] Empty response received');
         throw new Error('Empty response from API');
       }
-      
+
       let report;
       console.log('[Vercel Frontend] Attempting to parse JSON...');
       try {
@@ -261,85 +286,107 @@ export default function MoodCheckinCard() {
         console.error('[Vercel Frontend] Failed to parse:', responseText);
         throw new Error('Invalid JSON response from API');
       }
-      
+
       // Ensure we have valid report data
       if (!report || typeof report !== 'object') {
-        console.error('[Vercel Frontend] Invalid report data received:', report);
+        console.error(
+          '[Vercel Frontend] Invalid report data received:',
+          report
+        );
         throw new Error('Invalid report data received from API');
       }
-      
+
       console.log('[Vercel Frontend] Validating report fields...');
       console.log('[Vercel Frontend] Report insight:', report.insight);
-      console.log('[Vercel Frontend] Report cbtTechnique:', report.cbtTechnique);
+      console.log(
+        '[Vercel Frontend] Report cbtTechnique:',
+        report.cbtTechnique
+      );
       console.log('[Vercel Frontend] Report affirmation:', report.affirmation);
       console.log('[Vercel Frontend] Report actionStep:', report.actionStep);
-      
+
       const finalReport = {
-        insight: report.insight || "Thank you for checking in with your mood today.",
-        cbtTechnique: report.cbtTechnique || "Practice deep breathing exercises.",
-        affirmation: report.affirmation || "You are taking positive steps for your wellbeing.",
-        actionStep: report.actionStep || "Take a moment to practice self-compassion.",
+        insight:
+          report.insight || 'Thank you for checking in with your mood today.',
+        cbtTechnique:
+          report.cbtTechnique || 'Practice deep breathing exercises.',
+        affirmation:
+          report.affirmation ||
+          'You are taking positive steps for your wellbeing.',
+        actionStep:
+          report.actionStep || 'Take a moment to practice self-compassion.',
         date: new Date().toLocaleDateString(),
         mood_emoji: mood,
         mood_rating: rating,
-        mood_note: note
+        mood_note: note,
       };
 
       console.log('[Vercel Frontend] Final report prepared:', finalReport);
       console.log('[Vercel Frontend] About to set mood report state...');
-      
+
       // Force React to update by using functional state update
-      setMoodReport(prevReport => {
+      setMoodReport((prevReport) => {
         console.log('[Vercel Frontend] Previous report:', prevReport);
         console.log('[Vercel Frontend] Setting new report:', finalReport);
         return finalReport;
       });
-      
-      console.log('[Vercel Frontend] Mood report state set - checking if it worked...');
-      
+
+      console.log(
+        '[Vercel Frontend] Mood report state set - checking if it worked...'
+      );
+
       // Double-check the state was set
       setTimeout(() => {
         console.log('[Vercel Frontend] Checking state after timeout...');
-        console.log('[Vercel Frontend] generatingReport should be false, moodReport should exist');
+        console.log(
+          '[Vercel Frontend] generatingReport should be false, moodReport should exist'
+        );
       }, 100);
-      
-             // Ensure generating state is cleared IMMEDIATELY
-       console.log('[Vercel Frontend] Clearing generating state NOW...');
-       setGeneratingReport(false);
-       
-       // UI should auto-update when moodReport state changes
-       console.log('[Vercel Frontend] Mood report generated successfully');
-      
+
+      // Ensure generating state is cleared IMMEDIATELY
+      console.log('[Vercel Frontend] Clearing generating state NOW...');
+      setGeneratingReport(false);
+
+      // UI should auto-update when moodReport state changes
+      console.log('[Vercel Frontend] Mood report generated successfully');
     } catch (error) {
       console.error('[Vercel Frontend] Error in generateMoodReport:', error);
-      
+
       // Always provide a fallback report
       const fallbackReport = {
-        insight: "Thank you for checking in with your mood today. Self-awareness is a key component of emotional wellness.",
-        cbtTechnique: "Try the 5-4-3-2-1 grounding technique: notice 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste.",
-        affirmation: "I am taking positive steps toward understanding and caring for my emotional well-being.",
-        actionStep: "Take a few minutes to practice deep breathing and reflect on one positive moment from today.",
+        insight:
+          'Thank you for checking in with your mood today. Self-awareness is a key component of emotional wellness.',
+        cbtTechnique:
+          'Try the 5-4-3-2-1 grounding technique: notice 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste.',
+        affirmation:
+          'I am taking positive steps toward understanding and caring for my emotional well-being.',
+        actionStep:
+          'Take a few minutes to practice deep breathing and reflect on one positive moment from today.',
         date: new Date().toLocaleDateString(),
         mood_emoji: mood,
         mood_rating: rating,
-        mood_note: note
+        mood_note: note,
       };
 
       console.log('[Vercel Frontend] Using fallback report:', fallbackReport);
       setMoodReport(fallbackReport);
       setGeneratingReport(false);
     } finally {
-      console.log('[Vercel Frontend] FINALLY block - Ensuring generatingReport is FALSE');
-      
+      console.log(
+        '[Vercel Frontend] FINALLY block - Ensuring generatingReport is FALSE'
+      );
+
       // Force multiple state updates to ensure it takes effect
       setGeneratingReport(false);
-      
+
       // Use setTimeout to ensure the state update happens after any other React batching
       setTimeout(() => {
-        console.log('[Vercel Frontend] Timeout - Double-checking generatingReport state');
+        console.log(
+          '[Vercel Frontend] Timeout - Double-checking generatingReport state'
+        );
         setGeneratingReport(false);
       }, 100);
-      
+
       console.log('[Vercel Frontend] Final cleanup complete');
     }
   };
@@ -353,7 +400,7 @@ export default function MoodCheckinCard() {
         },
         body: JSON.stringify({
           type: 'daily',
-          data: reportData
+          data: reportData,
         }),
       });
 
@@ -380,15 +427,18 @@ export default function MoodCheckinCard() {
       console.log('[Frontend] No user found for period report generation');
       return;
     }
-    
-    console.log(`[Frontend] Starting ${type} period report generation for user:`, user.id);
+
+    console.log(
+      `[Frontend] Starting ${type} period report generation for user:`,
+      user.id
+    );
     setGeneratingPeriodReport(true);
     setPeriodReportType(type);
-    
+
     try {
       let startDate: Date;
-      let endDate = new Date();
-      
+      const endDate = new Date();
+
       // Calculate date range based on type
       switch (type) {
         case 'week':
@@ -408,9 +458,9 @@ export default function MoodCheckinCard() {
       console.log('[Frontend] Query params:', {
         user_id: user.id,
         start_date: startDate.toISOString(),
-        end_date: endDate.toISOString()
+        end_date: endDate.toISOString(),
       });
-      
+
       const { data: moodData, error } = await supabase
         .from('mood_logs')
         .select('*')
@@ -419,7 +469,10 @@ export default function MoodCheckinCard() {
         .lte('created_at', endDate.toISOString())
         .order('created_at', { ascending: false });
 
-      console.log('[Frontend] Supabase query result:', { data: moodData, error });
+      console.log('[Frontend] Supabase query result:', {
+        data: moodData,
+        error,
+      });
 
       if (error) {
         console.error('[Frontend] Supabase error:', error);
@@ -432,16 +485,27 @@ export default function MoodCheckinCard() {
         console.log('1. No mood check-ins completed in this period');
         console.log('2. Date range issue');
         console.log('3. User ID mismatch');
-        alert(`No mood data found for the selected ${type} period. Try completing some daily mood check-ins first!`);
+        alert(
+          `No mood data found for the selected ${type} period. Try completing some daily mood check-ins first!`
+        );
         return; // This will trigger the finally block to clean up state
       }
 
-      console.log(`[Frontend] Found ${moodData.length} mood entries for ${type} period`);
+      console.log(
+        `[Frontend] Found ${moodData.length} mood entries for ${type} period`
+      );
 
       // Generate period report
-      console.log(`[Frontend] Generating ${type} period report with ${moodData.length} entries`);
-      console.log('[Frontend] Date range:', startDate.toISOString(), 'to', endDate.toISOString());
-      
+      console.log(
+        `[Frontend] Generating ${type} period report with ${moodData.length} entries`
+      );
+      console.log(
+        '[Frontend] Date range:',
+        startDate.toISOString(),
+        'to',
+        endDate.toISOString()
+      );
+
       const response = await fetch('/api/mood-report', {
         method: 'POST',
         headers: {
@@ -452,11 +516,15 @@ export default function MoodCheckinCard() {
           period: type,
           mood_data: moodData,
           start_date: startDate.toISOString(),
-          end_date: endDate.toISOString()
+          end_date: endDate.toISOString(),
         }),
       });
 
-      console.log('[Frontend] Period report API response:', response.status, response.statusText);
+      console.log(
+        '[Frontend] Period report API response:',
+        response.status,
+        response.statusText
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -466,7 +534,7 @@ export default function MoodCheckinCard() {
 
       const report = await response.json();
       console.log('[Frontend] Period report received:', report);
-      
+
       // Download the period report as PDF
       console.log('[Frontend] Starting PDF generation...');
       const pdfPayload = {
@@ -477,72 +545,88 @@ export default function MoodCheckinCard() {
           mood_data: moodData,
           start_date: startDate.toLocaleDateString(),
           end_date: endDate.toLocaleDateString(),
-          total_entries: moodData.length
-        }
+          total_entries: moodData.length,
+        },
       };
       console.log('[Frontend] PDF payload:', pdfPayload);
-      
+
       // Add timeout to PDF generation
       const pdfController = new AbortController();
       const pdfTimeoutId = setTimeout(() => {
         console.error('[Frontend] PDF generation timeout');
         pdfController.abort();
       }, 15000); // 15 second timeout
-      
+
       const pdfResponse = await fetch('/api/generate-pdf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(pdfPayload),
-        signal: pdfController.signal
+        signal: pdfController.signal,
       });
-      
+
       clearTimeout(pdfTimeoutId);
 
-      console.log('[Frontend] PDF API response:', pdfResponse.status, pdfResponse.statusText);
-      console.log('[Frontend] PDF response headers:', Object.fromEntries(pdfResponse.headers.entries()));
+      console.log(
+        '[Frontend] PDF API response:',
+        pdfResponse.status,
+        pdfResponse.statusText
+      );
+      console.log(
+        '[Frontend] PDF response headers:',
+        Object.fromEntries(pdfResponse.headers.entries())
+      );
 
       if (!pdfResponse.ok) {
         const errorText = await pdfResponse.text();
         console.error('[Frontend] PDF generation error:', errorText);
         alert(`PDF generation failed: ${pdfResponse.status} - ${errorText}`);
-        throw new Error(`Failed to generate period PDF: ${pdfResponse.status} - ${errorText}`);
+        throw new Error(
+          `Failed to generate period PDF: ${pdfResponse.status} - ${errorText}`
+        );
       }
 
-      console.log('[Frontend] PDF generated successfully, creating download...');
-      
+      console.log(
+        '[Frontend] PDF generated successfully, creating download...'
+      );
+
       try {
         const blob = await pdfResponse.blob();
-        console.log('[Frontend] PDF blob received, size:', blob.size, 'type:', blob.type);
-        
+        console.log(
+          '[Frontend] PDF blob received, size:',
+          blob.size,
+          'type:',
+          blob.type
+        );
+
         if (blob.size === 0) {
           throw new Error('PDF blob is empty - generation may have failed');
         }
-        
+
         // Create filename
         const filename = `mood-${type}-report-${startDate.toLocaleDateString().replace(/\//g, '-')}-to-${endDate.toLocaleDateString().replace(/\//g, '-')}.pdf`;
         console.log('[Frontend] Creating download with filename:', filename);
-        
+
         // Method 1: Try standard download
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = filename;
         a.style.display = 'none';
-        
+
         document.body.appendChild(a);
         console.log('[Frontend] Attempting download click...');
-        
+
         // Force click with multiple methods
         a.click();
-        
-                 // Alternative method if click fails
-         setTimeout(() => {
-           if (window.navigator && (window.navigator as any).msSaveOrOpenBlob) {
-             // IE/Edge
-             (window.navigator as any).msSaveOrOpenBlob(blob, filename);
-           } else {
+
+        // Alternative method if click fails
+        setTimeout(() => {
+          if (window.navigator && (window.navigator as any).msSaveOrOpenBlob) {
+            // IE/Edge
+            (window.navigator as any).msSaveOrOpenBlob(blob, filename);
+          } else {
             // Try opening in new tab as fallback
             const newWindow = window.open(url, '_blank');
             if (!newWindow) {
@@ -555,7 +639,7 @@ export default function MoodCheckinCard() {
             }
           }
         }, 100);
-        
+
         // Cleanup
         setTimeout(() => {
           window.URL.revokeObjectURL(url);
@@ -563,23 +647,27 @@ export default function MoodCheckinCard() {
             document.body.removeChild(a);
           }
         }, 2000);
-        
-        console.log('[Frontend] Period report download initiated successfully!');
-        alert(`${type.charAt(0).toUpperCase() + type.slice(1)} mood report download started! Check your downloads folder.`);
-        
+
+        console.log(
+          '[Frontend] Period report download initiated successfully!'
+        );
+        alert(
+          `${type.charAt(0).toUpperCase() + type.slice(1)} mood report download started! Check your downloads folder.`
+        );
       } catch (blobError) {
         console.error('[Frontend] Error processing PDF blob:', blobError);
         alert('Error processing PDF. Please try again.');
         throw blobError;
       }
-
     } catch (error) {
       console.error('[Frontend] Error generating period report:', error);
       console.error('[Frontend] Error details:', {
         message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : 'No stack trace'
+        stack: error instanceof Error ? error.stack : 'No stack trace',
       });
-      alert(`Failed to generate period report: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      alert(
+        `Failed to generate period report: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       console.log('[Frontend] Cleaning up period report state...');
       setGeneratingPeriodReport(false);
@@ -594,7 +682,7 @@ export default function MoodCheckinCard() {
 
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
       // First, deduct a mood check-in
       const balanceResponse = await fetch('/api/balance', {
@@ -603,14 +691,16 @@ export default function MoodCheckinCard() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          action: 'deduct_mood_checkin'
+          action: 'deduct_mood_checkin',
         }),
       });
 
       if (!balanceResponse.ok) {
         const errorData = await balanceResponse.json();
         if (balanceResponse.status === 402) {
-          throw new Error('You have no mood check-ins remaining. Please purchase more credits.');
+          throw new Error(
+            'You have no mood check-ins remaining. Please purchase more credits.'
+          );
         }
         throw new Error(errorData.error || 'Failed to process mood check-in');
       }
@@ -618,20 +708,19 @@ export default function MoodCheckinCard() {
       const balanceData = await balanceResponse.json();
       setMoodCheckins(balanceData.moodCheckins);
 
-      console.log('Submitting mood log:', { 
-        user_id: user.id, 
-        mood_emoji: selectedEmoji, 
+      console.log('Submitting mood log:', {
+        user_id: user.id,
+        mood_emoji: selectedEmoji,
         mood_rating: moodRating,
-        mood_note: moodNote
+        mood_note: moodNote,
       });
 
       setSubmitted(true);
       setCountdown(18000); // Set to 5 hours
       setLastSubmissionTime(new Date());
-      
+
       // Generate mood report (this will also insert the mood log)
       await generateMoodReport(selectedEmoji, moodRating, moodNote);
-      
     } catch (error: any) {
       console.error('Error saving mood log:', error);
       setError(error.message || 'Failed to save mood log');
@@ -660,7 +749,10 @@ export default function MoodCheckinCard() {
           <div className="h-6 bg-blue-200 dark:bg-blue-700 rounded mb-4"></div>
           <div className="grid grid-cols-5 gap-2 mb-6">
             {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="h-12 bg-blue-200 dark:bg-blue-700 rounded-lg"></div>
+              <div
+                key={i}
+                className="h-12 bg-blue-200 dark:bg-blue-700 rounded-lg"
+              ></div>
             ))}
           </div>
           <div className="h-8 bg-blue-200 dark:bg-blue-700 rounded mb-4"></div>
@@ -683,7 +775,10 @@ export default function MoodCheckinCard() {
           <div className="h-6 bg-blue-200 dark:bg-blue-700 rounded w-3/4 mx-auto mb-4"></div>
           <div className="grid grid-cols-5 gap-2 mb-6">
             {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="h-12 bg-blue-200 dark:bg-blue-700 rounded-lg"></div>
+              <div
+                key={i}
+                className="h-12 bg-blue-200 dark:bg-blue-700 rounded-lg"
+              ></div>
             ))}
           </div>
           <div className="h-8 bg-blue-200 dark:bg-blue-700 rounded mb-4"></div>
@@ -702,38 +797,59 @@ export default function MoodCheckinCard() {
   if (!user) {
     const handleDemoSubmit = () => {
       if (demoCount >= 1 || !isClient) return; // Only allow 1 demo use
-      
-      console.log('Demo submit clicked:', { selectedEmoji, moodRating, demoCount, isClient });
-      
+
+      console.log('Demo submit clicked:', {
+        selectedEmoji,
+        moodRating,
+        demoCount,
+        isClient,
+      });
+
       // Generate personalized demo result based on mood
       const getDemoReport = (emoji: string, rating: number) => {
         if (rating >= 8) {
           return {
-            insight: "You're feeling positive today! This is wonderful - recognizing and savoring good moments helps build emotional resilience.",
-            cbtTechnique: "Practice gratitude amplification: Write down 3 specific things you're grateful for and why they matter to you.",
-            affirmation: "I appreciate the good moments in my life and use them to build strength for challenging times.",
-            actionStep: "Share your positive energy with someone you care about or do something kind for yourself."
+            insight:
+              "You're feeling positive today! This is wonderful - recognizing and savoring good moments helps build emotional resilience.",
+            cbtTechnique:
+              "Practice gratitude amplification: Write down 3 specific things you're grateful for and why they matter to you.",
+            affirmation:
+              'I appreciate the good moments in my life and use them to build strength for challenging times.',
+            actionStep:
+              'Share your positive energy with someone you care about or do something kind for yourself.',
           };
         } else if (rating >= 6) {
           return {
-            insight: "You're in a balanced emotional space. This awareness of your emotional state is a key strength in mental wellness.",
-            cbtTechnique: "Try mindful breathing: Take 4 slow breaths, focusing on the sensation of air entering and leaving your body.",
-            affirmation: "I am capable of navigating life's ups and downs with grace and self-compassion.",
-            actionStep: "Take a moment to appreciate something small and beautiful around you right now."
+            insight:
+              "You're in a balanced emotional space. This awareness of your emotional state is a key strength in mental wellness.",
+            cbtTechnique:
+              'Try mindful breathing: Take 4 slow breaths, focusing on the sensation of air entering and leaving your body.',
+            affirmation:
+              "I am capable of navigating life's ups and downs with grace and self-compassion.",
+            actionStep:
+              'Take a moment to appreciate something small and beautiful around you right now.',
           };
         } else if (rating >= 4) {
           return {
-            insight: "You're experiencing some challenging emotions today. Acknowledging this takes courage and is the first step toward feeling better.",
-            cbtTechnique: "Use the STOP technique: Stop what you're doing, Take a breath, Observe your thoughts/feelings, Proceed with intention.",
-            affirmation: "My current feelings are temporary. I have overcome difficult times before and I can do it again.",
-            actionStep: "Practice one small act of self-care today, like drinking a warm beverage or taking a short walk."
+            insight:
+              "You're experiencing some challenging emotions today. Acknowledging this takes courage and is the first step toward feeling better.",
+            cbtTechnique:
+              "Use the STOP technique: Stop what you're doing, Take a breath, Observe your thoughts/feelings, Proceed with intention.",
+            affirmation:
+              'My current feelings are temporary. I have overcome difficult times before and I can do it again.',
+            actionStep:
+              'Practice one small act of self-care today, like drinking a warm beverage or taking a short walk.',
           };
         } else {
           return {
-            insight: "You're going through a difficult time. Remember that reaching out and tracking your mood shows strength and self-awareness.",
-            cbtTechnique: "Try the 5-4-3-2-1 grounding technique: Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste.",
-            affirmation: "I am not alone in this feeling. This difficult moment will pass, and I am stronger than I know.",
-            actionStep: "Be extra gentle with yourself today. Consider reaching out to a trusted friend or professional if you need support."
+            insight:
+              "You're going through a difficult time. Remember that reaching out and tracking your mood shows strength and self-awareness.",
+            cbtTechnique:
+              'Try the 5-4-3-2-1 grounding technique: Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste.',
+            affirmation:
+              'I am not alone in this feeling. This difficult moment will pass, and I am stronger than I know.',
+            actionStep:
+              'Be extra gentle with yourself today. Consider reaching out to a trusted friend or professional if you need support.',
           };
         }
       };
@@ -743,17 +859,20 @@ export default function MoodCheckinCard() {
       console.log('Setting demo report:', report);
       setMoodReport(report);
       setShowDemoReport(true); // Show the demo report
-      
+
       // After showing the report, mark demo as used after a longer delay
       setTimeout(() => {
         console.log('Demo timeout reached, hiding report');
         setShowDemoReport(false); // Hide the demo report
         const newCount = demoCount + 1;
         if (typeof window !== 'undefined') {
-          localStorage.setItem('mindgleam_demo_mood', JSON.stringify({
-            count: newCount,
-            lastUsed: new Date().toISOString()
-          }));
+          localStorage.setItem(
+            'mindgleam_demo_mood',
+            JSON.stringify({
+              count: newCount,
+              lastUsed: new Date().toISOString(),
+            })
+          );
         }
         setDemoCount(newCount);
         setDemoUsed(newCount >= 1);
@@ -776,29 +895,46 @@ export default function MoodCheckinCard() {
 
           <div className="space-y-4">
             <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-700">
-              <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">💡 Insight</h4>
-              <p className="text-blue-800 dark:text-blue-200 text-sm">{moodReport.insight}</p>
+              <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
+                💡 Insight
+              </h4>
+              <p className="text-blue-800 dark:text-blue-200 text-sm">
+                {moodReport.insight}
+              </p>
             </div>
 
             <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-700">
-              <h4 className="font-semibold text-green-900 dark:text-green-100 mb-2">🧠 CBT Technique</h4>
-              <p className="text-green-800 dark:text-green-200 text-sm">{moodReport.cbtTechnique}</p>
+              <h4 className="font-semibold text-green-900 dark:text-green-100 mb-2">
+                🧠 CBT Technique
+              </h4>
+              <p className="text-green-800 dark:text-green-200 text-sm">
+                {moodReport.cbtTechnique}
+              </p>
             </div>
 
             <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-700">
-              <h4 className="font-semibold text-purple-900 dark:text-purple-100 mb-2">💜 Affirmation</h4>
-              <p className="text-purple-800 dark:text-purple-200 text-sm italic">"{moodReport.affirmation}"</p>
+              <h4 className="font-semibold text-purple-900 dark:text-purple-100 mb-2">
+                💜 Affirmation
+              </h4>
+              <p className="text-purple-800 dark:text-purple-200 text-sm italic">
+                "{moodReport.affirmation}"
+              </p>
             </div>
 
             <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-700">
-              <h4 className="font-semibold text-orange-900 dark:text-orange-100 mb-2">🎯 Action Step</h4>
-              <p className="text-orange-800 dark:text-orange-200 text-sm">{moodReport.actionStep}</p>
+              <h4 className="font-semibold text-orange-900 dark:text-orange-100 mb-2">
+                🎯 Action Step
+              </h4>
+              <p className="text-orange-800 dark:text-orange-200 text-sm">
+                {moodReport.actionStep}
+              </p>
             </div>
           </div>
 
           <div className="mt-6 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg border border-emerald-200 dark:border-emerald-700">
             <p className="text-emerald-800 dark:text-emerald-200 text-sm text-center mb-3">
-              🎉 Love your personalized insights? Get unlimited mood tracking with your free account!
+              🎉 Love your personalized insights? Get unlimited mood tracking
+              with your free account!
             </p>
             <button
               onClick={signInWithGoogle}
@@ -820,11 +956,14 @@ export default function MoodCheckinCard() {
               You've tried the demo mood check-in!
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
-              Ready to unlock your full mental wellness journey with personalized insights and unlimited tracking?
+              Ready to unlock your full mental wellness journey with
+              personalized insights and unlimited tracking?
             </p>
             <div className="space-y-3">
               <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-lg border border-emerald-200 dark:border-emerald-700">
-                <h4 className="font-medium text-emerald-900 dark:text-emerald-100 mb-2">With your free account:</h4>
+                <h4 className="font-medium text-emerald-900 dark:text-emerald-100 mb-2">
+                  With your free account:
+                </h4>
                 <ul className="text-sm text-emerald-800 dark:text-emerald-200 space-y-1">
                   <li>• 10 mood check-ins and reports</li>
                   <li>• 20 chat messages</li>
@@ -853,13 +992,16 @@ export default function MoodCheckinCard() {
             Try Mood Check-in (Demo)
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Experience personalized mood insights • {demoCount === 0 ? '1 demo remaining' : 'Demo used'}
+            Experience personalized mood insights •{' '}
+            {demoCount === 0 ? '1 demo remaining' : 'Demo used'}
           </p>
         </div>
 
         <div className="space-y-4">
           <div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">How are you feeling today?</h4>
+            <h4 className="font-medium text-gray-900 dark:text-white mb-3">
+              How are you feeling today?
+            </h4>
             <div className="grid grid-cols-5 gap-2">
               {moodEmojis.map((mood) => (
                 <button
@@ -879,7 +1021,9 @@ export default function MoodCheckinCard() {
           </div>
 
           <div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Rate your mood (1-10)</h4>
+            <h4 className="font-medium text-gray-900 dark:text-white mb-3">
+              Rate your mood (1-10)
+            </h4>
             <div className="flex justify-center">
               <input
                 type="range"
@@ -892,13 +1036,17 @@ export default function MoodCheckinCard() {
             </div>
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-2">
               <span>1</span>
-              <span className="font-medium text-blue-600 dark:text-blue-400">{moodRating}</span>
+              <span className="font-medium text-blue-600 dark:text-blue-400">
+                {moodRating}
+              </span>
               <span>10</span>
             </div>
           </div>
 
           <div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Any thoughts? (optional)</h4>
+            <h4 className="font-medium text-gray-900 dark:text-white mb-3">
+              Any thoughts? (optional)
+            </h4>
             <textarea
               value={moodNote}
               onChange={(e) => setMoodNote(e.target.value)}
@@ -930,11 +1078,14 @@ export default function MoodCheckinCard() {
             Mood Check-ins Used Up
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
-            You've used all your free mood check-ins. Upgrade to continue tracking your wellness!
+            You've used all your free mood check-ins. Upgrade to continue
+            tracking your wellness!
           </p>
           <div className="space-y-3">
             <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-lg border border-orange-200 dark:border-orange-700">
-              <h4 className="font-medium text-orange-900 dark:text-orange-100 mb-2">Premium Package:</h4>
+              <h4 className="font-medium text-orange-900 dark:text-orange-100 mb-2">
+                Premium Package:
+              </h4>
               <ul className="text-sm text-orange-800 dark:text-orange-200 space-y-1">
                 <li>• 60 additional mood check-ins</li>
                 <li>• 200 additional chat messages</li>
@@ -968,8 +1119,12 @@ export default function MoodCheckinCard() {
             </p>
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">Auto-close in</div>
-            <div className="text-2xl font-bold text-emerald-600">{formatTime(countdown)}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              Auto-close in
+            </div>
+            <div className="text-2xl font-bold text-emerald-600">
+              {formatTime(countdown)}
+            </div>
           </div>
         </div>
 
@@ -1000,7 +1155,13 @@ export default function MoodCheckinCard() {
         {!generatingReport && (
           <div className="flex gap-2 justify-center mb-4">
             <button
-              onClick={() => moodReport ? downloadReportAsPDF(moodReport) : alert('Report is still being generated. Please wait a moment.')}
+              onClick={() =>
+                moodReport
+                  ? downloadReportAsPDF(moodReport)
+                  : alert(
+                      'Report is still being generated. Please wait a moment.'
+                    )
+              }
               className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors flex items-center gap-2"
             >
               📄 Download Today's Report
@@ -1016,7 +1177,6 @@ export default function MoodCheckinCard() {
 
         {moodReport && (
           <div className="mt-4 space-y-4">
-
             <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border-l-4 border-emerald-500">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                 <span>🧠</span> Your Mood Insight
@@ -1062,7 +1222,8 @@ export default function MoodCheckinCard() {
                     Want more personalized insights?
                   </h4>
                   <p className="text-emerald-800 dark:text-emerald-200 text-sm mb-3">
-                    Sign in to get unlimited mood check-ins, advanced reports, and track your progress over time.
+                    Sign in to get unlimited mood check-ins, advanced reports,
+                    and track your progress over time.
                   </p>
                   <button
                     onClick={signInWithGoogle}
@@ -1089,16 +1250,20 @@ export default function MoodCheckinCard() {
 
         {/* Period Report Options Modal */}
         {showReportOptions && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          <div
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
             onClick={() => setShowReportOptions(false)}
           >
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full border-2 border-blue-500"
+            <div
+              className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full border-2 border-blue-500"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Download Period Reports</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Download Period Reports
+              </h3>
               <div className="space-y-3">
                 {/* Debug: Test PDF download directly */}
-                <button 
+                <button
                   onClick={async () => {
                     console.log('[DEBUG] Testing direct PDF download...');
                     try {
@@ -1115,9 +1280,9 @@ export default function MoodCheckinCard() {
                             insight: 'Test insight',
                             cbtTechnique: 'Test technique',
                             affirmation: 'Test affirmation',
-                            actionStep: 'Test action'
-                          }
-                        })
+                            actionStep: 'Test action',
+                          },
+                        }),
                       });
                       console.log('[DEBUG] PDF response:', response.status);
                       if (response.ok) {
@@ -1144,39 +1309,41 @@ export default function MoodCheckinCard() {
                   }}
                   className="w-full p-2 bg-red-50 hover:bg-red-100 rounded-lg text-left transition-colors border border-red-200 text-xs"
                 >
-                                     🧪 TEST PDF DOWNLOAD (Debug)
-                 </button>
-                 
-                 {/* Debug: Check mood data */}
-                 <button 
-                   onClick={async () => {
-                     console.log('[DEBUG] Checking user mood data...');
-                     try {
-                       const { data: allMoodData, error } = await supabase
-                         .from('mood_logs')
-                         .select('*')
-                         .eq('user_id', user?.id)
-                         .order('created_at', { ascending: false });
-                       
-                       console.log('[DEBUG] All mood data:', allMoodData);
-                       console.log('[DEBUG] Error:', error);
-                       
-                       if (error) {
-                         alert('Error checking mood data: ' + error.message);
-                       } else {
-                         alert(`Found ${allMoodData?.length || 0} total mood entries for this user`);
-                       }
-                     } catch (error) {
-                       console.error('[DEBUG] Error:', error);
-                       alert('Error: ' + error);
-                     }
-                   }}
-                   className="w-full p-2 bg-yellow-50 hover:bg-yellow-100 rounded-lg text-left transition-colors border border-yellow-200 text-xs"
-                 >
-                   📊 CHECK MOOD DATA (Debug)
-                 </button>
-                 
-                 <button 
+                  🧪 TEST PDF DOWNLOAD (Debug)
+                </button>
+
+                {/* Debug: Check mood data */}
+                <button
+                  onClick={async () => {
+                    console.log('[DEBUG] Checking user mood data...');
+                    try {
+                      const { data: allMoodData, error } = await supabase
+                        .from('mood_logs')
+                        .select('*')
+                        .eq('user_id', user?.id)
+                        .order('created_at', { ascending: false });
+
+                      console.log('[DEBUG] All mood data:', allMoodData);
+                      console.log('[DEBUG] Error:', error);
+
+                      if (error) {
+                        alert('Error checking mood data: ' + error.message);
+                      } else {
+                        alert(
+                          `Found ${allMoodData?.length || 0} total mood entries for this user`
+                        );
+                      }
+                    } catch (error) {
+                      console.error('[DEBUG] Error:', error);
+                      alert('Error: ' + error);
+                    }
+                  }}
+                  className="w-full p-2 bg-yellow-50 hover:bg-yellow-100 rounded-lg text-left transition-colors border border-yellow-200 text-xs"
+                >
+                  📊 CHECK MOOD DATA (Debug)
+                </button>
+
+                <button
                   onClick={() => generatePeriodReport('week')}
                   disabled={generatingPeriodReport}
                   className="w-full p-3 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg text-left transition-colors disabled:opacity-50 border border-blue-200 dark:border-blue-700"
@@ -1187,9 +1354,11 @@ export default function MoodCheckinCard() {
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
                     )}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Last 7 days of mood data</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    Last 7 days of mood data
+                  </div>
                 </button>
-                <button 
+                <button
                   onClick={() => generatePeriodReport('month')}
                   disabled={generatingPeriodReport}
                   className="w-full p-3 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg text-left transition-colors disabled:opacity-50 border border-blue-200 dark:border-blue-700"
@@ -1200,11 +1369,17 @@ export default function MoodCheckinCard() {
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
                     )}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Last 30 days of mood data</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    Last 30 days of mood data
+                  </div>
                 </button>
                 <button className="w-full p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-left opacity-50 cursor-not-allowed border border-gray-200 dark:border-gray-600">
-                  <div className="font-medium text-gray-900 dark:text-white">🗓️ Custom Range</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Coming soon...</div>
+                  <div className="font-medium text-gray-900 dark:text-white">
+                    🗓️ Custom Range
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    Coming soon...
+                  </div>
                 </button>
               </div>
               <div className="mt-4 flex gap-2">
@@ -1213,7 +1388,9 @@ export default function MoodCheckinCard() {
                     setGeneratingPeriodReport(false);
                     setPeriodReportType(null);
                     setShowReportOptions(false);
-                    console.log('[DEBUG] Force cleared all period report states');
+                    console.log(
+                      '[DEBUG] Force cleared all period report states'
+                    );
                   }}
                   className="flex-1 py-2 bg-red-200 dark:bg-red-600 hover:bg-red-300 dark:hover:bg-red-500 rounded-lg text-red-800 dark:text-red-200 transition-colors text-sm"
                 >
@@ -1243,25 +1420,30 @@ export default function MoodCheckinCard() {
               How are you feeling today?
             </h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Your daily wellness check-in helps track your mental and physical wellbeing
+              Your daily wellness check-in helps track your mental and physical
+              wellbeing
             </p>
-            
+
             {/* Tips for better AI interaction */}
             <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
               <div className="text-xs text-blue-800 dark:text-blue-200">
-                <div className="font-medium mb-1">💡 Tips for better wellness insights:</div>
+                <div className="font-medium mb-1">
+                  💡 Tips for better wellness insights:
+                </div>
                 <div className="text-left space-y-1">
-                  • Share what influenced your mood (work, relationships, events, physical activities)
+                  • Share what influenced your mood (work, relationships,
+                  events, physical activities)
                   <br />
-                  • Mention specific emotions AND physical sensations (anxious, excited, tired, energized)
+                  • Mention specific emotions AND physical sensations (anxious,
+                  excited, tired, energized)
                   <br />
                   • Include context about sleep, exercise, nutrition, or health
-                  <br />
-                  • Be honest about both mental and physical challenges or wins
+                  <br />• Be honest about both mental and physical challenges or
+                  wins
                 </div>
               </div>
             </div>
-            
+
             {moodCheckins !== null && (
               <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-full border border-blue-200 dark:border-blue-700">
                 <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
@@ -1306,7 +1488,9 @@ export default function MoodCheckinCard() {
               Rate your mood (1-10):
             </label>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500 dark:text-gray-400">1</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                1
+              </span>
               <input
                 type="range"
                 min="1"
@@ -1315,7 +1499,9 @@ export default function MoodCheckinCard() {
                 onChange={(e) => setMoodRating(Number(e.target.value))}
                 className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
               />
-              <span className="text-sm text-gray-500 dark:text-gray-400">10</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                10
+              </span>
               <span className="ml-2 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium">
                 {moodRating}
               </span>
@@ -1339,7 +1525,8 @@ export default function MoodCheckinCard() {
               className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm"
             />
             <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-              💭 The more context you share, the more personalized your AI insights will be
+              💭 The more context you share, the more personalized your AI
+              insights will be
             </div>
           </div>
 
@@ -1366,4 +1553,4 @@ export default function MoodCheckinCard() {
       </div>
     </MoodTrackingErrorBoundary>
   );
-} 
+}

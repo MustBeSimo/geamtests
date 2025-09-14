@@ -75,6 +75,7 @@ export function useUrlParams() {
       }, 5000);
       return () => clearTimeout(timer);
     }
+    return () => {}; // Empty cleanup for when successMessage is null
   }, [successMessage]);
 
   return {

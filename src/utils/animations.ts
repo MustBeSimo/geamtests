@@ -6,9 +6,9 @@ export const fadeInUpVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6
-    }
-  }
+      duration: 0.6,
+    },
+  },
 };
 
 export const containerVariants: Variants = {
@@ -16,9 +16,9 @@ export const containerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2
-    }
-  }
+      staggerChildren: 0.2,
+    },
+  },
 };
 
 export const itemVariants: Variants = {
@@ -27,13 +27,13 @@ export const itemVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6
-    }
-  }
+      duration: 0.6,
+    },
+  },
 };
 
 export const hoverScaleVariants: Variants = {
   initial: { scale: 1 },
   hover: { scale: 1.05 },
-  tap: { scale: 0.95 }
-}; 
+  tap: { scale: 0.95 },
+};

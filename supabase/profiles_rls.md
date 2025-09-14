@@ -36,4 +36,4 @@ WITH CHECK (auth.uid() = id OR auth.role() = 'service_role');
 CREATE POLICY "Users can delete own profile"
 ON profiles
 FOR DELETE
-USING (auth.uid() = id OR auth.role() = 'service_role'); 
+USING (auth.uid() = id OR auth.role() = 'service_role');

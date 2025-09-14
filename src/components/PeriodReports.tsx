@@ -8,10 +8,10 @@ interface PeriodReportsProps {
   periodReportType: string | null;
 }
 
-const PeriodReports = memo(function PeriodReports({ 
-  onGenerateReport, 
-  generatingPeriodReport, 
-  periodReportType 
+const PeriodReports = memo(function PeriodReports({
+  onGenerateReport,
+  generatingPeriodReport,
+  periodReportType,
 }: PeriodReportsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,18 +23,25 @@ const PeriodReports = memo(function PeriodReports({
       >
         <div className="font-medium text-gray-900 dark:text-white flex items-center justify-center gap-2">
           📈 Generate Period Reports
-          <span className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}>▼</span>
+          <span
+            className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          >
+            ▼
+          </span>
         </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400">Weekly & monthly mood analysis</div>
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          Weekly & monthly mood analysis
+        </div>
       </button>
 
       {isExpanded && (
         <div className="space-y-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
           <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-            Generate comprehensive reports analyzing your mood patterns and trends over time.
+            Generate comprehensive reports analyzing your mood patterns and
+            trends over time.
           </div>
 
-          <button 
+          <button
             onClick={() => onGenerateReport('week')}
             disabled={generatingPeriodReport}
             className="w-full p-3 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg text-left transition-colors disabled:opacity-50 border border-blue-200 dark:border-blue-700"
@@ -45,10 +52,12 @@ const PeriodReports = memo(function PeriodReports({
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
               )}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Last 7 days of mood data</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Last 7 days of mood data
+            </div>
           </button>
 
-          <button 
+          <button
             onClick={() => onGenerateReport('month')}
             disabled={generatingPeriodReport}
             className="w-full p-3 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg text-left transition-colors disabled:opacity-50 border border-blue-200 dark:border-blue-700"
@@ -59,7 +68,9 @@ const PeriodReports = memo(function PeriodReports({
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
               )}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Last 30 days of mood data</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Last 30 days of mood data
+            </div>
           </button>
 
           {/* Info about what's included */}
@@ -74,8 +85,7 @@ const PeriodReports = memo(function PeriodReports({
                 • Improvement recommendations
                 <br />
                 • Personalized CBT techniques
-                <br />
-                • PDF download for your records
+                <br />• PDF download for your records
               </div>
             </div>
           </div>
@@ -85,4 +95,4 @@ const PeriodReports = memo(function PeriodReports({
   );
 });
 
-export default PeriodReports; 
+export default PeriodReports;

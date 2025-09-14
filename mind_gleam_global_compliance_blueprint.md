@@ -1,19 +1,19 @@
 # Mind Gleam — Global Compliance Blueprint
 
-*Version 0.1  (Last updated: 13 July 2025)*
+_Version 0.1  (Last updated: 13 July 2025)_
 
 > **Goal**  Provide a single, living reference that keeps Mind Gleam well outside formal medical‑device regulation while meeting privacy, consumer‑protection and platform requirements everywhere we ship.\
-> **Use**  Treat this file as *source‑of‑truth*: every new feature or marketing claim must be cross‑checked here **before** release.\
+> **Use**  Treat this file as _source‑of‑truth_: every new feature or marketing claim must be cross‑checked here **before** release.\
 > **Update cadence**  Review quarterly or when a new jurisdiction/feature is added.
 
 ---
 
 ## 1  Scope & Purpose
 
-| 🗂️ Section                       | What it covers                                                                                                                                                          |
+| 🗂️ Section                        | What it covers                                                                                                                                                          |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **2. Feature‑to‑Claim Matrix**    | Inventory of every user‑facing feature and the *exact* wording we may use in UI / marketing. Shows why each claim is *non‑therapeutic*.                                 |
-| **3. Decision Memo Template**     | Two‑page template to evidence why Mind Gleam is *not* Software‑as‑a‑Medical‑Device (SaMD) under major regimes (AU, US, EU, UK, etc.). Attach one per major app version. |
+| **2. Feature‑to‑Claim Matrix**    | Inventory of every user‑facing feature and the _exact_ wording we may use in UI / marketing. Shows why each claim is _non‑therapeutic_.                                 |
+| **3. Decision Memo Template**     | Two‑page template to evidence why Mind Gleam is _not_ Software‑as‑a‑Medical‑Device (SaMD) under major regimes (AU, US, EU, UK, etc.). Attach one per major app version. |
 | **4. Legal Disclaimers**          | Copy‑and‑paste strings for app screens, marketing pages and T&C.                                                                                                        |
 | **5. Privacy & Data Protection**  | APP/GDPR baseline policy + required local annexes.                                                                                                                      |
 | **6. Crisis‑Support Banner**      | Geo‑aware helpline list.                                                                                                                                                |
@@ -27,14 +27,14 @@
 
 > Add rows **every time** a new feature or marketing claim is proposed.
 
-| # | Feature               | Allowed Public Claim (≤ 120 chars)                   | Regulatory Category          | Justification / Reference                                                                                                                                                                                                                                                    |
-| - | --------------------- | ---------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1 | 5‑Step Thought Record | “Guided self‑reflection to spot unhelpful thoughts.” | *Wellness / self‑help*       | Follows RANZCP CBT guide; no diagnosis, no treatment. [https://www.ranzcp.org/files/resources](https://www.ranzcp.org/files/resources)                                                                                                                                       |
-| 2 | Daily Mood Check‑in   | “Track your mood trends over time.”                  | *Wellness / self‑monitoring* | TGA Exclusion – uses *user reported* feelings only. [https://www.tga.gov.au/sites/default/files](https://www.tga.gov.au/sites/default/files)                                                                                                                                 |
-| 3 | AI Companion Chat     | “Get science‑backed prompts for calmer thinking.”    | *Wellness coaching*          | Provides generic coping statements; no medical advice. FDA General Wellness guidance. [https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-wellness](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-wellness) |
-| … | …                     | …                                                    | …                            | …                                                                                                                                                                                                                                                                            |
+| #   | Feature               | Allowed Public Claim (≤ 120 chars)                   | Regulatory Category          | Justification / Reference                                                                                                                                                                                                                                                    |
+| --- | --------------------- | ---------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 5‑Step Thought Record | “Guided self‑reflection to spot unhelpful thoughts.” | _Wellness / self‑help_       | Follows RANZCP CBT guide; no diagnosis, no treatment. [https://www.ranzcp.org/files/resources](https://www.ranzcp.org/files/resources)                                                                                                                                       |
+| 2   | Daily Mood Check‑in   | “Track your mood trends over time.”                  | _Wellness / self‑monitoring_ | TGA Exclusion – uses _user reported_ feelings only. [https://www.tga.gov.au/sites/default/files](https://www.tga.gov.au/sites/default/files)                                                                                                                                 |
+| 3   | AI Companion Chat     | “Get science‑backed prompts for calmer thinking.”    | _Wellness coaching_          | Provides generic coping statements; no medical advice. FDA General Wellness guidance. [https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-wellness](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-wellness) |
+| …   | …                     | …                                                    | …                            | …                                                                                                                                                                                                                                                                            |
 
-*How to use*: copy the table into a PR description; reviewers tick ✅ once wording is verified compliant.
+_How to use_: copy the table into a PR description; reviewers tick ✅ once wording is verified compliant.
 
 ---
 
@@ -76,11 +76,11 @@ Author: <name>
 🇪🇺 European Helpline 116 123
 ```
 
-*Implementation hint*: `getCountryCode()` → pick banner line.
+_Implementation hint_: `getCountryCode()` → pick banner line.
 
 ### 4.3  Marketing Copy Do‑Not‑Use List
 
-| ❌ Banned phrase                         | ✅ Compliant alternative                     |
+| ❌ Banned phrase                        | ✅ Compliant alternative                    |
 | --------------------------------------- | ------------------------------------------- |
 | “Clinically proven to treat depression” | “Based on cognitive‑behavioural principles” |
 | “Diagnosis in seconds”                  | “Helps you spot thinking patterns”          |
@@ -100,7 +100,7 @@ Author: <name>
 7. **User rights** – access, correction, deletion, export (JSON), withdraw consent.
 8. **International transfers** – Standard Contractual Clauses for EU data.
 9. **Data retention** – 30 days after account deletion, then secure purge.
-10. **Contact** – [privacy@mindgleam.app](mailto\:privacy@mindgleam.app) | OAIC complaint route.
+10. **Contact** – [privacy@mindgleam.app](mailto:privacy@mindgleam.app) | OAIC complaint route.
 
 ### 5.2  Jurisdiction Annexes
 
@@ -117,7 +117,7 @@ Author: <name>
 |      | Apple  |         |        |                                  |
 |      | Google |         |        |                                  |
 
-*Store artefacts saved in **`/compliance/app-store/<build>`**.*
+_Store artefacts saved in **`/compliance/app-store/<build>`**._
 
 ---
 
@@ -141,13 +141,13 @@ Author: <name>
 
 ## 9  Key References (long URLs)
 
-1. TGA Guidance: *Regulation of software for clinical purposes*\
+1. TGA Guidance: _Regulation of software for clinical purposes_\
    [https://www.tga.gov.au/sites/default/files/regulation‑of‑software‑based‑medical‑devices.pdf](https://www.tga.gov.au/sites/default/files/regulation‑of‑software‑based‑medical‑devices.pdf)
-2. FDA Guidance: *General Wellness: Policy for Low Risk Devices*\
+2. FDA Guidance: _General Wellness: Policy for Low Risk Devices_\
    [https://www.fda.gov/media/90652/download](https://www.fda.gov/media/90652/download)
 3. EU MDR Text (Official Journal L 117)\
    [https://eur‑lex.europa.eu/legal‑content/EN/TXT/PDF/?uri=CELEX:32017R0745](https://eur‑lex.europa.eu/legal‑content/EN/TXT/PDF/?uri=CELEX:32017R0745)
-4. MHRA Guidance: *Medical device stand‑alone software including apps*\
+4. MHRA Guidance: _Medical device stand‑alone software including apps_\
    [https://assets.publishing.service.gov.uk/media/5f6211ebd3bf7f5b723b7c18/software‑applications‑medical‑devices‑guidance.pdf](https://assets.publishing.service.gov.uk/media/5f6211ebd3bf7f5b723b7c18/software‑applications‑medical‑devices‑guidance.pdf)
 5. OAIC APP Guidelines\
    [https://www.oaic.gov.au/privacy/australian‑privacy‑principles‑guidelines](https://www.oaic.gov.au/privacy/australian‑privacy‑principles‑guidelines)
@@ -158,4 +158,3 @@ Author: <name>
 > • Product team: append every existing feature to Section 2 by 20 July 2025.\
 > • Legal: draft full Privacy Policy using Section 5 skeleton.\
 > • Engineering: embed Disclaimer 4.1 + Banner 4.2 in onboarding flow (ticket #COM‑07).
-

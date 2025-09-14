@@ -38,9 +38,12 @@ const nextConfig = {
 
   // Compiler optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error']
-    } : false,
+    removeConsole:
+      process.env.NODE_ENV === 'production'
+        ? {
+            exclude: ['error'],
+          }
+        : false,
   },
 
   // Output optimization
@@ -69,7 +72,8 @@ const nextConfig = {
         ],
       },
       {
-        source: '/:all*(js|css|png|jpg|jpeg|gif|svg|webp|avif|ico|mp4|webm|txt)',
+        source:
+          '/:all*(js|css|png|jpg|jpeg|gif|svg|webp|avif|ico|mp4|webm|txt)',
         headers: [
           {
             key: 'Cache-Control',

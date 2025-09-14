@@ -10,7 +10,10 @@ interface ProfileSettingsProps {
   onClose: () => void;
 }
 
-export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProps) {
+export default function ProfileSettings({
+  isOpen,
+  onClose,
+}: ProfileSettingsProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState('');
@@ -35,12 +38,14 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
 
       // Sign out user after successful deletion
       await signOut();
-      
+
       // Show success message
       alert('Your account and all data have been successfully deleted.');
     } catch (error) {
       console.error('Error deleting account:', error);
-      alert('There was an error deleting your account. Please contact support.');
+      alert(
+        'There was an error deleting your account. Please contact support.'
+      );
     } finally {
       setIsDeleting(false);
       setShowDeleteConfirm(false);
@@ -66,19 +71,31 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-                     {/* Header */}
-           <div className="bg-gradient-to-r from-green-500 to-blue-500 text-white p-6 rounded-t-2xl">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-green-500 to-blue-500 text-white p-6 rounded-t-2xl">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold">Privacy & Settings</h2>
-                <p className="text-white/80">Manage your data and privacy preferences</p>
+                <p className="text-white/80">
+                  Manage your data and privacy preferences
+                </p>
               </div>
               <button
                 onClick={onClose}
                 className="text-white/80 hover:text-white transition-colors"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -91,7 +108,7 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 Your Privacy at Mind Gleam
               </h3>
-              
+
               <div className="space-y-4">
                 <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                   <div className="flex items-start gap-3">
@@ -101,10 +118,16 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
                         We protect your privacy
                       </h4>
                       <ul className="text-green-700 dark:text-green-300 text-sm space-y-1">
-                        <li>• End-to-end TLS encryption for all communications</li>
+                        <li>
+                          • End-to-end TLS encryption for all communications
+                        </li>
                         <li>• Data at rest encrypted by Supabase</li>
-                        <li>• We never sell your mood data or personal information</li>
-                        <li>• Your conversations are private and confidential</li>
+                        <li>
+                          • We never sell your mood data or personal information
+                        </li>
+                        <li>
+                          • Your conversations are private and confidential
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -156,7 +179,9 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
                 {/* Export Data */}
                 <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">Export Your Data</h4>
+                    <h4 className="font-medium text-gray-900 dark:text-white">
+                      Export Your Data
+                    </h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Download a copy of your conversations and mood data
                     </p>
@@ -172,7 +197,9 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
                 {/* Contact Support */}
                 <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">Contact Support</h4>
+                    <h4 className="font-medium text-gray-900 dark:text-white">
+                      Contact Support
+                    </h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Questions about your privacy or data handling?
                     </p>
@@ -194,9 +221,10 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
                         Delete My Account & Data
                       </h4>
                       <p className="text-sm text-red-700 dark:text-red-300 mb-4">
-                        Permanently delete your account and all associated data. This action cannot be undone.
+                        Permanently delete your account and all associated data.
+                        This action cannot be undone.
                       </p>
-                      
+
                       {!showDeleteConfirm ? (
                         <button
                           onClick={() => setShowDeleteConfirm(true)}
@@ -276,4 +304,4 @@ export default function ProfileSettings({ isOpen, onClose }: ProfileSettingsProp
       </motion.div>
     </AnimatePresence>
   );
-} 
+}

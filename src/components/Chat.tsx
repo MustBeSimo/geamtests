@@ -8,7 +8,14 @@ import { useRef } from 'react';
 import Link from 'next/link';
 
 export default function Chat() {
-  const { messages, inputValue, setInputValue, handleSendMessage, handleKeyPress, chatRef } = useChat();
+  const {
+    messages,
+    inputValue,
+    setInputValue,
+    handleSendMessage,
+    handleKeyPress,
+    chatRef,
+  } = useChat();
   const { user } = useAuth();
   const { isSubscriptionActive, loading } = useSubscription(user?.id);
 
@@ -23,9 +30,12 @@ export default function Chat() {
   if (!isSubscriptionActive) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <h2 className="text-3xl font-bold mb-4 text-gray-800">Premium Feature</h2>
+        <h2 className="text-3xl font-bold mb-4 text-gray-800">
+          Premium Feature
+        </h2>
         <p className="text-lg text-gray-600 mb-8 max-w-2xl">
-          Chat with Gigi is a premium feature. Subscribe to unlock unlimited conversations and personalized guidance.
+          Chat with Gigi is a premium feature. Subscribe to unlock unlimited
+          conversations and personalized guidance.
         </p>
         <Link
           href="/pricing"
@@ -87,4 +97,4 @@ export default function Chat() {
       </div>
     </div>
   );
-} 
+}

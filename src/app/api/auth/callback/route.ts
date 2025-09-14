@@ -12,16 +12,18 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const supabase = createRouteHandlerClient({ cookies });
-    
+
     try {
       await supabase.auth.exchangeCodeForSession(code);
     } catch (error) {
       console.error('Error exchanging code for session:', error);
       // Redirect to home with error message
-      return NextResponse.redirect(new URL('/?error=auth_error', requestUrl.origin));
+      return NextResponse.redirect(
+        new URL('/?error=auth_error', requestUrl.origin)
+      );
     }
   }
 
   // Redirect to the home page or wherever the user was trying to go
   return NextResponse.redirect(new URL(next, requestUrl.origin));
-} 
+}

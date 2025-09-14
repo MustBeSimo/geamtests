@@ -11,25 +11,85 @@ interface CrisisResourceModalProps {
 
 // Crisis keywords that trigger the modal
 export const crisisKeywords = [
-  'suicide', 'suicidal', 'kill myself', 'end my life', 'want to die', 'better off dead',
-  'self harm', 'self-harm', 'cut myself', 'hurt myself', 'harm myself',
-  'overdose', 'pills', 'jump off', 'hanging', 'rope',
-  'hopeless', 'worthless', 'no point', 'give up', 'can\'t go on',
-  'crisis', 'emergency', 'help me', 'desperate'
+  'suicide',
+  'suicidal',
+  'kill myself',
+  'end my life',
+  'want to die',
+  'better off dead',
+  'self harm',
+  'self-harm',
+  'cut myself',
+  'hurt myself',
+  'harm myself',
+  'overdose',
+  'pills',
+  'jump off',
+  'hanging',
+  'rope',
+  'hopeless',
+  'worthless',
+  'no point',
+  'give up',
+  "can't go on",
+  'crisis',
+  'emergency',
+  'help me',
+  'desperate',
 ];
 
 // Crisis resources by region
 const crisisResources = {
   global: [
-    { region: 'United States', number: '988', description: 'Suicide & Crisis Lifeline', available: '24/7' },
-    { region: 'United States', number: '911', description: 'Emergency Services', available: '24/7' },
-    { region: 'Australia', number: '13 11 14', description: 'Lifeline', available: '24/7' },
-    { region: 'Australia', number: '000', description: 'Emergency Services', available: '24/7' },
-    { region: 'United Kingdom', number: '116 123', description: 'Samaritans', available: '24/7' },
-    { region: 'United Kingdom', number: '999', description: 'Emergency Services', available: '24/7' },
-    { region: 'Canada', number: '1-833-456-4566', description: 'Talk Suicide Canada', available: '24/7' },
-    { region: 'Canada', number: '911', description: 'Emergency Services', available: '24/7' },
-  ]
+    {
+      region: 'United States',
+      number: '988',
+      description: 'Suicide & Crisis Lifeline',
+      available: '24/7',
+    },
+    {
+      region: 'United States',
+      number: '911',
+      description: 'Emergency Services',
+      available: '24/7',
+    },
+    {
+      region: 'Australia',
+      number: '13 11 14',
+      description: 'Lifeline',
+      available: '24/7',
+    },
+    {
+      region: 'Australia',
+      number: '000',
+      description: 'Emergency Services',
+      available: '24/7',
+    },
+    {
+      region: 'United Kingdom',
+      number: '116 123',
+      description: 'Samaritans',
+      available: '24/7',
+    },
+    {
+      region: 'United Kingdom',
+      number: '999',
+      description: 'Emergency Services',
+      available: '24/7',
+    },
+    {
+      region: 'Canada',
+      number: '1-833-456-4566',
+      description: 'Talk Suicide Canada',
+      available: '24/7',
+    },
+    {
+      region: 'Canada',
+      number: '911',
+      description: 'Emergency Services',
+      available: '24/7',
+    },
+  ],
 };
 
 // Function to detect crisis keywords in text
@@ -43,9 +103,13 @@ export const detectCrisisKeywords = (text: string): string | null => {
   return null;
 };
 
-export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: CrisisResourceModalProps) {
+export default function CrisisResourceModal({
+  isOpen,
+  onClose,
+  triggerWord,
+}: CrisisResourceModalProps) {
   const [acknowledged, setAcknowledged] = useState(false);
-  
+
   // Reset acknowledgment when modal opens
   useEffect(() => {
     if (isOpen) {
@@ -97,7 +161,8 @@ export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: Cr
             <div className="mb-6">
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-4">
                 <p className="text-red-800 dark:text-red-200 font-semibold">
-                  We noticed you may be experiencing a crisis. Your safety is our priority.
+                  We noticed you may be experiencing a crisis. Your safety is
+                  our priority.
                 </p>
                 {triggerWord && (
                   <p className="text-red-600 dark:text-red-400 text-sm mt-2">
@@ -105,13 +170,15 @@ export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: Cr
                   </p>
                 )}
               </div>
-              
+
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                 <p className="text-blue-800 dark:text-blue-200 font-semibold mb-2">
                   You are not alone. Help is available right now.
                 </p>
                 <p className="text-blue-700 dark:text-blue-300 text-sm">
-                  These resources provide immediate, confidential support from trained professionals who understand what you're going through.
+                  These resources provide immediate, confidential support from
+                  trained professionals who understand what you're going
+                  through.
                 </p>
               </div>
             </div>
@@ -121,7 +188,7 @@ export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: Cr
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 Crisis Hotlines (24/7 Support)
               </h3>
-              
+
               <div className="grid gap-4">
                 {crisisResources.global.map((resource, index) => (
                   <motion.div
@@ -173,8 +240,9 @@ export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: Cr
             {/* Important Notice */}
             <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
               <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                <strong>Important:</strong> Mind Gleam is not equipped to handle crisis situations. 
-                Please use the resources above for immediate professional support.
+                <strong>Important:</strong> Mind Gleam is not equipped to handle
+                crisis situations. Please use the resources above for immediate
+                professional support.
               </p>
             </div>
           </div>
@@ -189,11 +257,15 @@ export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: Cr
                 onChange={(e) => setAcknowledged(e.target.checked)}
                 className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
-              <label htmlFor="acknowledge" className="text-sm text-gray-700 dark:text-gray-300">
-                I acknowledge that I have read the crisis resources and understand that Mind Gleam cannot provide emergency support.
+              <label
+                htmlFor="acknowledge"
+                className="text-sm text-gray-700 dark:text-gray-300"
+              >
+                I acknowledge that I have read the crisis resources and
+                understand that Mind Gleam cannot provide emergency support.
               </label>
             </div>
-            
+
             <button
               onClick={handleAcknowledge}
               disabled={!acknowledged}
@@ -210,4 +282,4 @@ export default function CrisisResourceModal({ isOpen, onClose, triggerWord }: Cr
       </motion.div>
     </AnimatePresence>
   );
-} 
+}

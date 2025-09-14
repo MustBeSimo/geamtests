@@ -26,4 +26,5 @@ Optimized for Vercel deployment with enterprise-grade performance.
 - PWA capabilities
 
 ---
-*Last updated: $(date)*
+
+_Last updated: $(date)_

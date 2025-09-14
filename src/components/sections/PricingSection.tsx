@@ -66,17 +66,17 @@ const PricingSection = memo(function PricingSection() {
                       plan.id === 'pro'
                         ? 'bg-gray-400 cursor-not-allowed'
                         : isProcessingPlan(plan.id)
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : plan.popular
-                        ? 'bg-emerald-600 hover:bg-emerald-700 active:scale-95 shadow-lg hover:shadow-xl'
-                        : 'bg-blue-600 hover:bg-blue-700 active:scale-95 shadow-lg hover:shadow-xl'
+                          ? 'bg-gray-400 cursor-not-allowed'
+                          : plan.popular
+                            ? 'bg-emerald-600 hover:bg-emerald-700 active:scale-95 shadow-lg hover:shadow-xl'
+                            : 'bg-blue-600 hover:bg-blue-700 active:scale-95 shadow-lg hover:shadow-xl'
                     }`}
                   >
                     {plan.id === 'pro'
                       ? 'Coming Soon'
                       : isProcessingPlan(plan.id)
-                      ? 'Processing...'
-                      : `Get ${plan.name}`}
+                        ? 'Processing...'
+                        : `Get ${plan.name}`}
                   </button>
                 </div>
               )}

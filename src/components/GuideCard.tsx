@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import AnimatedText from '@/components/AnimatedText';
 import ThoughtRecordGuide from '@/components/ThoughtRecordGuide';
@@ -20,10 +21,10 @@ interface GuideCardProps {
 }
 
 export default function GuideCard({
-  title = "MindGuide",
-  description = "Evidence-based tools for mental wellness",
-  imageSrc = "/images/guides/thought-record.png",
-  downloadUrl = "#",
+  title = 'MindGuide',
+  description = 'Evidence-based tools for mental wellness',
+  imageSrc = '/images/guides/thought-record.png',
+  downloadUrl = '#',
   className = '',
 }: GuideCardProps) {
   const [showInteractiveGuide, setShowInteractiveGuide] = useState(false);
@@ -40,47 +41,51 @@ export default function GuideCard({
       color: 'emerald',
       guides: [
         {
-          title: "Thought Record Guide",
-          description: "Master a 5-step thought-shift exercise to transform difficult thoughts with evidence-based techniques (CBT-inspired)",
-          imageSrc: "/images/guides/thought-record-guide.png",
-          downloadUrl: "#",
+          title: 'Thought Record Guide',
+          description:
+            'Master a 5-step thought-shift exercise to transform difficult thoughts with evidence-based techniques (CBT-inspired)',
+          imageSrc: '/images/guides/thought-record-guide.png',
+          downloadUrl: '#',
           hasInteractive: true,
           isFree: true,
           tags: ['CBT', 'Anxiety', 'Depression'],
-          guideComponent: 'thought-record'
+          guideComponent: 'thought-record',
         },
         {
-          title: "Breathing Techniques Collection",
-          description: "Simple but powerful breathing exercises for instant calm and stress relief",
-          imageSrc: "/images/guides/breathing-techniques-collection.png",
-          downloadUrl: "#",
+          title: 'Breathing Techniques Collection',
+          description:
+            'Simple but powerful breathing exercises for instant calm and stress relief',
+          imageSrc: '/images/guides/breathing-techniques-collection.png',
+          downloadUrl: '#',
           hasInteractive: true,
           isFree: true,
           tags: ['Stress', 'Anxiety', 'Sleep'],
-          guideComponent: 'breathing'
+          guideComponent: 'breathing',
         },
         {
-          title: "10-Minute Energy Boost Workout",
-          description: "Quick, effective exercises to boost your energy and mood when you're feeling low or sluggish",
-          imageSrc: "/images/guides/10-minute-energy-boost-workout.png",
-          downloadUrl: "#",
+          title: '10-Minute Energy Boost Workout',
+          description:
+            "Quick, effective exercises to boost your energy and mood when you're feeling low or sluggish",
+          imageSrc: '/images/guides/10-minute-energy-boost-workout.png',
+          downloadUrl: '#',
           hasInteractive: true,
           isFree: true,
           tags: ['Exercise', 'Energy', 'Mood', 'Physical'],
-          guideComponent: 'workout'
+          guideComponent: 'workout',
         },
         {
-          title: "Sleep Hygiene Checklist",
-          description: "Evidence-based sleep strategies to improve your rest and support mental wellness",
-          imageSrc: "/images/guides/sleep-hygiene-checklist.png",
-          downloadUrl: "#",
+          title: 'Sleep Hygiene Checklist',
+          description:
+            'Evidence-based sleep strategies to improve your rest and support mental wellness',
+          imageSrc: '/images/guides/sleep-hygiene-checklist.png',
+          downloadUrl: '#',
           hasInteractive: true,
           isFree: true,
           tags: ['Sleep', 'Recovery', 'Physical', 'Mental Health'],
-          guideComponent: 'sleep'
-        }
-      ]
-    }
+          guideComponent: 'sleep',
+        },
+      ],
+    },
   ];
 
   if (showInteractiveGuide || activeGuide) {
@@ -96,7 +101,8 @@ export default function GuideCard({
       if (activeGuide === 'breathing') return 'Breathing Techniques Collection';
       if (activeGuide === 'workout') return '10-Minute Energy Boost Workout';
       if (activeGuide === 'sleep') return 'Sleep Hygiene Checklist';
-      if (activeGuide === 'thought-record') return 'Interactive Thought Record Guide';
+      if (activeGuide === 'thought-record')
+        return 'Interactive Thought Record Guide';
       return 'Interactive Thought Record Guide';
     };
 
@@ -113,8 +119,18 @@ export default function GuideCard({
             }}
             className="px-4 py-2 bg-gradient-to-r from-gray-300 to-gray-400 hover:from-gray-400 hover:to-gray-500 text-white font-medium rounded-lg transition-all duration-200 flex items-center gap-2"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Back to Guides
           </button>
@@ -136,9 +152,11 @@ export default function GuideCard({
         >
           {/* Category Header */}
           <button
-            onClick={() => setExpandedCategory(
-              expandedCategory === category.id ? null : category.id
-            )}
+            onClick={() =>
+              setExpandedCategory(
+                expandedCategory === category.id ? null : category.id
+              )
+            }
             className="w-full p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-200 flex items-center justify-between"
           >
             <div className="flex items-center gap-3">
@@ -154,14 +172,25 @@ export default function GuideCard({
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {category.guides.length} resource{category.guides.length !== 1 ? 's' : ''}
+                {category.guides.length} resource
+                {category.guides.length !== 1 ? 's' : ''}
               </span>
               <motion.div
                 animate={{ rotate: expandedCategory === category.id ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg
+                  className="w-5 h-5 text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </motion.div>
             </div>
@@ -171,8 +200,8 @@ export default function GuideCard({
           <motion.div
             initial={false}
             animate={{
-              height: expandedCategory === category.id ? "auto" : 0,
-              opacity: expandedCategory === category.id ? 1 : 0
+              height: expandedCategory === category.id ? 'auto' : 0,
+              opacity: expandedCategory === category.id ? 1 : 0,
             }}
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
@@ -210,11 +239,14 @@ export default function GuideCard({
             💡 Need Something Specific?
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-            Can't find what you're looking for? We're constantly adding new resources based on user feedback.
+            Can't find what you're looking for? We're constantly adding new
+            resources based on user feedback.
           </p>
-          <button 
+          <button
             onClick={() => {
-              const subject = encodeURIComponent('Resource Suggestion for Mind Gleam');
+              const subject = encodeURIComponent(
+                'Resource Suggestion for Mind Gleam'
+              );
               const body = encodeURIComponent(`Hi Simone,
 
 I'd like to suggest a new resource for the Mind Gleam CBT Guides section:
@@ -245,9 +277,14 @@ interface GuideItemProps {
   onStartInteractive: () => void;
 }
 
-function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps) {
+function GuideItem({
+  guide,
+  category,
+  user,
+  onStartInteractive,
+}: GuideItemProps) {
   const canAccess = guide.isFree || (guide.requiresSignIn && user);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -261,9 +298,11 @@ function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps
         {/* Image */}
         <div className="sm:w-32 h-32 sm:h-24 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center overflow-hidden">
           {guide.imageSrc ? (
-            <img 
-              src={guide.imageSrc} 
+            <Image
+              src={guide.imageSrc}
               alt={guide.title}
+              width={128}
+              height={128}
               className="w-full h-full object-cover"
             />
           ) : (
@@ -275,16 +314,32 @@ function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps
         <div className="flex-1 p-4">
           <div className="flex items-start justify-between mb-2">
             <div className="flex-1">
-              <h4 className={`font-semibold mb-1 ${
-                canAccess ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'
-              }`}>
+              <h4
+                className={`font-semibold mb-1 ${
+                  canAccess
+                    ? 'text-gray-900 dark:text-white'
+                    : 'text-gray-500 dark:text-gray-400'
+                }`}
+              >
                 {guide.title}
-                {guide.isExternal && <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">External</span>}
-                {!guide.isFree && <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">Premium</span>}
+                {guide.isExternal && (
+                  <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                    External
+                  </span>
+                )}
+                {!guide.isFree && (
+                  <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                    Premium
+                  </span>
+                )}
               </h4>
-              <p className={`text-sm mb-2 ${
-                canAccess ? 'text-gray-600 dark:text-gray-400' : 'text-gray-400 dark:text-gray-500'
-              }`}>
+              <p
+                className={`text-sm mb-2 ${
+                  canAccess
+                    ? 'text-gray-600 dark:text-gray-400'
+                    : 'text-gray-400 dark:text-gray-500'
+                }`}
+              >
                 {guide.description}
               </p>
               {/* Tags */}
@@ -308,8 +363,18 @@ function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps
                 onClick={onStartInteractive}
                 className={`flex-1 sm:flex-none px-3 py-2 bg-gradient-to-r from-${category.color}-500 to-${category.color}-600 hover:from-${category.color}-600 hover:to-${category.color}-700 text-white text-sm font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M15 14h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
                 Try Interactive
               </button>
@@ -318,23 +383,49 @@ function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps
             {canAccess ? (
               <a
                 href={guide.downloadUrl}
-                target={guide.isExternal ? "_blank" : "_self"}
-                rel={guide.isExternal ? "noopener noreferrer" : ""}
+                target={guide.isExternal ? '_blank' : '_self'}
+                rel={guide.isExternal ? 'noopener noreferrer' : ''}
                 className={`flex-1 sm:flex-none px-3 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-sm font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-2`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
-                {guide.downloadUrl === "#" ? "View Guide" : guide.isFree ? "Download Free" : "Download"}
+                {guide.downloadUrl === '#'
+                  ? 'View Guide'
+                  : guide.isFree
+                    ? 'Download Free'
+                    : 'Download'}
               </a>
             ) : (
               <button
-                onClick={() => alert('Please sign in to access premium resources')}
+                onClick={() =>
+                  alert('Please sign in to access premium resources')
+                }
                 className="flex-1 sm:flex-none px-3 py-2 bg-gray-400 text-white text-sm font-medium rounded-lg cursor-not-allowed flex items-center justify-center gap-2"
                 disabled
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
                 </svg>
                 Sign In Required
               </button>
@@ -347,8 +438,18 @@ function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps
       {!canAccess && (
         <div className="absolute inset-0 bg-gray-900/20 flex items-center justify-center">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg text-center">
-            <svg className="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            <svg
+              className="w-8 h-8 text-gray-400 mx-auto mb-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
             </svg>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {guide.requiresSignIn ? 'Sign in to access' : 'Premium resource'}
@@ -358,4 +459,4 @@ function GuideItem({ guide, category, user, onStartInteractive }: GuideItemProps
       )}
     </motion.div>
   );
-} 
+}

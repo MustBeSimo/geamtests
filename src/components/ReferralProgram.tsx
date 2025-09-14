@@ -34,7 +34,9 @@ export default function ReferralProgram() {
   };
 
   const shareViaEmail = () => {
-    const subject = encodeURIComponent('Try MindGleam - AI Mental Wellness App');
+    const subject = encodeURIComponent(
+      'Try MindGleam - AI Mental Wellness App'
+    );
     const body = encodeURIComponent(
       `Hi! I've been using MindGleam for my mental wellness and thought you might find it helpful too. It's an AI-powered app with free CBT guidance and mood tracking.\n\nTry it here: ${generateReferralLink()}\n\nYou'll get 20 free messages to start with. Hope it helps!`
     );
@@ -58,7 +60,8 @@ export default function ReferralProgram() {
           Share MindGleam with Friends
         </h3>
         <p className="text-gray-600 dark:text-gray-400 text-sm">
-          Help others discover AI-powered mental wellness. Share your experience!
+          Help others discover AI-powered mental wellness. Share your
+          experience!
         </p>
       </div>
 
@@ -97,7 +100,7 @@ export default function ReferralProgram() {
             <span>📧</span>
             <span className="text-sm font-medium">Email</span>
           </button>
-          
+
           <button
             onClick={shareViaSMS}
             className="flex items-center justify-center gap-2 px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"

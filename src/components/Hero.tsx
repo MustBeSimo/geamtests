@@ -15,11 +15,23 @@ const TypewriterTaglines = () => {
   const [isTyping, setIsTyping] = useState(true);
 
   const taglines = [
-    { text: "Feel lighter in five minutes a day", color: "text-emerald-500" },
-    { text: "Transform anxious thoughts into calm confidence", color: "text-blue-500" },
-    { text: "Build mental resilience with CBT-inspired tools", color: "text-purple-500" },
-    { text: "Your AI companion for emotional wellness", color: "text-pink-500" },
-    { text: "Evidence-based techniques for daily mental health", color: "text-teal-500" }
+    { text: 'Feel lighter in five minutes a day', color: 'text-emerald-500' },
+    {
+      text: 'Transform anxious thoughts into calm confidence',
+      color: 'text-blue-500',
+    },
+    {
+      text: 'Build mental resilience with CBT-inspired tools',
+      color: 'text-purple-500',
+    },
+    {
+      text: 'Your AI companion for emotional wellness',
+      color: 'text-pink-500',
+    },
+    {
+      text: 'Evidence-based techniques for daily mental health',
+      color: 'text-teal-500',
+    },
   ];
 
   const currentTagline = taglines[currentTaglineIndex];
@@ -28,9 +40,11 @@ const TypewriterTaglines = () => {
     let timeout: NodeJS.Timeout;
 
     if (isTyping) {
-      if (displayText.length < currentTagline.text.length) {
+      if (displayText.length < (currentTagline?.text.length || 0)) {
         timeout = setTimeout(() => {
-          setDisplayText(currentTagline.text.slice(0, displayText.length + 1));
+          setDisplayText(
+            currentTagline?.text.slice(0, displayText.length + 1) || ''
+          );
         }, 80);
       } else {
         timeout = setTimeout(() => {
@@ -49,11 +63,13 @@ const TypewriterTaglines = () => {
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, isTyping, currentTagline.text]);
+  }, [displayText, isTyping, currentTagline?.text]);
 
   return (
     <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center">
-      <h1 className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-center leading-tight ${currentTagline.color} transition-colors duration-500`}>
+      <h1
+        className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-center leading-tight ${currentTagline?.color || 'text-blue-600'} transition-colors duration-500`}
+      >
         {displayText}
         <span className="animate-pulse">|</span>
       </h1>
@@ -62,13 +78,19 @@ const TypewriterTaglines = () => {
 };
 
 // Import animations based on react-animations.txt
-const SplitText = ({ text, className = '' }: { text: string; className?: string }) => {
+const SplitText = ({
+  text,
+  className = '',
+}: {
+  text: string;
+  className?: string;
+}) => {
   return (
-    <motion.div 
+    <motion.div
       className={className}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       {text}
     </motion.div>
@@ -82,22 +104,22 @@ const avatars = [
     name: 'Gigi',
     description: 'Your empathetic companion',
     src: '/images/avatars/Gigi_avatar.png',
-    gradient: 'from-mindgleam-peach-200 to-mindgleam-peach-300'
+    gradient: 'from-mindgleam-peach-200 to-mindgleam-peach-300',
   },
   {
     id: 'vee' as const,
     name: 'Vee',
     description: 'Your logical coach',
     src: '/images/avatars/Vee_avatar.png',
-    gradient: 'from-mindgleam-lavender-200 to-mindgleam-lavender-300'
+    gradient: 'from-mindgleam-lavender-200 to-mindgleam-lavender-300',
   },
   {
     id: 'lumo' as const,
     name: 'Lumo',
     description: 'Your creative guide',
     src: '/images/avatars/Lumo_avatar.png',
-    gradient: 'from-mindgleam-mint-200 to-mindgleam-mint-300'
-  }
+    gradient: 'from-mindgleam-mint-200 to-mindgleam-mint-300',
+  },
 ];
 
 interface HeroProps {
@@ -106,28 +128,53 @@ interface HeroProps {
   onAvatarChange: (avatar: 'gigi' | 'vee' | 'lumo') => void;
 }
 
-export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: HeroProps) {
+export default function Hero({
+  onStartDemo,
+  selectedAvatar,
+  onAvatarChange,
+}: HeroProps) {
   const { user, signInWithGoogle } = useAuth();
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
   const avatarSectionRef = useRef<HTMLDivElement | null>(null);
 
-  const currentAvatar = avatars.find(avatar => avatar.id === selectedAvatar) || avatars[0];
+  const currentAvatar =
+    avatars.find((avatar) => avatar.id === selectedAvatar) || avatars[0];
 
   // Goal options for users to select
   const goalOptions = [
-    { id: 'sleep', emoji: '😴', label: 'Sleep Better', description: 'Calm racing thoughts at bedtime' },
-    { id: 'stress', emoji: '🧘', label: 'Stress Less', description: 'Build resilience for daily challenges' },
-    { id: 'confidence', emoji: '💪', label: 'Grow Confidence', description: 'Challenge self-doubt and limiting beliefs' },
-    { id: 'anxiety', emoji: '🌱', label: 'Manage Anxiety', description: 'Learn to reframe anxious thoughts' },
+    {
+      id: 'sleep',
+      emoji: '😴',
+      label: 'Sleep Better',
+      description: 'Calm racing thoughts at bedtime',
+    },
+    {
+      id: 'stress',
+      emoji: '🧘',
+      label: 'Stress Less',
+      description: 'Build resilience for daily challenges',
+    },
+    {
+      id: 'confidence',
+      emoji: '💪',
+      label: 'Grow Confidence',
+      description: 'Challenge self-doubt and limiting beliefs',
+    },
+    {
+      id: 'anxiety',
+      emoji: '🌱',
+      label: 'Manage Anxiety',
+      description: 'Learn to reframe anxious thoughts',
+    },
   ];
 
   // Preload images
   useEffect(() => {
     const preloadImages = async () => {
-      const imageUrls = avatars.map(avatar => avatar.src);
+      const imageUrls = avatars.map((avatar) => avatar.src);
 
-      const loadPromises = imageUrls.map(url => {
+      const loadPromises = imageUrls.map((url) => {
         return new Promise<void>((resolve, reject) => {
           const img = new window.Image();
           img.src = url;
@@ -151,9 +198,9 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
   // Auto-rotate highlighted avatar every 8 seconds on onboarding (slower for better UX)
   useEffect(() => {
     const id = setInterval(() => {
-      const idx = avatars.findIndex(a => a.id === (selectedAvatar as any));
-      const next = avatars[(idx + 1) % avatars.length].id;
-      onAvatarChange(next);
+      const idx = avatars.findIndex((a) => a.id === (selectedAvatar as any));
+      const next = avatars[(idx + 1) % avatars.length]?.id;
+      if (next) onAvatarChange(next);
     }, 8000);
     return () => clearInterval(id);
   }, [selectedAvatar, onAvatarChange]);
@@ -161,27 +208,28 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
   return (
     <div className="relative">
       {/* Main Hero Section */}
-      <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${mindgleamGradients.hero} dark:from-mindgleam-mint-900/20 dark:via-mindgleam-peach-900/20 dark:to-mindgleam-lavender-900/20`}>
+      <div
+        className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${mindgleamGradients.hero} dark:from-mindgleam-mint-900/20 dark:via-mindgleam-peach-900/20 dark:to-mindgleam-lavender-900/20`}
+      >
         {/* Subtle decorative elements */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/5 dark:to-black/10"></div>
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-orange-100/30 via-transparent to-transparent dark:from-orange-900/10"></div>
-        
+
         {/* Content - Rearranged layout */}
         <div className="relative z-10 px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
           <div className="max-w-3xl mx-auto text-center">
-            
             {/* Main Headline - Moved to top */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="mb-6"
             >
               {/* Animated Taglines as Main Title */}
               <div className="mb-4">
                 <TypewriterTaglines />
               </div>
-              
+
               <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6">
                 CBT-inspired coaching tools that help you feel lighter, faster
               </p>
@@ -194,9 +242,13 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
               transition={{ duration: 0.4, delay: 0.1 }}
               className="flex justify-center mb-6"
             >
-              <div className={`relative p-4 rounded-full backdrop-blur-sm overflow-hidden bg-gradient-to-br from-${currentAvatar.id === 'gigi' ? 'pink' : currentAvatar.id === 'vee' ? 'blue' : 'teal'}-50/20 to-${currentAvatar.id === 'gigi' ? 'purple' : currentAvatar.id === 'vee' ? 'cyan' : 'emerald'}-50/20 dark:from-${currentAvatar.id === 'gigi' ? 'pink' : currentAvatar.id === 'vee' ? 'blue' : 'teal'}-900/20 dark:to-${currentAvatar.id === 'gigi' ? 'purple' : currentAvatar.id === 'vee' ? 'cyan' : 'emerald'}-900/20`}>
+              <div
+                className={`relative p-4 rounded-full backdrop-blur-sm overflow-hidden bg-gradient-to-br from-pink-50/20 to-purple-50/20 dark:from-pink-900/20 dark:to-purple-900/20`}
+              >
                 {/* Animated background glow effect */}
-                <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-${currentAvatar.id === 'gigi' ? 'pink' : currentAvatar.id === 'vee' ? 'blue' : 'teal'}-200/20 to-transparent animate-pulse`}></div>
+                <div
+                  className={`absolute inset-0 bg-gradient-to-r from-transparent via-pink-200/20 to-transparent animate-pulse`}
+                ></div>
                 <div className="relative z-10">
                   <MindGleamLogoAnimated width={138} height={215} />
                 </div>
@@ -218,8 +270,18 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
                   whileTap={{ scale: 0.98 }}
                 >
                   <span>Flow in</span>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
                   </svg>
                 </motion.button>
               ) : (
@@ -228,7 +290,7 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
                     Welcome back! 👋
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Ready to continue with {currentAvatar.name}?
+                    Ready to continue with {currentAvatar?.name || 'AI'}?
                   </p>
                 </div>
               )}
@@ -250,10 +312,10 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
                 className="text-center mb-4"
               >
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                  Meet {currentAvatar.name}
+                  Meet {currentAvatar?.name || 'AI'}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {currentAvatar.description}
+                  {currentAvatar?.description || 'Your AI companion'}
                 </p>
               </motion.div>
 
@@ -274,16 +336,20 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
                       key={avatar.id}
                       onClick={() => onAvatarChange(avatar.id)}
                       className={`flex flex-col items-center gap-1 p-2 sm:p-3 rounded-lg transition-all duration-300 min-w-[80px] sm:min-w-[90px] flex-1 max-w-[100px] ${
-                        selectedAvatar === avatar.id 
-                          ? 'bg-white/70 dark:bg-gray-800/70 shadow-md scale-105 ring-2 ring-blue-300' 
+                        selectedAvatar === avatar.id
+                          ? 'bg-white/70 dark:bg-gray-800/70 shadow-md scale-105 ring-2 ring-blue-300'
                           : 'bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-800/60 hover:scale-102'
                       }`}
                       whileHover={{ y: -1 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${avatar.gradient} p-0.5 ${
-                        selectedAvatar === avatar.id ? 'ring-2 ring-white/50' : ''
-                      }`}>
+                      <div
+                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${avatar.gradient} p-0.5 ${
+                          selectedAvatar === avatar.id
+                            ? 'ring-2 ring-white/50'
+                            : ''
+                        }`}
+                      >
                         <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
                           {imagesLoaded && (
                             <Image
@@ -298,11 +364,13 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
                         </div>
                       </div>
                       <div className="text-center">
-                        <p className={`text-xs font-semibold ${
-                          selectedAvatar === avatar.id 
-                            ? 'text-gray-900 dark:text-white' 
-                            : 'text-gray-700 dark:text-gray-300'
-                        }`}>
+                        <p
+                          className={`text-xs font-semibold ${
+                            selectedAvatar === avatar.id
+                              ? 'text-gray-900 dark:text-white'
+                              : 'text-gray-700 dark:text-gray-300'
+                          }`}
+                        >
                           {avatar.name}
                         </p>
                       </div>
@@ -312,7 +380,6 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
               </motion.div>
             </motion.div>
 
-
             {/* Trust Indicators - Compact */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -321,20 +388,44 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-xs text-gray-600 dark:text-gray-400"
             >
               <div className="flex items-center gap-1">
-                <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-3 h-3 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 <span>No credit card required</span>
               </div>
               <div className="flex items-center gap-1">
-                <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-3 h-3 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 <span>CBT-inspired coaching</span>
               </div>
               <div className="flex items-center gap-1">
-                <svg className="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <svg
+                  className="w-3 h-3 text-green-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 <span>100% private & secure</span>
               </div>
@@ -344,4 +435,4 @@ export default function Hero({ onStartDemo, selectedAvatar, onAvatarChange }: He
       </div>
     </div>
   );
-} 
+}

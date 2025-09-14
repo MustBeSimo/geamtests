@@ -19,14 +19,14 @@ interface WorkoutPhaseProps {
   onToggle: () => void;
 }
 
-function WorkoutPhase({ 
-  title, 
-  duration, 
-  description, 
-  exercises, 
-  color, 
-  isActive, 
-  onToggle 
+function WorkoutPhase({
+  title,
+  duration,
+  description,
+  exercises,
+  color,
+  isActive,
+  onToggle,
 }: WorkoutPhaseProps) {
   return (
     <motion.div
@@ -40,7 +40,9 @@ function WorkoutPhase({
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-full bg-gradient-to-r from-${color}-400 to-${color}-600 flex items-center justify-center text-white font-bold`}>
+            <div
+              className={`w-12 h-12 rounded-full bg-gradient-to-r from-${color}-400 to-${color}-600 flex items-center justify-center text-white font-bold`}
+            >
               {duration.split(' ')[0]}
             </div>
             <div>
@@ -56,8 +58,18 @@ function WorkoutPhase({
             animate={{ rotate: isActive ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <svg
+              className="w-6 h-6 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </motion.div>
         </div>
@@ -67,7 +79,7 @@ function WorkoutPhase({
         {isActive && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
+            animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
@@ -75,7 +87,10 @@ function WorkoutPhase({
             <div className="px-6 pb-6">
               <div className="space-y-4">
                 {exercises.map((exercise, index) => (
-                  <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                  <div
+                    key={index}
+                    className="border border-gray-200 dark:border-gray-600 rounded-lg p-4"
+                  >
                     <div className="flex items-start gap-3">
                       <div className="text-2xl">{exercise.icon}</div>
                       <div className="flex-1">
@@ -83,7 +98,9 @@ function WorkoutPhase({
                           <h4 className="font-semibold text-gray-900 dark:text-white">
                             {exercise.name}
                           </h4>
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full bg-${color}-100 text-${color}-800 dark:bg-${color}-900 dark:text-${color}-200`}>
+                          <span
+                            className={`px-2 py-1 text-xs font-medium rounded-full bg-${color}-100 text-${color}-800 dark:bg-${color}-900 dark:text-${color}-200`}
+                          >
                             {exercise.duration}
                           </span>
                         </div>
@@ -93,7 +110,8 @@ function WorkoutPhase({
                         {exercise.modifications && (
                           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 mt-2">
                             <p className="text-blue-800 dark:text-blue-300 text-sm">
-                              <strong>Modification:</strong> {exercise.modifications}
+                              <strong>Modification:</strong>{' '}
+                              {exercise.modifications}
                             </p>
                           </div>
                         )}
@@ -119,7 +137,14 @@ interface TimerProps {
   onReset: () => void;
 }
 
-function WorkoutTimer({ isActive, timeLeft, phase, onStart, onPause, onReset }: TimerProps) {
+function WorkoutTimer({
+  isActive,
+  timeLeft,
+  phase,
+  onStart,
+  onPause,
+  onReset,
+}: TimerProps) {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
@@ -131,7 +156,8 @@ function WorkoutTimer({ isActive, timeLeft, phase, onStart, onPause, onReset }: 
     >
       <h3 className="text-lg font-semibold mb-2">{phase}</h3>
       <div className="text-4xl font-mono font-bold mb-4">
-        {minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
+        {minutes.toString().padStart(2, '0')}:
+        {seconds.toString().padStart(2, '0')}
       </div>
       <div className="flex gap-2 justify-center">
         {!isActive ? (
@@ -188,27 +214,30 @@ export default function EnergyBoostWorkoutGuide() {
           name: 'March in Place',
           duration: '30 seconds',
           description: 'Lift your knees gently and swing your arms.',
-          icon: '🚶'
+          icon: '🚶',
         },
         {
           name: 'Arm Circles',
           duration: '30 seconds',
-          description: 'Extend your arms to the side and draw small circles forward, then backward.',
-          icon: '🔄'
+          description:
+            'Extend your arms to the side and draw small circles forward, then backward.',
+          icon: '🔄',
         },
         {
           name: 'Bodyweight Squats',
           duration: '30 seconds',
-          description: 'Stand with feet shoulder-width apart, lower into a squat and rise slowly.',
-          icon: '⬇️'
+          description:
+            'Stand with feet shoulder-width apart, lower into a squat and rise slowly.',
+          icon: '⬇️',
         },
         {
           name: 'Dynamic Calf Stretch',
           duration: '30 seconds',
-          description: 'Step one foot back, press the heel toward the floor and alternate legs.',
-          icon: '🦵'
-        }
-      ]
+          description:
+            'Step one foot back, press the heel toward the floor and alternate legs.',
+          icon: '🦵',
+        },
+      ],
     },
     {
       id: 'circuit',
@@ -220,44 +249,52 @@ export default function EnergyBoostWorkoutGuide() {
         {
           name: 'Jumping Jacks',
           duration: '45 seconds',
-          description: 'Traditional jumping jacks to increase cardiovascular output.',
-          modifications: 'Low-impact option: step one leg out at a time instead of jumping.',
-          icon: '🤸'
+          description:
+            'Traditional jumping jacks to increase cardiovascular output.',
+          modifications:
+            'Low-impact option: step one leg out at a time instead of jumping.',
+          icon: '🤸',
         },
         {
           name: 'Bodyweight Squats',
           duration: '45 seconds',
-          description: 'Feet shoulder-width apart, lower your hips back and down as if sitting into a chair, then press through your heels to stand.',
-          icon: '⬇️'
+          description:
+            'Feet shoulder-width apart, lower your hips back and down as if sitting into a chair, then press through your heels to stand.',
+          icon: '⬇️',
         },
         {
           name: 'Push-Ups',
           duration: '45 seconds',
-          description: 'Begin in a plank position. Lower your chest toward the floor, keeping elbows at a 45° angle, then push back up.',
-          modifications: 'Place hands on a wall or sturdy table for easier variation.',
-          icon: '💪'
+          description:
+            'Begin in a plank position. Lower your chest toward the floor, keeping elbows at a 45° angle, then push back up.',
+          modifications:
+            'Place hands on a wall or sturdy table for easier variation.',
+          icon: '💪',
         },
         {
           name: 'Reverse Lunges',
           duration: '45 seconds',
-          description: 'Step one foot back and lower the knee toward the floor until both knees are at roughly 90° angles. Return to standing and switch legs.',
-          icon: '🏃'
+          description:
+            'Step one foot back and lower the knee toward the floor until both knees are at roughly 90° angles. Return to standing and switch legs.',
+          icon: '🏃',
         },
         {
           name: 'Mountain Climbers',
           duration: '45 seconds',
-          description: 'From a plank, draw your knees toward your chest one at a time at a brisk pace.',
+          description:
+            'From a plank, draw your knees toward your chest one at a time at a brisk pace.',
           modifications: 'March in place with high knees for gentler option.',
-          icon: '⛰️'
+          icon: '⛰️',
         },
         {
           name: 'Plank Hold',
           duration: '45 seconds',
-          description: 'Forearms or hands on the floor, body in a straight line from head to heels. Engage your core and glutes.',
+          description:
+            'Forearms or hands on the floor, body in a straight line from head to heels. Engage your core and glutes.',
           modifications: 'Drop to your knees to modify.',
-          icon: '🏋️'
-        }
-      ]
+          icon: '🏋️',
+        },
+      ],
     },
     {
       id: 'cooldown',
@@ -269,47 +306,54 @@ export default function EnergyBoostWorkoutGuide() {
         {
           name: 'Standing Forward Fold',
           duration: '30 seconds',
-          description: 'With feet hip-width apart, hinge at the hips and let your upper body relax. Feel the stretch in the hamstrings and lower back.',
-          icon: '🧘'
+          description:
+            'With feet hip-width apart, hinge at the hips and let your upper body relax. Feel the stretch in the hamstrings and lower back.',
+          icon: '🧘',
         },
         {
           name: 'Quad Stretch',
           duration: '30 seconds per leg',
-          description: 'Stand on one leg, hold the opposite foot behind you and gently press the hips forward to stretch the thigh.',
+          description:
+            'Stand on one leg, hold the opposite foot behind you and gently press the hips forward to stretch the thigh.',
           modifications: 'Use a wall for balance if needed.',
-          icon: '🦵'
+          icon: '🦵',
         },
         {
           name: 'Chest Opener with Deep Breathing',
           duration: '30 seconds',
-          description: 'Interlace your fingers behind your back, gently straighten your arms and lift your chest. Take slow, deep breaths.',
-          icon: '🫁'
-        }
-      ]
-    }
+          description:
+            'Interlace your fingers behind your back, gently straighten your arms and lift your chest. Take slow, deep breaths.',
+          icon: '🫁',
+        },
+      ],
+    },
   ];
 
   const customizationTips = [
     {
       title: 'Progress gradually',
-      description: 'If you\'re new to exercise or returning after a break, begin with shorter intervals (20–30 seconds) and longer rest periods.',
-      icon: '📈'
+      description:
+        "If you're new to exercise or returning after a break, begin with shorter intervals (20–30 seconds) and longer rest periods.",
+      icon: '📈',
     },
     {
       title: 'Mix and match',
-      description: 'Swap in other body-weight exercises such as glute bridges, plank shoulder taps, or step-ups to keep the routine interesting.',
-      icon: '🔄'
+      description:
+        'Swap in other body-weight exercises such as glute bridges, plank shoulder taps, or step-ups to keep the routine interesting.',
+      icon: '🔄',
     },
     {
       title: 'Add mindfulness',
-      description: 'Paying attention to your breathing and the sensations in your body can amplify the mood-boosting effects of exercise.',
-      icon: '🧠'
+      description:
+        'Paying attention to your breathing and the sensations in your body can amplify the mood-boosting effects of exercise.',
+      icon: '🧠',
     },
     {
       title: 'Be consistent',
-      description: 'Start with one 10-minute session a day and gradually aim for the recommended 30 minutes of moderate exercise most days of the week.',
-      icon: '📅'
-    }
+      description:
+        'Start with one 10-minute session a day and gradually aim for the recommended 30 minutes of moderate exercise most days of the week.',
+      icon: '📅',
+    },
   ];
 
   const handleTimerStart = () => {
@@ -343,9 +387,10 @@ export default function EnergyBoostWorkoutGuide() {
             10-Minute Energy Boost Workout
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            A quick workout routine designed to improve energy and mood when you're feeling low. 
-            Short bursts of physical activity can revitalize both body and mind, with research showing 
-            that even 10-minute sessions deliver significant mental health benefits.
+            A quick workout routine designed to improve energy and mood when
+            you're feeling low. Short bursts of physical activity can revitalize
+            both body and mind, with research showing that even 10-minute
+            sessions deliver significant mental health benefits.
           </p>
         </motion.div>
 
@@ -357,9 +402,11 @@ export default function EnergyBoostWorkoutGuide() {
           className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4 mb-8"
         >
           <p className="text-sm text-orange-800 dark:text-orange-300">
-            <strong>Evidence-based:</strong> Studies show that 30 minutes of moderate exercise can be broken into 
-            three 10-minute sessions with equivalent benefits. Healthcare workers found that short 10-minute 
-            physical-activity breaks improved attention and cognitive performance.
+            <strong>Evidence-based:</strong> Studies show that 30 minutes of
+            moderate exercise can be broken into three 10-minute sessions with
+            equivalent benefits. Healthcare workers found that short 10-minute
+            physical-activity breaks improved attention and cognitive
+            performance.
           </p>
         </motion.div>
       </div>
@@ -374,10 +421,14 @@ export default function EnergyBoostWorkoutGuide() {
         <div className="flex items-start gap-3">
           <div className="text-red-500 text-xl">⚠️</div>
           <div>
-            <h3 className="font-semibold text-red-800 dark:text-red-300 mb-1">Safety First</h3>
+            <h3 className="font-semibold text-red-800 dark:text-red-300 mb-1">
+              Safety First
+            </h3>
             <p className="text-red-700 dark:text-red-400 text-sm">
-              Consult your doctor before beginning any new exercise routine, especially if you have a medical condition 
-              or are pregnant. Warm up properly, move within your limits, and stop if you feel pain or dizziness.
+              Consult your doctor before beginning any new exercise routine,
+              especially if you have a medical condition or are pregnant. Warm
+              up properly, move within your limits, and stop if you feel pain or
+              dizziness.
             </p>
           </div>
         </div>
@@ -396,18 +447,30 @@ export default function EnergyBoostWorkoutGuide() {
         <div className="grid md:grid-cols-3 gap-4 text-center">
           <div>
             <div className="text-2xl mb-2">⏱️</div>
-            <h3 className="font-semibold text-gray-900 dark:text-white">Duration</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">10 minutes total</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">
+              Duration
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              10 minutes total
+            </p>
           </div>
           <div>
             <div className="text-2xl mb-2">🎯</div>
-            <h3 className="font-semibold text-gray-900 dark:text-white">Intensity</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Moderate - still able to speak</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">
+              Intensity
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              Moderate - still able to speak
+            </p>
           </div>
           <div>
             <div className="text-2xl mb-2">🔄</div>
-            <h3 className="font-semibold text-gray-900 dark:text-white">Frequency</h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">Up to 3x daily for 30 min total</p>
+            <h3 className="font-semibold text-gray-900 dark:text-white">
+              Frequency
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              Up to 3x daily for 30 min total
+            </p>
           </div>
         </div>
       </motion.div>
@@ -436,9 +499,9 @@ export default function EnergyBoostWorkoutGuide() {
             exercises={phase.exercises}
             color={phase.color}
             isActive={activePhase === phase.id}
-            onToggle={() => setActivePhase(
-              activePhase === phase.id ? '' : phase.id
-            )}
+            onToggle={() =>
+              setActivePhase(activePhase === phase.id ? '' : phase.id)
+            }
           />
         ))}
       </div>
@@ -487,8 +550,9 @@ export default function EnergyBoostWorkoutGuide() {
           Build Your Energy & Resilience
         </h3>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-          Regular movement is one of the best ways to lift energy and mood. Short, effective workouts like this 
-          can fit into busy schedules and provide immediate cognitive benefits. Over time, consistent exercise 
+          Regular movement is one of the best ways to lift energy and mood.
+          Short, effective workouts like this can fit into busy schedules and
+          provide immediate cognitive benefits. Over time, consistent exercise
           builds resilience, improves mental health, and helps you sleep better.
         </p>
       </motion.div>

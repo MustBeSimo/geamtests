@@ -18,7 +18,7 @@ const ChatSection = memo(function ChatSection({ isVisible }: ChatSectionProps) {
 
   if (!isVisible) return null;
 
-  const colorScheme = getColorSchemeById(currentAvatar.id);
+  const colorScheme = getColorSchemeById(currentAvatar?.id || 'gigi');
 
   return (
     <section className="mb-12 lg:mb-16">
@@ -31,8 +31,10 @@ const ChatSection = memo(function ChatSection({ isVisible }: ChatSectionProps) {
           >
             <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
               <Image
-                src={currentAvatar.src}
-                alt={currentAvatar.name}
+                src={
+                  currentAvatar?.src || '/images/avatars/gigi-avatar-logo.png'
+                }
+                alt={currentAvatar?.name || 'AI'}
                 width={48}
                 height={48}
                 className="object-contain avatar-image"
@@ -41,7 +43,7 @@ const ChatSection = memo(function ChatSection({ isVisible }: ChatSectionProps) {
             </div>
           </div>
           <h2 className={`text-2xl font-bold ${colorScheme.textColor}`}>
-            Chat with {currentAvatar.name}
+            Chat with {currentAvatar?.name || 'AI'}
           </h2>
         </div>
         <Suspense
@@ -49,11 +51,15 @@ const ChatSection = memo(function ChatSection({ isVisible }: ChatSectionProps) {
             <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-96 rounded-lg"></div>
           }
         >
-          <ChatCard
-            user={user || undefined}
-            balance={balance}
-            selectedAvatar={currentAvatar}
-          />
+          {user && currentAvatar && (
+            <ChatCard
+              user={user}
+              balance={
+                typeof balance === 'object' ? balance?.balance || null : balance
+              }
+              selectedAvatar={currentAvatar}
+            />
+          )}
         </Suspense>
       </div>
     </section>

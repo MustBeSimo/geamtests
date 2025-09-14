@@ -19,7 +19,10 @@ declare module 'ogl' {
   }
 
   export class Mesh {
-    constructor(gl: WebGLRenderingContext, options: { geometry: any; program: any });
+    constructor(
+      gl: WebGLRenderingContext,
+      options: { geometry: any; program: any }
+    );
   }
 
   export class Triangle {

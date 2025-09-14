@@ -11,7 +11,12 @@ export default function AuraBackground() {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          background: radial-gradient(circle at 60% 40%, rgba(236, 72, 154, 0.3) 0%, rgba(124, 58, 237, 0.2) 40%, rgba(255,255,255,0.05) 100%);
+          background: radial-gradient(
+            circle at 60% 40%,
+            rgba(236, 72, 154, 0.3) 0%,
+            rgba(124, 58, 237, 0.2) 40%,
+            rgba(255, 255, 255, 0.05) 100%
+          );
           filter: blur(80px);
           animation: auraMove 16s ease-in-out infinite alternate;
         }

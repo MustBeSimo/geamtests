@@ -19,4 +19,4 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       </ChatProvider>
     </EnhancedAuthProvider>
   );
-} 
+}

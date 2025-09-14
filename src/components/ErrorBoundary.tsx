@@ -22,7 +22,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
     error: null,
-    errorInfo: null
+    errorInfo: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -31,7 +31,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Error caught by boundary:', error, errorInfo);
-    
+
     // Log to analytics service if available
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'exception', {
@@ -41,7 +41,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     }
 
     this.setState({ errorInfo });
-    
+
     // Only call onError if we're in the browser (not during SSG)
     if (typeof window !== 'undefined' && this.props.onError) {
       this.props.onError(error, errorInfo);
@@ -65,11 +65,21 @@ export default class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className={`p-6 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-700 ${this.props.className || ''}`}>
+        <div
+          className={`p-6 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-700 ${this.props.className || ''}`}
+        >
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0">
-              <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <svg
+                className="w-5 h-5 text-red-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div className="ml-3">
@@ -78,22 +88,25 @@ export default class ErrorBoundary extends Component<Props, State> {
               </h3>
             </div>
           </div>
-          
+
           <p className="text-sm text-red-700 dark:text-red-300 mb-4">
-            {this.props.fallbackDescription || 'An unexpected error occurred while rendering this component.'}
+            {this.props.fallbackDescription ||
+              'An unexpected error occurred while rendering this component.'}
           </p>
-          
+
           {/* Error details for development */}
           {process.env.NODE_ENV === 'development' && this.state.error && (
             <details className="mb-4 text-xs text-red-600 dark:text-red-400">
-              <summary className="cursor-pointer font-medium">Error Details</summary>
+              <summary className="cursor-pointer font-medium">
+                Error Details
+              </summary>
               <pre className="mt-2 p-2 bg-red-100 dark:bg-red-800 rounded overflow-auto">
                 {this.state.error.message}
                 {this.state.error.stack && `\n${this.state.error.stack}`}
               </pre>
             </details>
           )}
-          
+
           <div className="flex flex-wrap gap-2">
             <button
               onClick={this.handleRetry}
@@ -101,7 +114,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             >
               Try Again
             </button>
-            
+
             {this.props.showReload && (
               <button
                 onClick={this.handleReload}
@@ -120,11 +133,14 @@ export default class ErrorBoundary extends Component<Props, State> {
 }
 
 // Specialized error boundaries for different use cases
-export class ChatErrorBoundary extends Component<{ children: ReactNode }, State> {
+export class ChatErrorBoundary extends Component<
+  { children: ReactNode },
+  State
+> {
   public state: State = {
     hasError: false,
     error: null,
-    errorInfo: null
+    errorInfo: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -155,11 +171,14 @@ export class ChatErrorBoundary extends Component<{ children: ReactNode }, State>
   }
 }
 
-export class MoodTrackingErrorBoundary extends Component<{ children: ReactNode }, State> {
+export class MoodTrackingErrorBoundary extends Component<
+  { children: ReactNode },
+  State
+> {
   public state: State = {
     hasError: false,
     error: null,
-    errorInfo: null
+    errorInfo: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -188,4 +207,4 @@ export class MoodTrackingErrorBoundary extends Component<{ children: ReactNode }
 
     return this.props.children;
   }
-} 
+}

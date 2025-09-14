@@ -13,17 +13,17 @@
 /* Premium Gradient Utilities */
 @layer utilities {
   .bg-gradient-conic {
-    background: conic-gradient(from 0deg, #00D4FF, #14FFB1, #00D4FF);
+    background: conic-gradient(from 0deg, #00d4ff, #14ffb1, #00d4ff);
   }
-  
+
   .bg-gradient-radial {
     background: radial-gradient(circle, var(--tw-gradient-stops));
   }
-  
+
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
-  
+
   .hover\:animate-spin-slow:hover {
     animation: spin 3s linear infinite;
   }
@@ -35,7 +35,10 @@
 }
 
 .optimized-transition {
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .hover-border:hover {
@@ -48,7 +51,8 @@
 
 /* Animated Border Effects */
 @keyframes border-glow {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -84,7 +88,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
   }
   50% {
@@ -111,7 +116,15 @@
 /* Gradient Border Animation */
 .gradient-border {
   position: relative;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
+  background: linear-gradient(
+    45deg,
+    #ff6b6b,
+    #4ecdc4,
+    #45b7d1,
+    #96ceb4,
+    #ffeaa7,
+    #dda0dd
+  );
   background-size: 400% 400%;
   animation: gradient-shift 4s ease infinite;
 }
@@ -130,14 +143,21 @@
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Elegant Avatar Background Animations */
 @keyframes avatar-glow {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   33% {
@@ -164,23 +184,45 @@
   position: absolute;
   inset: 0;
   padding: 2px;
-  background: conic-gradient(from 0deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd, #ff6b6b);
+  background: conic-gradient(
+    from 0deg,
+    #ff6b6b,
+    #4ecdc4,
+    #45b7d1,
+    #96ceb4,
+    #ffeaa7,
+    #dda0dd,
+    #ff6b6b
+  );
   border-radius: inherit;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   mask-composite: subtract;
   animation: star-rotate 3s linear infinite;
 }
 
 @keyframes star-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Rainbow Border Effect */
 .rainbow-border {
-  background: linear-gradient(45deg, 
-    #ff0000, #ff7f00, #ffff00, #00ff00, 
-    #0000ff, #4b0082, #9400d3, #ff0000
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #9400d3,
+    #ff0000
   );
   background-size: 800% 800%;
   animation: rainbow-flow 3s linear infinite;
@@ -189,22 +231,26 @@
 }
 
 @keyframes rainbow-flow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 800% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 800% 50%;
+  }
 }
 
 :root {
-  --neon-pink: #FF7EB3;   /* Softer pink */
-  --neon-purple: #D8B4FE; /* Pastel purple/lilac */
-  --neon-blue: #74C0FC;   /* Sky blue */
-  --neon-yellow: #FFE066; /* Soft yellow */
-  --neon-mint: #A0F0BC;   /* Mint green for accent */
-  --light-bg: #FAFAFA;    /* Softer white background */
-  --dark-bg: #1A1625;     /* Softer dark purple-black */
+  --neon-pink: #ff7eb3; /* Softer pink */
+  --neon-purple: #d8b4fe; /* Pastel purple/lilac */
+  --neon-blue: #74c0fc; /* Sky blue */
+  --neon-yellow: #ffe066; /* Soft yellow */
+  --neon-mint: #a0f0bc; /* Mint green for accent */
+  --light-bg: #fafafa; /* Softer white background */
+  --dark-bg: #1a1625; /* Softer dark purple-black */
   --card-bg: rgba(255, 255, 255, 0.2); /* More visible cards */
-  --color-primary-rgb: 255, 126, 179;    /* Pink */
-  --color-secondary-rgb: 216, 180, 254;  /* Lilac */
-  --color-accent-rgb: 116, 192, 252;     /* Sky Blue */
+  --color-primary-rgb: 255, 126, 179; /* Pink */
+  --color-secondary-rgb: 216, 180, 254; /* Lilac */
+  --color-accent-rgb: 116, 192, 252; /* Sky Blue */
 }
 
 html {
@@ -218,7 +264,7 @@ body {
 
 html.dark body {
   background-color: var(--dark-bg);
-  color: #f1f5f9;  /* Using a lighter shade of white for better readability */
+  color: #f1f5f9; /* Using a lighter shade of white for better readability */
 }
 
 /* Simple gradient text without heavy animations */
@@ -249,20 +295,20 @@ html.dark body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 12px 20px;
-  color: #18181b;  /* Dark text in light mode */
+  color: #18181b; /* Dark text in light mode */
   transition: all 0.3s ease;
 }
 
 .dark .modern-input {
-  color: #f1f5f9;  /* Light text in dark mode */
+  color: #f1f5f9; /* Light text in dark mode */
 }
 
 .modern-input::placeholder {
-  color: rgba(24, 24, 27, 0.6);  /* Darker placeholder in light mode */
+  color: rgba(24, 24, 27, 0.6); /* Darker placeholder in light mode */
 }
 
 .dark .modern-input::placeholder {
-  color: rgba(241, 245, 249, 0.6);  /* Lighter placeholder in dark mode */
+  color: rgba(241, 245, 249, 0.6); /* Lighter placeholder in dark mode */
 }
 
 /* Simplified glassmorphism */
@@ -280,7 +326,8 @@ html.dark body {
 
 /* Dynamic blob glow animations */
 @keyframes blob-glow {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1.3) rotate(0deg);
     opacity: 0.6;
   }
@@ -299,7 +346,8 @@ html.dark body {
 }
 
 @keyframes blob-glow-delayed {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1.5) rotate(180deg);
     opacity: 0.4;
   }
@@ -334,7 +382,9 @@ html.dark body {
   padding: 12px 24px;
   color: white;
   font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .simple-button:hover {
@@ -405,20 +455,23 @@ html.dark body {
   .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
-  
+
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 }
 
 /* Disable animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -430,7 +483,10 @@ html.dark body {
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid transparent;
   border-radius: 16px;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .simple-card:hover {
@@ -506,13 +562,13 @@ html.dark body {
     --ring: 221.2 83.2% 53.3%;
 
     /* Modern pastel colors */
-    --neon-pink: #FF7EB3;
-    --neon-purple: #D8B4FE;
-    --neon-blue: #74C0FC; 
-    --neon-cyan: #A0F0BC;
-    --neon-yellow: #FFE066;
+    --neon-pink: #ff7eb3;
+    --neon-purple: #d8b4fe;
+    --neon-blue: #74c0fc;
+    --neon-cyan: #a0f0bc;
+    --neon-yellow: #ffe066;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -584,7 +640,8 @@ html.dark body {
 
 /* Animation Keyframes */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -831,7 +888,8 @@ html.dark body {
 
 /* Pulse animation */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -845,21 +903,45 @@ html.dark body {
 
 /* Glitch animation */
 @keyframes glitch-1 {
-  0% { transform: translate(0); }
-  20% { transform: translate(-3px, 3px); }
-  40% { transform: translate(-3px, -3px); }
-  60% { transform: translate(3px, 3px); }
-  80% { transform: translate(3px, -3px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-3px, 3px);
+  }
+  40% {
+    transform: translate(-3px, -3px);
+  }
+  60% {
+    transform: translate(3px, 3px);
+  }
+  80% {
+    transform: translate(3px, -3px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 @keyframes glitch-2 {
-  0% { transform: translate(0); }
-  20% { transform: translate(3px, 3px); }
-  40% { transform: translate(3px, -3px); }
-  60% { transform: translate(-3px, 3px); }
-  80% { transform: translate(-3px, -3px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(3px, 3px);
+  }
+  40% {
+    transform: translate(3px, -3px);
+  }
+  60% {
+    transform: translate(-3px, 3px);
+  }
+  80% {
+    transform: translate(-3px, -3px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 /* 3D transform helpers */
@@ -878,7 +960,9 @@ html.dark body {
 
 /* Smooth animations */
 * {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-property:
+    background-color, border-color, color, fill, stroke, opacity, box-shadow,
+    transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -889,14 +973,14 @@ html.dark body {
   -webkit-backdrop-filter: blur(8px);
 }
 
-[data-theme="dark"] {
-  --color-primary-rgb: 255, 126, 179;    /* Pink */
-  --color-secondary-rgb: 216, 180, 254;  /* Lilac */
-  --color-accent-rgb: 116, 192, 252;     /* Sky Blue */
+[data-theme='dark'] {
+  --color-primary-rgb: 255, 126, 179; /* Pink */
+  --color-secondary-rgb: 216, 180, 254; /* Lilac */
+  --color-accent-rgb: 116, 192, 252; /* Sky Blue */
 }
 
-[data-theme="light"] {
-  --color-primary-rgb: 255, 126, 179;    /* Pink */
-  --color-secondary-rgb: 216, 180, 254;  /* Lilac */
-  --color-accent-rgb: 116, 192, 252;     /* Sky Blue */
-} 
+[data-theme='light'] {
+  --color-primary-rgb: 255, 126, 179; /* Pink */
+  --color-secondary-rgb: 216, 180, 254; /* Lilac */
+  --color-accent-rgb: 116, 192, 252; /* Sky Blue */
+}

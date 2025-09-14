@@ -17,6 +17,7 @@ create policy "Users can update their own balance"
 ```
 
 **Instructions:**
+
 - Run each statement separately in the Supabase SQL editor.
 - This ensures users can only see and update their own balance.
 - You can add similar policies for `insert` or `delete` if needed.

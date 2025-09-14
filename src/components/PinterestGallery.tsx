@@ -7,7 +7,10 @@ interface PinterestGalleryProps {
   className?: string;
 }
 
-export default function PinterestGallery({ username, className = '' }: PinterestGalleryProps) {
+export default function PinterestGallery({
+  username,
+  className = '',
+}: PinterestGalleryProps) {
   const [images, setImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +20,7 @@ export default function PinterestGallery({ username, className = '' }: Pinterest
     async function loadImages() {
       try {
         const pinterestImages = await fetchPinterestImages(username);
-        setImages(pinterestImages.map(img => img.url));
+        setImages(pinterestImages.map((img) => img.url));
         setIsLoading(false);
       } catch (error) {
         console.error('Error loading Pinterest images:', error);
@@ -47,7 +50,9 @@ export default function PinterestGallery({ username, className = '' }: Pinterest
 
   if (isLoading) {
     return (
-      <div className={`relative w-full aspect-square rounded-xl bg-gray-100 dark:bg-gray-800 animate-pulse ${className}`} />
+      <div
+        className={`relative w-full aspect-square rounded-xl bg-gray-100 dark:bg-gray-800 animate-pulse ${className}`}
+      />
     );
   }
 
@@ -58,21 +63,23 @@ export default function PinterestGallery({ username, className = '' }: Pinterest
   const currentUrl = images[currentImageIndex];
 
   return (
-    <div className={`relative w-full aspect-square rounded-xl overflow-hidden ${className}`}>
+    <div
+      className={`relative w-full aspect-square rounded-xl overflow-hidden ${className}`}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={currentImageIndex}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ 
+          transition={{
             duration: 2.7,
-            ease: [0.4, 0, 0.2, 1] 
+            ease: [0.4, 0, 0.2, 1],
           }}
           onAnimationComplete={() => setIsTransitioning(false)}
           className="absolute inset-0 w-full h-full"
         >
-          {isVideo(currentUrl) ? (
+          {currentUrl && isVideo(currentUrl) ? (
             <video
               className="w-full h-full object-cover"
               autoPlay
@@ -82,7 +89,7 @@ export default function PinterestGallery({ username, className = '' }: Pinterest
               src={currentUrl}
             />
           ) : (
-            <div 
+            <div
               className="w-full h-full transform-gpu"
               style={{
                 backgroundImage: `url(${currentUrl})`,
@@ -97,4 +104,4 @@ export default function PinterestGallery({ username, className = '' }: Pinterest
       </AnimatePresence>
     </div>
   );
-} 
+}

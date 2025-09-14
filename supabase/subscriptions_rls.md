@@ -36,4 +36,4 @@ WITH CHECK (auth.role() = 'service_role');
 CREATE POLICY "Service role can delete subscriptions"
 ON subscriptions
 FOR DELETE
-USING (auth.role() = 'service_role'); 
+USING (auth.role() = 'service_role');

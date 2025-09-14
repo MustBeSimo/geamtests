@@ -68,14 +68,16 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
       if (error || !data) return 0;
 
       let streak = 0;
-      let currentDate = new Date();
+      const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
 
       for (let i = 0; i < data.length; i++) {
-        const logDate = new Date(data[i].created_at);
+        const logDate = new Date(data[i]?.created_at || '');
         logDate.setHours(0, 0, 0, 0);
 
-        const daysDiff = Math.floor((currentDate.getTime() - logDate.getTime()) / (1000 * 60 * 60 * 24));
+        const daysDiff = Math.floor(
+          (currentDate.getTime() - logDate.getTime()) / (1000 * 60 * 60 * 24)
+        );
 
         if (daysDiff === streak) {
           streak++;
@@ -97,7 +99,10 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
     setStats(newStats);
 
     // Show animation if stats improved
-    if (oldStats && (newStats.balance > oldStats.balance || newStats.streak > oldStats.streak)) {
+    if (
+      oldStats &&
+      (newStats.balance > oldStats.balance || newStats.streak > oldStats.streak)
+    ) {
       setShowAnimation(true);
       setTimeout(() => setShowAnimation(false), 2000);
     }
@@ -161,7 +166,9 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
       animate={{ opacity: 1, y: 0 }}
       className={`fixed top-0 left-0 right-0 z-40 ${className}`}
     >
-      <div className={`bg-gradient-to-r ${mindgleamGradients.subtle} backdrop-blur-md border-b border-white/20 dark:border-gray-700/50`}>
+      <div
+        className={`bg-gradient-to-r ${mindgleamGradients.subtle} backdrop-blur-md border-b border-white/20 dark:border-gray-700/50`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-3">
             {/* Left side - Credits */}
@@ -181,7 +188,9 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
                     <motion.div
                       className="bg-gradient-to-r from-mindgleam-mint-400 to-mindgleam-mint-500 h-1 rounded-full"
                       initial={{ width: 0 }}
-                      animate={{ width: `${Math.min((stats?.balance || 0) / 50 * 100, 100)}%` }}
+                      animate={{
+                        width: `${Math.min(((stats?.balance || 0) / 50) * 100, 100)}%`,
+                      }}
                       transition={{ duration: 0.5 }}
                     />
                   </div>
@@ -203,7 +212,9 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
                     <motion.div
                       className="bg-gradient-to-r from-mindgleam-peach-400 to-mindgleam-peach-500 h-1 rounded-full"
                       initial={{ width: 0 }}
-                      animate={{ width: `${Math.min((stats?.moodCheckins || 0) / 20 * 100, 100)}%` }}
+                      animate={{
+                        width: `${Math.min(((stats?.moodCheckins || 0) / 20) * 100, 100)}%`,
+                      }}
                       transition={{ duration: 0.5 }}
                     />
                   </div>
@@ -243,7 +254,9 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
                     {stats?.streak || 0} day streak
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {stats?.streak === 0 ? 'Start your streak!' : 'Keep it going!'}
+                    {stats?.streak === 0
+                      ? 'Start your streak!'
+                      : 'Keep it going!'}
                   </p>
                 </div>
               </div>
@@ -275,4 +288,4 @@ export default function ProgressBar({ className = '' }: ProgressBarProps) {
       </AnimatePresence>
     </motion.div>
   );
-} 
+}

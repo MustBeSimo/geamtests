@@ -57,7 +57,9 @@ export default function AccessibleModal({
     );
 
     const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+    const lastElement = focusableElements[
+      focusableElements.length - 1
+    ] as HTMLElement;
 
     if (event.shiftKey) {
       if (document.activeElement === firstElement) {

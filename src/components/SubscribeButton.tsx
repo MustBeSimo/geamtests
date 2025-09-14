@@ -11,7 +11,9 @@ const SubscribeButton = () => {
     setLoading(true);
     try {
       // Check if user is authenticated
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session?.user) {
         alert('Please sign in first to subscribe.');
         return;
@@ -30,10 +32,12 @@ const SubscribeButton = () => {
       }
 
       const { sessionId } = await response.json();
-      
+
       // Redirect to Stripe Checkout
-      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-      
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+      );
+
       if (!stripe) {
         throw new Error('Stripe failed to load');
       }
@@ -65,4 +69,4 @@ const SubscribeButton = () => {
   );
 };
 
-export default SubscribeButton; 
+export default SubscribeButton;

@@ -9,7 +9,9 @@ import LoadingSpinner, { SkeletonCard } from '@/components/LoadingSpinner';
 export default function UserBalance() {
   const [balance, setBalance] = useState<number | null>(null);
   const [moodCheckins, setMoodCheckins] = useState<number | null>(null);
-  const [voiceTimeRemaining, setVoiceTimeRemaining] = useState<number | null>(null);
+  const [voiceTimeRemaining, setVoiceTimeRemaining] = useState<number | null>(
+    null
+  );
   const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
@@ -39,7 +41,7 @@ export default function UserBalance() {
     if (!error && data) {
       setVoiceTimeRemaining(data.voice_time_remaining);
     }
-    
+
     setIsLoading(false);
   };
 
@@ -125,7 +127,9 @@ export default function UserBalance() {
           <h3 className="text-sm text-gray-400 mb-1">Voice Chat Trial</h3>
           <div className="flex items-center justify-between">
             <span className="text-2xl font-bold">
-              {voiceTimeRemaining !== null ? `${Math.floor(voiceTimeRemaining / 60)}:${String(voiceTimeRemaining % 60).padStart(2, '0')}` : '5:00'}
+              {voiceTimeRemaining !== null
+                ? `${Math.floor(voiceTimeRemaining / 60)}:${String(voiceTimeRemaining % 60).padStart(2, '0')}`
+                : '5:00'}
             </span>
             <span className="text-sm text-gray-400">minutes remaining</span>
           </div>
@@ -157,17 +161,30 @@ export default function UserBalance() {
                 onClick={() => setIsVoiceChatOpen(false)}
                 className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
             <div className="p-4">
               <div className="text-center py-8">
                 <div className="text-6xl mb-4">🎤</div>
-                <h3 className="text-xl font-semibold mb-2">Voice Chat Coming Soon!</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  Voice Chat Coming Soon!
+                </h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  We're working on bringing you an amazing voice chat experience with Gigi.
+                  We're working on bringing you an amazing voice chat experience
+                  with Gigi.
                 </p>
               </div>
             </div>
@@ -176,4 +193,4 @@ export default function UserBalance() {
       )}
     </div>
   );
-} 
+}

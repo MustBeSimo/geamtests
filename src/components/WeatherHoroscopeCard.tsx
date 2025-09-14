@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import AnimatedText from '@/components/AnimatedText';
 
 interface WeatherData {
@@ -45,41 +46,41 @@ function parseHoroscopeDescription(description: string): HoroscopeSection[] {
   // Base prediction
   sections.push({
     title: 'Overview',
-    content: lines[0],
-    icon: '✨'
+    content: lines[0] || 'Your journey continues with wisdom.',
+    icon: '✨',
   });
 
   // Parse other sections
-  lines.slice(1).forEach(line => {
+  lines.slice(1).forEach((line) => {
     if (line.startsWith('Career & Work:')) {
       sections.push({
         title: 'Career & Work',
         content: line.replace('Career & Work:', '').trim(),
-        icon: '💼'
+        icon: '💼',
       });
     } else if (line.startsWith('Love & Relationships:')) {
       sections.push({
         title: 'Love & Relationships',
         content: line.replace('Love & Relationships:', '').trim(),
-        icon: '❤️'
+        icon: '❤️',
       });
     } else if (line.startsWith('Health & Wellness:')) {
       sections.push({
         title: 'Health & Wellness',
         content: line.replace('Health & Wellness:', '').trim(),
-        icon: '🌟'
+        icon: '🌟',
       });
     } else if (line.startsWith('Wealth & Finance:')) {
       sections.push({
         title: 'Wealth & Finance',
         content: line.replace('Wealth & Finance:', '').trim(),
-        icon: '💰'
+        icon: '💰',
       });
     } else if (line.startsWith('Advice:')) {
       sections.push({
         title: 'Advice',
         content: line.replace('Advice:', '').trim(),
-        icon: '🔮'
+        icon: '🔮',
       });
     }
   });
@@ -88,19 +89,35 @@ function parseHoroscopeDescription(description: string): HoroscopeSection[] {
 }
 
 const westernZodiacSigns = [
-  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+  'aries',
+  'taurus',
+  'gemini',
+  'cancer',
+  'leo',
+  'virgo',
+  'libra',
+  'scorpio',
+  'sagittarius',
+  'capricorn',
+  'aquarius',
+  'pisces',
 ];
 
 const days = ['yesterday', 'today', 'tomorrow'];
 
 export default function WeatherHoroscopeCard() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
+  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(
+    null
+  );
   const [selectedSign, setSelectedSign] = useState('aries');
   const [selectedDay, setSelectedDay] = useState('today');
-  const [activeTab, setActiveTab] = useState<'weather' | 'horoscope'>('weather');
-  const [horoscopeType, setHoroscopeType] = useState<'western' | 'chinese'>('western');
+  const [activeTab, setActiveTab] = useState<'weather' | 'horoscope'>(
+    'weather'
+  );
+  const [horoscopeType, setHoroscopeType] = useState<'western' | 'chinese'>(
+    'western'
+  );
   const [birthYear, setBirthYear] = useState<number>(new Date().getFullYear());
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -130,21 +147,21 @@ export default function WeatherHoroscopeCard() {
         const response = await fetch('/api/horoscope', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             sign: selectedSign,
             day: selectedDay,
             type: horoscopeType,
-            birthYear: horoscopeType === 'chinese' ? birthYear : undefined
-          })
+            birthYear: horoscopeType === 'chinese' ? birthYear : undefined,
+          }),
         });
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => null);
           console.error('Horoscope API error:', {
             status: response.status,
-            error: errorData
+            error: errorData,
           });
           throw new Error(errorData?.error || 'Failed to fetch horoscope data');
         }
@@ -198,9 +215,9 @@ export default function WeatherHoroscopeCard() {
       {/* Weather Content */}
       <motion.div
         initial={false}
-        animate={{ 
+        animate={{
           opacity: activeTab === 'weather' ? 1 : 0,
-          x: activeTab === 'weather' ? 0 : -20
+          x: activeTab === 'weather' ? 0 : -20,
         }}
         className={`space-y-4 ${activeTab !== 'weather' ? 'hidden' : ''}`}
       >
@@ -226,9 +243,11 @@ export default function WeatherHoroscopeCard() {
             </div>
 
             <div className="flex items-center justify-center bg-white/10 dark:bg-black/20 rounded-xl p-4">
-              <img
+              <Image
                 src={`https:${weatherData.current.condition.icon}`}
                 alt={weatherData.current.condition.text}
+                width={64}
+                height={64}
                 className="w-16 h-16"
               />
               <p className="ml-4 text-lg text-gray-800 dark:text-white">
@@ -238,13 +257,17 @@ export default function WeatherHoroscopeCard() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/10 dark:bg-black/20 rounded-xl p-4">
-                <p className="text-sm text-gray-600 dark:text-gray-300">Humidity</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Humidity
+                </p>
                 <p className="text-xl font-semibold text-gray-800 dark:text-white">
                   {weatherData.current.humidity}%
                 </p>
               </div>
               <div className="bg-white/10 dark:bg-black/20 rounded-xl p-4">
-                <p className="text-sm text-gray-600 dark:text-gray-300">Wind Speed</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Wind Speed
+                </p>
                 <p className="text-xl font-semibold text-gray-800 dark:text-white">
                   {weatherData.current.wind_kph} km/h
                 </p>
@@ -261,9 +284,9 @@ export default function WeatherHoroscopeCard() {
       {/* Horoscope Content */}
       <motion.div
         initial={false}
-        animate={{ 
+        animate={{
           opacity: activeTab === 'horoscope' ? 1 : 0,
-          x: activeTab === 'horoscope' ? 0 : 20
+          x: activeTab === 'horoscope' ? 0 : 20,
         }}
         className={`space-y-4 ${activeTab !== 'horoscope' ? 'hidden' : ''}`}
       >
@@ -346,7 +369,9 @@ export default function WeatherHoroscopeCard() {
                 {horoscopeType === 'western' ? (
                   <>
                     <span className="text-xl">♈</span>
-                    {selectedSign.charAt(0).toUpperCase() + selectedSign.slice(1)} - {horoscopeData.date_range}
+                    {selectedSign.charAt(0).toUpperCase() +
+                      selectedSign.slice(1)}{' '}
+                    - {horoscopeData.date_range}
                   </>
                 ) : (
                   <>
@@ -357,30 +382,34 @@ export default function WeatherHoroscopeCard() {
               </h4>
 
               <div className="space-y-3">
-                {parseHoroscopeDescription(horoscopeData.description || '').map((section, index) => (
-                  <motion.div
-                    key={section.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white/5 backdrop-blur-sm rounded-lg p-3 shadow-sm"
-                  >
-                    <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-                      <span>{section.icon}</span>
-                      {section.title}
-                    </h5>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                      {section.content}
-                    </p>
-                  </motion.div>
-                ))}
+                {parseHoroscopeDescription(horoscopeData.description || '').map(
+                  (section, index) => (
+                    <motion.div
+                      key={section.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="bg-white/5 backdrop-blur-sm rounded-lg p-3 shadow-sm"
+                    >
+                      <h5 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                        <span>{section.icon}</span>
+                        {section.title}
+                      </h5>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        {section.content}
+                      </p>
+                    </motion.div>
+                  )
+                )}
               </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {horoscopeData.lucky_number && (
                 <div className="bg-white/10 dark:bg-black/20 rounded-xl p-3 backdrop-blur-sm">
-                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">Lucky Number</p>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">
+                    Lucky Number
+                  </p>
                   <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
                     {horoscopeData.lucky_number}
                   </p>
@@ -388,7 +417,9 @@ export default function WeatherHoroscopeCard() {
               )}
               {horoscopeData.lucky_time && (
                 <div className="bg-white/10 dark:bg-black/20 rounded-xl p-3 backdrop-blur-sm">
-                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">Lucky Time</p>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">
+                    Lucky Time
+                  </p>
                   <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
                     {horoscopeData.lucky_time}
                   </p>
@@ -396,7 +427,9 @@ export default function WeatherHoroscopeCard() {
               )}
               {horoscopeData.color && (
                 <div className="bg-white/10 dark:bg-black/20 rounded-xl p-3 backdrop-blur-sm">
-                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">Color</p>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">
+                    Color
+                  </p>
                   <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
                     {horoscopeData.color}
                   </p>
@@ -404,7 +437,9 @@ export default function WeatherHoroscopeCard() {
               )}
               {horoscopeData.mood && (
                 <div className="bg-white/10 dark:bg-black/20 rounded-xl p-3 backdrop-blur-sm">
-                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">Mood</p>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-1">
+                    Mood
+                  </p>
                   <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
                     {horoscopeData.mood}
                   </p>
@@ -416,4 +451,4 @@ export default function WeatherHoroscopeCard() {
       </motion.div>
     </div>
   );
-} 
+}

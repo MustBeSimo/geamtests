@@ -38,12 +38,7 @@ export default function ResponsiveGrid({
     if (cols.lg) colClasses.push(`lg:grid-cols-${cols.lg}`);
     if (cols.xl) colClasses.push(`xl:grid-cols-${cols.xl}`);
 
-    return cn(
-      'grid',
-      ...colClasses,
-      gapClasses[gap],
-      className
-    );
+    return cn('grid', ...colClasses, gapClasses[gap], className);
   }, [cols, gap, className]);
 
   return <div className={gridClasses}>{children}</div>;

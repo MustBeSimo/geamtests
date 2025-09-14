@@ -20,4 +20,4 @@ declare global {
       'agent-id': string;
     };
   }
-} 
+}

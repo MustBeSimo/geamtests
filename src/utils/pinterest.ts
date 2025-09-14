@@ -59,24 +59,26 @@ const GIGI_PINTEREST_IMAGES = [
   'https://i.pinimg.com/236x/87/12/34/871234b98dba7f1350bd64aa85f5bb17.jpg',
   'https://i.pinimg.com/236x/49/85/fc/4985fc9d5fb5ec261133d7fa422c86b8.jpg',
   'https://i.pinimg.com/236x/ee/69/99/ee69997816f10edebd5cfb3505726fbd.jpg',
-  'https://i.pinimg.com/236x/11/e5/5e/11e55e8091a565e61ddfa7928f90f0d7.jpg'
+  'https://i.pinimg.com/236x/11/e5/5e/11e55e8091a565e61ddfa7928f90f0d7.jpg',
 ];
 
-export async function fetchPinterestImages(username: string): Promise<PinterestImage[]> {
+export async function fetchPinterestImages(
+  username: string
+): Promise<PinterestImage[]> {
   try {
     // For now, we'll return the hardcoded images
     // In a production environment, you would:
     // 1. Use Pinterest API or web scraping to get real-time pins
     // 2. Handle pagination and rate limiting
     // 3. Cache results to avoid hitting rate limits
-    
-    return GIGI_PINTEREST_IMAGES.map(url => ({
+
+    return GIGI_PINTEREST_IMAGES.map((url) => ({
       url,
-      width: url.includes('/236x/') ? 236 : 736,  // Adjust width based on URL
-      height: url.includes('/236x/') ? 236 : 736  // Adjust height based on URL
+      width: url.includes('/236x/') ? 236 : 736, // Adjust width based on URL
+      height: url.includes('/236x/') ? 236 : 736, // Adjust height based on URL
     }));
   } catch (error) {
     console.error('Error fetching Pinterest images:', error);
     return [];
   }
-} 
+}

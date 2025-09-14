@@ -76,13 +76,17 @@ export function useWebVitals() {
 
     // Get FCP and TTFB from navigation timing
     const getNavigationTiming = () => {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      const navigation = performance.getEntriesByType(
+        'navigation'
+      )[0] as PerformanceNavigationTiming;
       if (navigation) {
         updateMetric('ttfb', navigation.responseStart - navigation.fetchStart);
       }
 
       const paintEntries = performance.getEntriesByType('paint');
-      const fcpEntry = paintEntries.find((entry) => entry.name === 'first-contentful-paint');
+      const fcpEntry = paintEntries.find(
+        (entry) => entry.name === 'first-contentful-paint'
+      );
       if (fcpEntry) {
         updateMetric('fcp', fcpEntry.startTime);
       }
@@ -134,7 +138,8 @@ export function useRenderMetrics(componentName?: string) {
     }
 
     const averageRenderTime =
-      renderTimes.current.reduce((sum, time) => sum + time, 0) / renderTimes.current.length;
+      renderTimes.current.reduce((sum, time) => sum + time, 0) /
+      renderTimes.current.length;
 
     setMetrics((prev) => ({
       renderCount: prev.renderCount + 1,
@@ -315,7 +320,9 @@ export function usePerformanceBudget(budgets: {
     }
 
     if (budgets.totalSize && analysis.totalSize > budgets.totalSize) {
-      violations.push(`Total Size: ${analysis.totalSize} bytes > ${budgets.totalSize} bytes`);
+      violations.push(
+        `Total Size: ${analysis.totalSize} bytes > ${budgets.totalSize} bytes`
+      );
     }
 
     return { violations, analysis };
