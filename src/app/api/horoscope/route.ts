@@ -542,7 +542,10 @@ const aspects = {
 };
 
 function getRandomElement<T>(array: T[]): T {
-  return array[Math.floor(Math.random() * array.length)];
+  if (array.length === 0) {
+    throw new Error('Array cannot be empty');
+  }
+  return array[Math.floor(Math.random() * array.length)]!;
 }
 
 function getDayContext(day: string): 'past' | 'present' | 'future' {
