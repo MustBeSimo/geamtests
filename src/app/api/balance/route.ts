@@ -17,7 +17,6 @@ export async function GET() {
 
     // Check if there's an error that's not "no rows found"
     if (balanceError && (balanceError as any).code !== 'PGRST116') {
-      console.error('Error fetching balance:', balanceError);
       return ErrorResponses.serverError('Failed to fetch balance');
     }
 
@@ -37,22 +36,20 @@ export async function GET() {
         .single();
 
       if (insertError) {
-        console.error('Error creating balance:', insertError);
         return ErrorResponses.serverError('Failed to create balance');
       }
 
-      return NextResponse.json({ 
+      return NextResponse.json({
         balance: newBalance?.balance ?? 20,
-        moodCheckins: newBalance?.mood_checkins_remaining ?? 10
+        moodCheckins: newBalance?.mood_checkins_remaining ?? 10,
       });
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       balance: balanceData.balance,
-      moodCheckins: balanceData.mood_checkins_remaining
+      moodCheckins: balanceData.mood_checkins_remaining,
     });
   } catch (error) {
-    console.error('Error in balance route:', error);
     return ErrorResponses.serverError();
   }
 }
@@ -63,9 +60,11 @@ export async function POST(request: Request) {
 
   try {
     const { action } = await request.json();
-    
+
     if (action !== 'deduct_mood_checkin') {
-      return ErrorResponses.badRequest('Invalid action. Expected "deduct_mood_checkin"');
+      return ErrorResponses.badRequest(
+        'Invalid action. Expected "deduct_mood_checkin"',
+      );
     }
 
     // Get current balance
@@ -76,7 +75,6 @@ export async function POST(request: Request) {
       .single();
 
     if (fetchError) {
-      console.error('Error fetching current balance:', fetchError);
       return ErrorResponses.serverError('Failed to fetch balance');
     }
 
@@ -87,26 +85,24 @@ export async function POST(request: Request) {
     // Deduct one mood check-in
     const { data: updatedBalance, error: updateError } = await supabase
       .from('user_balances')
-      .update({ 
+      .update({
         mood_checkins_remaining: currentBalance.mood_checkins_remaining - 1,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('user_id', session.user.id)
       .select('balance, mood_checkins_remaining')
       .single();
 
     if (updateError) {
-      console.error('Error updating balance:', updateError);
       return ErrorResponses.serverError('Failed to update balance');
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       balance: updatedBalance.balance,
       moodCheckins: updatedBalance.mood_checkins_remaining,
-      success: true
+      success: true,
     });
   } catch (error) {
-    console.error('Error in balance POST route:', error);
     return ErrorResponses.serverError();
   }
 }
